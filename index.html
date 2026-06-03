@@ -108,13 +108,13 @@
 <div class="panel">
   <h1>ASHA Saathi</h1>
   <p class="sub">Clickable mock-up of the WhatsApp refresher tool</p>
-  <p>One lesson — <b>TPT counselling: the 5-finger framework</b> — as an ASHA would receive it on her own phone before a home visit. Tap the reply buttons in the chat. The voice notes and the video really play. Try a wrong quiz answer to see the remediation loop, and pick a <b>data scenario</b> to see the same lesson delivered as text, audio, or video.</p>
+  <p>One lesson — <b>TPT counselling: the 5-finger framework</b> — as an ASHA would receive it on her own phone before a home visit. Tap the reply buttons in the chat. The lesson arrives as text + image, with a voice note and a video she can play or download if she wants. Try a wrong quiz answer to see the remediation loop.</p>
   <div class="legend">
     <h2>Anchored in real WhatsApp features</h2>
     <ul>
       <li><span class="dot"></span><b>Media messages</b> — voice notes, an image aid, and a short video (works on any WhatsApp).</li>
       <li><span class="dot"></span><b>Interactive reply buttons &amp; list menus</b> — the actual WhatsApp Business API building blocks (max 3 buttons / 10 list rows).</li>
-      <li><span class="dot"></span><b>Graceful by data</b> — same lesson as text+image (low), voice (medium), or video (high).</li>
+      <li><span class="dot"></span><b>Every format, one message</b> — text + image inline, with a voice note and video right there to play or download as data allows.</li>
       <li><span class="dot"></span><b>Adaptive journey</b> — a wrong answer routes to a remediation message, then a retry.</li>
       <li><span class="dot"></span><b>Recognition as messages</b> — stars/badges arrive as chat messages &amp; a sticker, since WhatsApp has no custom scoreboard.</li>
     </ul>
@@ -271,18 +271,9 @@ function scenarioRight(){
   seq([
     {wait:500,run:()=>bubble('Ekdum sahi! Dono / sabhi eligible ghar walon ko.','in','Exactly right — both / all eligible household members.')},
     {wait:500,run:()=>award('Sahi jawaab! Ek star milaa.','Recognition arrives as a message — there is no scoreboard inside WhatsApp.')},
-  ],dataChoice);
+  ],coreDeliver);
 }
-/* ---- DATA-SCENARIO BRANCH: same lesson, three modalities ---- */
-function dataChoice(){
-  seq([{wait:700,run:()=>bubble('Ab 5-ungli wali baat. Aapka internet aaj kaisa hai? Usi hisaab se main bhejti hoon 👇','in','Now the 5-finger talk. How’s your data today? I’ll send it to match.')}],()=>{
-    showChoices([
-      {ic:'📶',label:'Kam data / slow',sub:'Low → text + image',echo:'📶 Kam data',go:lowPath},
-      {ic:'📶📶',label:'Theek hai',sub:'Medium → voice note + image',echo:'📶📶 Theek hai',go:medPath},
-      {ic:'📶📶📶',label:'Achha / WiFi',sub:'High → short video',echo:'📶📶📶 Achha / WiFi',go:highPath},
-    ],'Same lesson, delivered to fit the connection');
-  });
-}
+/* ---- CORE LESSON: text + image inline, with audio & video available to play/download ---- */
 const fingersContent=[
  {hi:'<b>1st ungli:</b> Jis ghar mein TB patient hota hai, us ghar ki hawa mein TB ke kitanu hote hain, jo aas-paas ke logon ke phephdon mein ja sakte hain.',en:'Finger 1: The home’s air carries TB germs that can reach nearby lungs.'},
  {hi:'<b>2nd ungli:</b> Ye kitanu phephdon mein bas jaate hain. Kuch turant bimaar, kuch baad mein — par darne ki baat nahi.',en:'Finger 2: They settle in the lungs — some fall ill now, some later. No need to fear.'},
@@ -290,9 +281,9 @@ const fingersContent=[
  {hi:'<b>4th ungli:</b> 5 saal se chote bacchon ko sabse zyada khatra. Testing ki zaroorat nahi — doctor se baat karke seedhe TPT.',en:'Finger 4: Under-5s are highest risk. No test — start TPT on the doctor’s advice.'},
  {hi:'<b>5th ungli:</b> Kabhi thakaan, ulti ya bukhar ho sakta hai. Aisa ho to CHO/ASHA ko call karein — par dawai na chhodein.',en:'Finger 5: Mild side-effects can occur — call the CHO/ASHA, don’t stop the medicine.'},
 ];
-function lowPath(){
+function coreDeliver(){
   seq([
-    {wait:600,run:()=>bubble('Theek hai — main text aur ek image bhej rahi hoon (data-light) 👇','in','Got it — sending text and one image (data-light).')},
+    {wait:700,run:()=>bubble('Ab 5-ungli wali baat 🖐️ Neeche text aur image hai. Chahein to audio sun lein ya video dekh lein — jaisa aapka data ho.','in','Now the 5-finger talk. Text and an image are below — play the audio or watch the video too, as your data allows.')},
     {wait:700,run:fiveHandImage},
   ],()=>coreText(1));
 }
@@ -303,22 +294,13 @@ function coreText(n){
         {ic:'👉',label:'Aage badhein',sub:'Next finger',echo:'Aage badhein',go:()=>coreText(n+1)},
         {ic:'🔁',label:'Phir se',sub:'Repeat this one',echo:'Repeat',go:()=>{bubble('Zaroor 👇','in');setTimeout(()=>coreText(n),450);}},
       ],'Reply to pace the lesson');
-    else seq([{wait:650,run:()=>bubble('Shabaash! Paanchon ungliyaan poori 🖐️✨','in','All five fingers covered!')}],recapQ);
+    else seq([
+        {wait:650,run:()=>bubble('Shabaash! Paanchon ungliyaan poori 🖐️✨','in','All five fingers covered!')},
+        {wait:700,run:()=>bubble('Yahi lesson audio aur video mein bhi maujood hai — sun‑kar ya dekh‑kar dohraana ho to 👇','in','The same lesson is also here as audio and video — to revise by listening or watching (or download).')},
+        {wait:650,run:()=>voiceNote('Poora lesson · 0:13','./finger3.mp3',13,'Spoken version (▶ tap). In production: the full narrated lesson in a warm regional voice.')},
+        {wait:700,run:videoBubble},
+      ],()=>showChoices([{ic:'✅',label:'Theek hai, aage',sub:'Continue to the recap quiz',echo:'Aage badhein',go:recapQ}],'Tap to continue'));
   });
-}
-function medPath(){
-  seq([
-    {wait:600,run:()=>bubble('Theek — ek voice note aur image bhej rahi hoon. Sun‑kar seekhein 👇','in','Sending a voice note and an image — learn by listening.')},
-    {wait:650,run:()=>voiceNote('5-finger talk · 0:13','./finger3.mp3',13,'A sample of the spoken lesson (▶ tap). In production this is the full narrated lesson in a warm regional voice.')},
-    {wait:700,run:fiveHandImage},
-    {wait:700,run:()=>bubble('Yaad rakhein: 1) hawa mein kitanu 2) phephdo mein 3) testing+TPT (muft) 4) chote bacche 5) side‑effects par call karein.','in','Recap: 1) germs in air 2) settle in lungs 3) test+TPT (free) 4) under-5s 5) call on side-effects.')},
-  ],recapQ);
-}
-function highPath(){
-  seq([
-    {wait:600,run:()=>bubble('Achhi connection! Ek chhota video bhej rahi hoon 👇 (▶ chalakar dekhein)','in','Good connection — sending a short video. Tap ▶ to play.')},
-    {wait:800,run:videoBubble},
-  ],recapQ);
 }
 function recapQ(){
   seq([{wait:600,run:()=>bubble('Ek recap sawaal 👇<br><b>Agar kisi ko TPT lene se thakaan ya ulti ho, to kya karein?</b>','in','Recap: if someone feels tired or nauseous on TPT, what should they do?')}],()=>{
