@@ -15,7 +15,7 @@
        background:#0b141a;color:var(--ink);display:flex;flex-wrap:wrap;gap:28px;justify-content:center;
        align-items:flex-start;padding:28px 16px;min-height:100vh}
 
-  .panel{max-width:340px;color:#e9edef}
+  .panel{max-width:344px;color:#e9edef}
   .panel h1{font-size:20px;margin:.2em 0;color:#fff}
   .panel .sub{font-size:13px;color:#8696a0;margin:0 0 .6em}
   .panel p{font-size:13px;line-height:1.5;color:#aebac1;margin:.6em 0}
@@ -62,9 +62,12 @@
   .bubble .en{display:block;color:var(--muted);font-size:11.5px;font-style:italic;margin-top:3px;line-height:1.35}
   .bubble .t{font-size:9.5px;color:var(--muted);float:right;margin:4px 0 -2px 8px}
   .bubble .check{color:#53bdeb}
-  .bubble.reward{background:#fff7e0;border:1px solid #f4e2a8}
+  .bubble.reward{background:#eaf7e2;border:1px solid #cfe9bd}
+  .bubble.summary{background:#fffdf4;border:1px solid #ece2bd}
+  .bubble.summary b.h{display:block;color:#8a6d1f;font-size:11px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:5px}
+  .bubble.summary ol{margin:0;padding-left:18px}
+  .bubble.summary li{margin:2px 0}
 
-  /* voice note */
   .vn{display:flex;align-items:center;gap:9px;min-width:215px}
   .vn .av{width:34px;height:34px;border-radius:50%;background:#dfe5e7;flex:0 0 auto;position:relative;display:flex;align-items:center;justify-content:center;font-size:15px}
   .vn .av .mic{position:absolute;bottom:-2px;right:-3px;font-size:11px}
@@ -92,7 +95,8 @@
           display:flex;align-items:flex-start;gap:8px;animation:pop .2s ease-out}
   .choice:hover{background:#f3fbff}
   .choice.list{color:var(--ink)}
-  .choice .ic{font-size:14px;line-height:1.3}
+  .choice .ic{font-size:14px;line-height:1.3;min-width:16px}
+  .choice .num{font-weight:700;color:var(--wa-teal)}
   .choice small{display:block;color:var(--muted);font-weight:400;font-size:11.5px;font-style:italic;margin-top:2px}
   .choicehdr{font-size:10.5px;color:#8696a0;text-transform:uppercase;letter-spacing:.05em;padding:0 4px 2px}
 
@@ -108,19 +112,20 @@
 <div class="panel">
   <h1>ASHA Saathi</h1>
   <p class="sub">Clickable mock-up of the WhatsApp refresher tool</p>
-  <p>One lesson — <b>TPT counselling: the 5-finger framework</b> — as an ASHA would receive it on her own phone before a home visit. Tap the reply buttons in the chat. The lesson arrives as text + image, with a voice note and a video she can play or download if she wants. Try a wrong quiz answer to see the remediation loop.</p>
+  <p>One training module (<b>kitab</b>) — <b>TPT counselling: the 5-point talk</b> — as an ASHA would receive it before a home visit. Tap the reply buttons to move through it. The voice notes and video really play.</p>
   <div class="legend">
-    <h2>Anchored in real WhatsApp features</h2>
+    <h2>Built on ASHA tech-engagement research</h2>
     <ul>
-      <li><span class="dot"></span><b>Media messages</b> — voice notes, an image aid, and a short video (works on any WhatsApp).</li>
-      <li><span class="dot"></span><b>Interactive reply buttons &amp; list menus</b> — the actual WhatsApp Business API building blocks (max 3 buttons / 10 list rows).</li>
-      <li><span class="dot"></span><b>Every format, one message</b> — text + image inline, with a voice note and video right there to play or download as data allows.</li>
-      <li><span class="dot"></span><b>Adaptive journey</b> — a wrong answer routes to a remediation message, then a retry.</li>
-      <li><span class="dot"></span><b>Recognition as messages</b> — stars/badges arrive as chat messages &amp; a sticker, since WhatsApp has no custom scoreboard.</li>
+      <li><span class="dot"></span><b>Clear start &amp; end</b> — every module sets context up front and closes with what comes next.</li>
+      <li><span class="dot"></span><b>List menu + reply buttons</b> — pick a kitab, then act on each step ("Aage badhen") instead of reading passively.</li>
+      <li><span class="dot"></span><b>End-of-lesson summary</b> — key points recapped at the close (the most-valued element in the research).</li>
+      <li><span class="dot"></span><b>Scorecard + remediation</b> — a visible score; a wrong answer re-serves the content, then a retry.</li>
+      <li><span class="dot"></span><b>Plain, short text</b> — minimal emoji; messages kept short to match reading pace.</li>
+      <li><span class="dot"></span><b>Scheduled reminder</b> — closes by offering the next kitab on a set day/evening (an anticipation loop).</li>
     </ul>
   </div>
-  <p class="note"><b>What's real vs simulated:</b> the audio is generated Hindi TTS and the video is an auto-built slide reel — both stand-ins so the team can hear/see the format. A production build would use a recorded regional voice and properly produced video. The chat engine here is a front-end mock, not a live WhatsApp connection.</p>
-  <button class="restart" onclick="restart()">↺ Restart demo</button>
+  <p class="note"><b>What's real vs simulated:</b> the audio is generated Hindi TTS and the video is an auto-built slide reel — stand-ins so the team can hear/see the format. A production build would use a recorded regional voice. The chat engine is a front-end mock, not a live WhatsApp connection. Structure adapted from the ARMMAN × Treemouse "Mobile Academy 2.0" research.</p>
+  <button class="restart" onclick="restart()">Restart demo</button>
 </div>
 
 <div class="phone">
@@ -140,7 +145,7 @@
 <script>
 const chat=document.getElementById('chat');
 const choicesEl=document.getElementById('choices');
-let stars=0, vnId=0;
+let score=0, totalQ=2, vnId=0;
 
 function now(){const d=new Date();let h=d.getHours(),m=d.getMinutes();const ap=h>=12?'pm':'am';h=h%12||12;return h+':'+String(m).padStart(2,'0')+' '+ap;}
 function scroll(){chat.scrollTop=chat.scrollHeight;}
@@ -154,6 +159,7 @@ function bubble(html,dir='in',en='',cls=''){
   inner+='<span class="t">'+now()+(dir==='out'?' <span class="check">✓✓</span>':'')+'</span>';
   b.innerHTML=inner;row.appendChild(b);chat.appendChild(row);scroll();return b;
 }
+function scoreMsg(msg,en){score++;bubble(msg+'  <b>Score: '+score+'/'+totalQ+'</b>','in',en,'reward');}
 
 function voiceNote(tag,src,secs,en){
   const id='vn'+(++vnId);
@@ -164,20 +170,19 @@ function voiceNote(tag,src,secs,en){
    <div class="vn">
      <button class="play" id="${id}b">▶</button>
      <div class="mid"><div class="track"><div class="bars">${bars}</div><div class="knob" id="${id}k"></div></div>
-        <div class="meta"><span id="${id}t">0:${String(secs).padStart(2,'0')}</span><span>🎙️ voice note</span></div></div>
+        <div class="meta"><span id="${id}t">0:${String(secs).padStart(2,'0')}</span><span>voice note</span></div></div>
      <div class="av">🩺<span class="mic">🎙️</span></div>
    </div>
    <audio id="${id}a" src="${src}" preload="metadata"></audio>`;
   const b=bubble(html,'in',en);
   const a=b.querySelector('#'+id+'a'), btn=b.querySelector('#'+id+'b'),
         kn=b.querySelector('#'+id+'k'), tt=b.querySelector('#'+id+'t');
-  btn.onclick=()=>{ if(a.paused){document.querySelectorAll('audio').forEach(x=>{if(x!==a){x.pause();}});a.play();btn.textContent='❚❚';} else {a.pause();btn.textContent='▶';} };
+  btn.onclick=()=>{ if(a.paused){document.querySelectorAll('audio').forEach(x=>{if(x!==a)x.pause();});a.play();btn.textContent='❚❚';} else {a.pause();btn.textContent='▶';} };
   a.ontimeupdate=()=>{const d=a.duration||secs;const p=a.currentTime/d;kn.style.left=(p*100)+'%';
      const r=Math.max(0,Math.round(d-a.currentTime));tt.textContent='0:'+String(r).padStart(2,'0');};
   a.onended=()=>{btn.textContent='▶';kn.style.left='0%';tt.textContent='0:'+String(secs).padStart(2,'0');};
   return b;
 }
-
 function fiveHandImage(){
   const fingers=[['1','Hawa mein kitanu','TB germs in the home air'],
                  ['2','Phephdo mein','They settle in the lungs'],
@@ -192,19 +197,19 @@ function fiveHandImage(){
       <text x="${cx}" y="224" font-size="7.6" fill="#5a6a72" text-anchor="middle">${x[2]}</text></g>`}).join('');
   const svg=`<svg class="fivehand" viewBox="0 0 360 250" xmlns="http://www.w3.org/2000/svg">
      <rect width="360" height="250" fill="#fbf6ec"/>
-     <text x="180" y="28" font-size="14" fill="#0e6b5f" text-anchor="middle" font-weight="bold">5 ungliyaan, 5 baatein · The 5-finger TPT talk</text>
+     <text x="180" y="28" font-size="14" fill="#0e6b5f" text-anchor="middle" font-weight="bold">5 ungli, 5 baatein · The 5-point TPT talk</text>
      ${f}<path d="M20 192 q160 30 320 0" fill="none" stroke="#e0a96d" stroke-width="2" opacity="0.5"/></svg>`;
   const row=document.createElement('div');row.className='row in';
   const b=document.createElement('div');b.className='bubble imgcard';
-  b.innerHTML=svg+'<div class="cap">Brochure aid — share with the family 👆<span class="en">Image works without explanation — a memory cue she can show the household. Data-light (≈40&nbsp;KB).</span><span class="t">'+now()+'</span></div>';
+  b.innerHTML=svg+'<div class="cap">Brochure aid — share with the family<span class="en">An image that works without explanation, as a memory cue she can show the household. Data-light (≈40&nbsp;KB).</span><span class="t">'+now()+'</span></div>';
   row.appendChild(b);chat.appendChild(row);scroll();
 }
 function videoBubble(){
   const row=document.createElement('div');row.className='row in';
   const b=document.createElement('div');b.className='bubble videocard';
   b.innerHTML='<video controls preload="metadata" playsinline src="./lesson.mp4"></video>'+
-    '<div class="meta">📹 The 5-finger talk · 0:41 · Hindi voice-over</div>'+
-    '<span class="en">Video used only where critical / on good data. Same content as the audio + image.</span>'+
+    '<div class="meta">📹 The 5-point talk · 0:41 · Hindi voice-over</div>'+
+    '<span class="en">Same lesson as video — animated visuals were preferred over static. Play or download from the ⋮ menu.</span>'+
     '<span class="t">'+now()+'</span>';
   row.appendChild(b);chat.appendChild(row);scroll();
 }
@@ -214,7 +219,8 @@ function showChoices(list,header){
   clearChoices();
   if(header){const h=document.createElement('div');h.className='choicehdr';h.textContent=header;choicesEl.appendChild(h);}
   list.forEach(c=>{const btn=document.createElement('button');btn.className='choice'+(c.list?' list':'');
-    btn.innerHTML=(c.ic?`<span class="ic">${c.ic}</span>`:'')+'<span>'+c.label+(c.sub?`<small>${c.sub}</small>`:'')+'</span>';
+    const lead=c.num?`<span class="num">${c.num}</span>`:(c.ic?`<span class="ic">${c.ic}</span>`:'');
+    btn.innerHTML=lead+'<span>'+c.label+(c.sub?`<small>${c.sub}</small>`:'')+'</span>';
     btn.onclick=()=>{if(c.echo!==false)bubble(c.echo||c.label,'out');clearChoices();c.go();};
     choicesEl.appendChild(btn);});
   scroll();
@@ -224,124 +230,151 @@ function typing(ms,then){const row=document.createElement('div');row.className='
   row.appendChild(t);chat.appendChild(row);scroll();setTimeout(()=>{row.remove();then();},ms);}
 function seq(steps,done){let i=0;(function nxt(){if(i>=steps.length){done&&done();return;}
   const s=steps[i++];typing(s.wait||650,()=>{s.run();nxt();});})();}
-function award(msg,en){stars++;bubble('🌟 '+msg+`  <b>(Aaj: ${stars} ⭐)</b>`,'in',en,'reward');}
 
-/* ---------------- FLOW ---------------- */
-function restart(){document.querySelectorAll('audio,video').forEach(m=>{try{m.pause()}catch(e){}});chat.innerHTML='';clearChoices();stars=0;vnId=0;start();}
+/* ================= FLOW ================= */
+function restart(){document.querySelectorAll('audio,video').forEach(m=>{try{m.pause()}catch(e){}});chat.innerHTML='';clearChoices();score=0;vnId=0;start();}
 
+/* 1. Onboarding — short, clear start, sets context */
 function start(){
   day('TODAY');
   sys('🔒 Messages are end-to-end encrypted.');
   seq([
-    {wait:500,run:()=>bubble('Namaste Sunita ji! 🙏 Aapke kshetra mein ek naya TB case aaya hai.','in','Hi Sunita! A new TB case has been assigned in your area.')},
-    {wait:850,run:()=>bubble('Visit se pehle, kya hum 8 minute ka quick refresher karein?','in','Before your visit, shall we do a quick 8-min refresher?')},
+    {wait:500,run:()=>bubble('Namaste Sunita ji. Aapke kshetra mein ek naya TB case aaya hai.','in','Hi Sunita. A new TB case has been assigned in your area.')},
+    {wait:850,run:()=>bubble('Visit se pehle 8 minute ki ek training kar lein? Neeche se chunein.','in','Shall we do an 8-minute training before your visit? Choose below.')},
   ],menu);
 }
+
+/* 2. Take the course — list of training modules (kitab) */
 function menu(){
-  seq([{wait:500,run:()=>bubble('Aaj aap kya refresh karna chahengi? 👇 Neeche se chunein.','in','What would you like to refresh today? Pick below.')}],()=>{
-    showChoices([
-      {ic:'🖐️',label:'TPT counselling — 5-finger talk',sub:'Recommended for today’s visit',list:true,echo:'TPT counselling — 5-finger talk',go:lessonIntro},
-      {ic:'🏠',label:'Convincing the household for testing',list:true,echo:'Convincing the household for testing',go:()=>{bubble('That lesson is coming soon in this demo — opening the 5-finger talk 🙂','in');setTimeout(lessonIntro,700);}},
-      {ic:'📋',label:'Contact tracing & 10-symptom screen',list:true,echo:'Contact tracing & screening',go:()=>{bubble('Coming soon in this demo — opening the 5-finger talk 🙂','in');setTimeout(lessonIntro,700);}},
-    ],'WhatsApp list menu · choose a topic');
-  });
+  showChoices([
+    {num:'1.',label:'TPT counselling — 5 baatein',sub:'Aaj ke liye · ~8 min',list:true,echo:'Kitab 1: TPT counselling',go:kitabIntro},
+    {num:'2.',label:'Ghar walon ko testing ke liye manaana',sub:'Kitab 2',list:true,echo:'Kitab 2',go:()=>soon(kitabIntro)},
+    {num:'3.',label:'Contact tracing aur 10 lakshan',sub:'Kitab 3',list:true,echo:'Kitab 3',go:()=>soon(kitabIntro)},
+  ],'Training — kitab chunein (1 of 5 complete)');
 }
-function lessonIntro(){
+function soon(then){bubble('Ye kitab demo mein abhi nahi hai — Kitab 1 khol rahe hain.','in','That module isn’t in this demo yet — opening Kitab 1.');setTimeout(then,750);}
+
+/* 3. Lesson — clear START / context */
+function kitabIntro(){
   seq([
-    {wait:650,run:()=>voiceNote('Anchor · 0:13','./anchor.mp3',13,'TP pariwar ko counselling karte waqt unhe kaise jankari deni hai — sirf 5 baaton se TPT samjhaayein. (▶ tap to play)')},
-    {wait:900,run:()=>bubble('Aaj ki lesson: poora TPT message sirf <b>5 ungliyon</b> par 🖐️','in','Today: the whole TPT message on just 5 fingers.')},
-  ],scenarioQ);
+    {wait:650,run:()=>bubble('<b>Kitab 1 — TPT counselling.</b> Is kitab mein hum <b>5 baatein</b> seekhenge jo aap pariwar ko bata sakti hain. Samay: ~8 min.','in','Kitab 1 — TPT counselling. We’ll learn the 5 points you can tell the family. About 8 minutes.')},
+    {wait:800,run:()=>voiceNote('Shuruaat · 0:13','./anchor.mp3',13,'Sirf 5 baaton se TPT samjhaayein. (tap to play)')},
+  ],()=>showChoices([{ic:'▶',label:'Haan, shuru karein',sub:'Yes, start',echo:'Shuru karein',go:scenarioQ}],'Tap to begin'));
 }
+
+/* 4. Quick check (Sawal-Javab) before content — identifies gaps */
 function scenarioQ(){
-  seq([{wait:600,run:()=>bubble('Pehle ek sawaal 👇<br><b>TPT kin logon ko lena zaroori hai?</b>','in','Quick question: who needs to take TPT?')}],()=>{
+  seq([{wait:600,run:()=>bubble('Pehle ek sawaal. <b>TPT kin logon ko lena zaroori hai?</b>','in','First a question. Who needs to take TPT?')}],()=>{
     showChoices([
-      {ic:'1️⃣',label:'Sirf patient ko',sub:'Only the patient',go:scenarioWrong},
-      {ic:'2️⃣',label:'Sirf pariwar walon ko',sub:'Only the family',go:scenarioWrong},
-      {ic:'3️⃣',label:'Dono / sabhi ghar walon ko',sub:'Both / the whole household',go:scenarioRight},
-    ],'Tap your answer (reply buttons)');
+      {num:'1.',label:'Sirf patient ko',sub:'Only the patient',go:scenarioWrong},
+      {num:'2.',label:'Sirf pariwar walon ko',sub:'Only the family',go:scenarioWrong},
+      {num:'3.',label:'Dono / sabhi ghar walon ko',sub:'Both / the whole household',go:scenarioRight},
+    ],'Apna jawaab chunein');
   });
 }
 function scenarioWrong(){
   seq([
-    {wait:500,run:()=>bubble('Bilkul sahi nahi — par dhyaan dein 👇','in','Not quite — let’s look again.')},
-    {wait:800,run:()=>bubble('TB ek vyakti tak simit nahi rehta. Marij ke <b>ghar ke sabhi eligible contacts</b> khatre mein hote hain — isliye TPT poore ghar ke liye hai.','in','TB isn’t limited to one person — the whole household is at risk, so TPT is for all eligible contacts.')},
-  ],()=>showChoices([{ic:'↩️',label:'Phir se koshish karein',sub:'Try again',echo:'Let me try again',go:scenarioQ}]));
+    {wait:500,run:()=>bubble('Sahi nahi. Ek baar phir dekhein.','in','Not right — look once more.')},
+    {wait:800,run:()=>bubble('TB ek vyakti tak simit nahi rehta. Ghar ke <b>sabhi eligible contacts</b> khatre mein hote hain — isliye TPT poore ghar ke liye hai.','in','TB isn’t limited to one person. All eligible household contacts are at risk, so TPT is for the whole household.')},
+  ],()=>showChoices([{ic:'↩',label:'Phir se koshish karein',sub:'Try again',echo:'Phir se',go:scenarioQ}]));
 }
 function scenarioRight(){
   seq([
-    {wait:500,run:()=>bubble('Ekdum sahi! Dono / sabhi eligible ghar walon ko.','in','Exactly right — both / all eligible household members.')},
-    {wait:500,run:()=>award('Sahi jawaab! Ek star milaa.','Recognition arrives as a message — there is no scoreboard inside WhatsApp.')},
+    {wait:500,run:()=>bubble('Sahi. Dono / sabhi eligible ghar walon ko.','in','Correct. Both / all eligible household members.')},
+    {wait:500,run:()=>scoreMsg('Sahi jawaab.','A visible scorecard — recognition arrives as a message; WhatsApp has no built-in score panel.')},
   ],coreDeliver);
 }
-/* ---- CORE LESSON: text + image inline, with audio & video available to play/download ---- */
-const fingersContent=[
- {hi:'<b>1st ungli:</b> Jis ghar mein TB patient hota hai, us ghar ki hawa mein TB ke kitanu hote hain, jo aas-paas ke logon ke phephdon mein ja sakte hain.',en:'Finger 1: The home’s air carries TB germs that can reach nearby lungs.'},
- {hi:'<b>2nd ungli:</b> Ye kitanu phephdon mein bas jaate hain. Kuch turant bimaar, kuch baad mein — par darne ki baat nahi.',en:'Finger 2: They settle in the lungs — some fall ill now, some later. No need to fear.'},
- {hi:'<b>3rd ungli:</b> Testing zaroori hai. Negative aaye to bachav ki goli (TPT) — hafte mein 1 din, 3 mahine (12 baar). Bilkul <b>muft</b>.',en:'Finger 3: Test. If negative, take TPT — weekly for 3 months (12 doses). Free.'},
- {hi:'<b>4th ungli:</b> 5 saal se chote bacchon ko sabse zyada khatra. Testing ki zaroorat nahi — doctor se baat karke seedhe TPT.',en:'Finger 4: Under-5s are highest risk. No test — start TPT on the doctor’s advice.'},
- {hi:'<b>5th ungli:</b> Kabhi thakaan, ulti ya bukhar ho sakta hai. Aisa ho to CHO/ASHA ko call karein — par dawai na chhodein.',en:'Finger 5: Mild side-effects can occur — call the CHO/ASHA, don’t stop the medicine.'},
-];
+
+/* 5. Content — short paced steps + image; audio/video available */
 function coreDeliver(){
   seq([
-    {wait:700,run:()=>bubble('Ab 5-ungli wali baat 🖐️ Neeche text aur image hai. Chahein to audio sun lein ya video dekh lein — jaisa aapka data ho.','in','Now the 5-finger talk. Text and an image are below — play the audio or watch the video too, as your data allows.')},
+    {wait:700,run:()=>bubble('Ab 5 baatein. Neeche padhein — audio ya video bhi dekh sakti hain.','in','Now the 5 points. Read below — you can also play the audio or video.')},
     {wait:700,run:fiveHandImage},
   ],()=>coreText(1));
 }
+const fingersContent=[
+ {hi:'<b>Baat 1.</b> Jis ghar mein TB patient hai, us ghar ki hawa mein TB ke kitanu hote hain, jo aas-paas ke logon ke phephdon mein ja sakte hain.',en:'Point 1: The home’s air carries TB germs that can reach nearby lungs.'},
+ {hi:'<b>Baat 2.</b> Ye kitanu phephdon mein bas jaate hain. Kuch turant bimaar, kuch baad mein — par darne ki baat nahi.',en:'Point 2: They settle in the lungs — some fall ill now, some later. No need to fear.'},
+ {hi:'<b>Baat 3.</b> Testing zaroori hai. Negative aaye to bachav ki goli (TPT) — hafte mein 1 din, 3 mahine (12 baar). Bilkul <b>muft</b>.',en:'Point 3: Test. If negative, take TPT — weekly for 3 months (12 doses). Free.'},
+ {hi:'<b>Baat 4.</b> 5 saal se chote bacchon ko sabse zyada khatra. Testing ki zaroorat nahi — doctor se baat karke seedhe TPT.',en:'Point 4: Under-5s are highest risk. No test — start TPT on the doctor’s advice.'},
+ {hi:'<b>Baat 5.</b> Kabhi thakaan, ulti ya bukhar ho sakta hai. Aisa ho to CHO/ASHA ko call karein — par dawai na chhodein.',en:'Point 5: Mild side-effects can occur — call the CHO/ASHA, don’t stop the medicine.'},
+];
 function coreText(n){
   const f=fingersContent[n-1];
-  seq([{wait:600,run:()=>bubble('🖐️ '+f.hi,'in',f.en)}],()=>{
+  seq([{wait:600,run:()=>bubble(f.hi,'in',f.en)}],()=>{
     if(n<5) showChoices([
-        {ic:'👉',label:'Aage badhein',sub:'Next finger',echo:'Aage badhein',go:()=>coreText(n+1)},
-        {ic:'🔁',label:'Phir se',sub:'Repeat this one',echo:'Repeat',go:()=>{bubble('Zaroor 👇','in');setTimeout(()=>coreText(n),450);}},
-      ],'Reply to pace the lesson');
-    else seq([
-        {wait:650,run:()=>bubble('Shabaash! Paanchon ungliyaan poori 🖐️✨','in','All five fingers covered!')},
-        {wait:700,run:()=>bubble('Yahi lesson audio aur video mein bhi maujood hai — sun‑kar ya dekh‑kar dohraana ho to 👇','in','The same lesson is also here as audio and video — to revise by listening or watching (or download).')},
-        {wait:650,run:()=>voiceNote('Poora lesson · 0:13','./finger3.mp3',13,'Spoken version (▶ tap). In production: the full narrated lesson in a warm regional voice.')},
-        {wait:700,run:videoBubble},
-      ],()=>showChoices([{ic:'✅',label:'Theek hai, aage',sub:'Continue to the recap quiz',echo:'Aage badhein',go:recapQ}],'Tap to continue'));
+        {ic:'▸',label:'Aage badhen',sub:'Next ('+n+'/5)',echo:'Aage badhen',go:()=>coreText(n+1)},
+        {ic:'↺',label:'Phir se',sub:'Repeat this point',echo:'Phir se',go:()=>{bubble('Theek hai.','in');setTimeout(()=>coreText(n),450);}},
+      ],'Aage badhne ke liye tap karein');
+    else lessonSummary();
   });
 }
+
+/* End-of-lesson summary — the most-valued element in the research */
+function lessonSummary(){
+  seq([
+    {wait:650,run:()=>bubble('5 baatein poori.','in','All 5 points covered.')},
+    {wait:750,run:()=>bubble('<b class="h">Saaransh · Summary</b><ol><li>Ghar ki hawa mein kitanu</li><li>Phephdon mein bas jaate hain</li><li>Testing, phir TPT — muft</li><li>5 saal se chote bacche — zyada khatra</li><li>Side-effects par CHO/ASHA ko call</li></ol>','in','A short recap of the key points at the close of the lesson.','summary')},
+    {wait:700,run:()=>bubble('Yahi lesson audio aur video mein bhi hai — dohraana ho to.','in','The same lesson is here as audio and video — to revise if you like.')},
+    {wait:650,run:()=>voiceNote('Poora lesson · 0:13','./finger3.mp3',13,'Spoken version. In production: the full narrated lesson in a warm regional voice.')},
+    {wait:700,run:videoBubble},
+  ],()=>showChoices([{ic:'▸',label:'Aage — sawaal-javab',sub:'Continue to the quiz',echo:'Aage badhen',go:recapQ}],'Tap to continue'));
+}
+
+/* 6. Sawal-Javab — quiz with scorecard + remediation */
 function recapQ(){
-  seq([{wait:600,run:()=>bubble('Ek recap sawaal 👇<br><b>Agar kisi ko TPT lene se thakaan ya ulti ho, to kya karein?</b>','in','Recap: if someone feels tired or nauseous on TPT, what should they do?')}],()=>{
+  seq([{wait:600,run:()=>bubble('Sawaal-javab. <b>Agar kisi ko TPT lene se thakaan ya ulti ho, to kya karein?</b>','in','Quiz. If someone feels tired or nauseous on TPT, what should they do?')}],()=>{
     showChoices([
-      {ic:'🅰️',label:'Dawa turant band kar dein',sub:'Stop the medicine',go:recapWrong},
-      {ic:'🅱️',label:'Kisi ko bataye bina ghar pe rahein',sub:'Stay quiet at home',go:recapWrong},
-      {ic:'🅲',label:'CHO ya ASHA ko contact karein',sub:'Contact the CHO or ASHA',go:recapRight},
-    ],'Tap your answer');
+      {num:'1.',label:'Dawa turant band kar dein',sub:'Stop the medicine',go:recapWrong},
+      {num:'2.',label:'Kisi ko bataye bina ghar pe rahein',sub:'Stay quiet at home',go:recapWrong},
+      {num:'3.',label:'CHO ya ASHA ko contact karein',sub:'Contact the CHO or ASHA',go:recapRight},
+    ],'Apna jawaab chunein');
   });
 }
 function recapWrong(){
-  seq([{wait:500,run:()=>bubble('Yaad rakhein 👇 Dawa band karna galat hai — isse TB se bachav adhura reh jaata hai.','in','Stopping the medicine is wrong — it leaves protection incomplete.')}],
-   ()=>showChoices([{ic:'↩️',label:'Phir se koshish karein',sub:'Try again',echo:'Try again',go:recapQ}]));
+  seq([{wait:500,run:()=>bubble('Dawa band karna sahi nahi — isse TB se bachav adhura reh jaata hai. Ek baar phir dekhein.','in','Stopping the medicine isn’t right — it leaves protection incomplete. Look once more.')}],
+   ()=>showChoices([{ic:'↩',label:'Phir se koshish karein',sub:'Try again',echo:'Phir se',go:recapQ}]));
 }
 function recapRight(){
   seq([
-    {wait:500,run:()=>bubble('Sahi jawaab!','in','Correct!')},
-    {wait:450,run:()=>award('Doosra star!','')},
-    {wait:700,run:()=>bubble('Halki side‑effects par dawa band na karein. CHO/ASHA se sampark karein — zaroorat ho to doctor se baat hogi, taaki treatment surakshit poori ho.','in','Don’t stop for mild side-effects — contact the CHO/ASHA; a doctor is looped in if needed.')},
-    {wait:750,run:()=>voiceNote('Key message · 0:14','./key.mp3',14,'Har TB patient ke ghar, brochure ke madhyam se pariwar ko samjhayein ki testing aur TPT zaroori hai. (▶ tap)')},
+    {wait:500,run:()=>scoreMsg('Sahi jawaab.','')},
+    {wait:700,run:()=>bubble('Halki side-effects par dawa band na karein. CHO/ASHA se sampark karein — zaroorat ho to doctor se baat hogi.','in','Don’t stop for mild side-effects — contact the CHO/ASHA; a doctor is looped in if needed.')},
+    {wait:750,run:()=>voiceNote('Mukhya baat · 0:14','./key.mp3',14,'Har TB patient ke ghar, brochure se pariwar ko samjhayein ki testing aur TPT zaroori hai.')},
   ],askWindow);
 }
+
+/* Ask-a-question window */
 function askWindow(){
-  seq([{wait:650,run:()=>bubble('Lesson poora hua 🎉 Koi sawaal hai? Voice note ya text bhej sakti hain.','in','Lesson complete! Any questions? Send a voice note or text.')}],()=>{
+  seq([{wait:650,run:()=>bubble('Koi sawaal hai? Voice note ya text bhej sakti hain.','in','Any questions? Send a voice note or text.')}],()=>{
     showChoices([
-      {ic:'🎙️',label:'Voice note bhejein',sub:'Ask a question by voice',echo:'🎙️ Voice note (0:12)',go:askSent},
-      {ic:'✅',label:'Nahi, sab samajh aaya',sub:'No, all clear',echo:'Sab samajh aaya, dhanyavaad!',go:finish},
-    ],'Ask-a-question window');
+      {ic:'🎙',label:'Voice note bhejein',sub:'Ask by voice',echo:'🎙 Voice note (0:12)',go:askSent},
+      {ic:'✔',label:'Nahi, samajh aaya',sub:'No, all clear',echo:'Samajh aaya, dhanyavaad',go:finish},
+    ],'Sawaal poochhne ke liye');
   });
 }
 function askSent(){
-  seq([{wait:700,run:()=>bubble('Mil gaya! 🙌 Ye clinical sawaal aapke <b>CHO</b> ko bhej diya gaya hai — jawaab 1–2 din mein.','in','Got it — routed to your CHO. Reply in 1–2 days. (Common questions are auto-answered.)')}],finish);
+  seq([{wait:700,run:()=>bubble('Mil gaya. Ye clinical sawaal aapke <b>CHO</b> ko bhej diya gaya hai — jawaab 1–2 din mein.','in','Got it — routed to your CHO. Reply in 1–2 days. Common questions are auto-answered.')}],finish);
 }
+
+/* 7. Definitive END — reward, scorecard, then a scheduled reminder */
 function finish(){
   seq([
-    {wait:800,run:()=>bubble('🏅 <b>Lesson poori!</b> Aapne aaj ke <b>'+stars+' ⭐</b> kamaaye aur <b>"TPT Counselling"</b> complete kiya. Is hafte ka 1st lesson ✅','in','Lesson complete! You earned '+stars+' stars and finished "TPT Counselling" — 1st lesson this week.')},
-    {wait:850,run:()=>bubble('Ab aap Ramesh ji ke pariwar se milne ke liye taiyaar hain. Shubhkaamnaayein! 💪','in','You’re ready to visit Ramesh ji’s family. All the best!')},
+    {wait:800,run:()=>bubble('<b>Kitab 1 poori.</b> Aaj ka score: <b>'+score+'/'+totalQ+' sahi.</b> Aapko "TPT Counselling" ka badge milaa.','in','Kitab 1 complete. Today’s score: '+score+'/'+totalQ+'. You earned the "TPT Counselling" badge.','reward')},
+    {wait:800,run:()=>bubble('Is hafte ki training poori. Ab aap visit ke liye taiyaar hain.','in','This week’s training is done. You’re ready for the visit.')},
+    {wait:800,run:()=>bubble('Agli kitab kab bheju?','in','When should I send the next kitab?')},
   ],()=>showChoices([
-      {ic:'🏠',label:'Wapas menu par jaayein',sub:'Back to topic menu (reset)',echo:'Back to menu',go:()=>{bubble('Theek hai 👇','in');setTimeout(menu,450);}},
-      {ic:'↺',label:'Demo dobara chalayein',sub:'Restart the demo',echo:false,go:restart},
-  ],'Menu reset · avoids dead ends'));
+      {ic:'🗓',label:'Agle Somvaar, shaam 6 baje',sub:'Next Monday, 6pm',echo:'Agle Somvaar shaam',go:reminderSet},
+      {ic:'🔕',label:'Abhi nahi',sub:'Not now',echo:'Abhi nahi',go:closeOut},
+  ],'Reminder set karein'));
+}
+function reminderSet(){
+  seq([{wait:650,run:()=>bubble('Theek hai. <b>Agle Somvaar shaam 6 baje</b> Kitab 2 bhejungi. Yaad dila dungi.','in','Done — I’ll send Kitab 2 next Monday at 6pm and remind you. (Scheduled messages build a weekly habit.)')}],closeOut);
+}
+function closeOut(){
+  showChoices([
+    {ic:'≡',label:'Training menu',sub:'Back to the kitab list',echo:'Menu',go:()=>{bubble('Theek hai.','in');setTimeout(menu,450);}},
+    {ic:'↺',label:'Demo dobara chalayein',sub:'Restart the demo',echo:false,go:restart},
+  ],'—');
 }
 start();
 </script>
