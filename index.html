@@ -205,16 +205,14 @@ const mlinks=[['n_onboard','n_trigger'],['n_trigger','n_menu'],['n_menu','n_cour
 function nodeById(id){return macro.find(n=>n.id===id);}
 function cx(n){return n.x+n.w/2;} function cy(n){return n.y+n.h/2;}
 function buildJourneySVG(){
-  const MY=360; // micro row baseline
+  const MY=374; // micro row baseline
   const mw=110,mh=50; const mx=i=>14+i*120;
   let links='';
   mlinks.forEach(([a,b,d])=>{const A=nodeById(a),B=nodeById(b);
     links+=`<path class="jlink${d?' demo':''}" d="M${A.x+A.w} ${cy(A)} C ${A.x+A.w+24} ${cy(A)}, ${B.x-24} ${cy(B)}, ${B.x} ${cy(B)}"/>`;});
   // micro chain links
   micro.forEach((m,i)=>{ if(i>0) links+=`<path class="jlink" d="M${mx(i-1)+mw} ${MY+mh/2} L ${mx(i)} ${MY+mh/2}"/>`; });
-  // dotted from k1 to s_intro
-  const k1=nodeById('k1');
-  links+=`<path class="jlink dotted" d="M${cx(k1)} ${k1.y+k1.h} C ${cx(k1)} ${MY-30}, ${mx(0)+mw/2} ${MY-30}, ${mx(0)+mw/2} ${MY}"/>`;
+  // (k1 → sub-flow relationship is shown by the labelled band below, no crossing line)
   let nodes='';
   macro.forEach(n=>{const cls='jnode'+(n.branch?' branch':'')+(n.demo?' demo':'');
     const ty=n.y+ (n.label.length>1? n.h/2-7 : n.h/2+4);
@@ -223,8 +221,8 @@ function buildJourneySVG(){
   micro.forEach((m,i)=>{const X=mx(i);const ty=MY+ (m.label.length>1? mh/2-6 : mh/2+4);
     const lines=m.label.map((l,j)=>`<tspan x="${X+mw/2}" dy="${j===0?0:13}">${l}</tspan>`).join('');
     nodes+=`<g class="jstep" id="${m.id}"><rect x="${X}" y="${MY}" width="${mw}" height="${mh}" rx="8"/><text x="${X+mw/2}" y="${ty}" text-anchor="middle">${lines}</text></g>`;});
-  const microLabel=`<text x="14" y="${MY-14}" fill="#6f8088" font-size="11" font-weight="700">Inside Kitab 1 — lesson sub-flow (the demo)</text>`;
-  return `<svg viewBox="0 0 980 440" xmlns="http://www.w3.org/2000/svg" id="jsvg">${links}${microLabel}${nodes}</svg>`;
+  const microLabel=`<text x="14" y="${MY-16}" fill="#8aa0aa" font-size="11" font-weight="700">Inside Kitab 1 — the lesson sub-flow ↓</text>`;
+  return `<svg viewBox="0 0 980 452" xmlns="http://www.w3.org/2000/svg" id="jsvg">${links}${microLabel}${nodes}</svg>`;
 }
 function renderJourney(){document.getElementById('journeyHost').innerHTML=buildJourneySVG();}
 function stage(macroActive,microActive){
