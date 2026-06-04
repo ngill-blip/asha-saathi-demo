@@ -9,261 +9,315 @@
     --wa-green:#075E54; --wa-teal:#128C7E; --wa-light:#25D366;
     --bubble-in:#ffffff; --bubble-out:#DCF8C6; --chat-bg:#E5DDD5;
     --ink:#111b21; --muted:#667781; --btn:#ffffff; --link:#027eb5;
+    --bg:#0b141a; --card:#111b21; --line:#2a3942; --amber:#f4b740;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-       background:#0b141a;color:var(--ink);display:flex;flex-wrap:wrap;gap:28px;justify-content:center;
-       align-items:flex-start;padding:28px 16px;min-height:100vh}
+       background:var(--bg);color:#e9edef;min-height:100vh;padding:18px}
+  .wrap{display:flex;gap:20px;align-items:stretch;flex-wrap:wrap;justify-content:center}
 
-  .panel{max-width:344px;color:#e9edef}
-  .panel h1{font-size:20px;margin:.2em 0;color:#fff}
-  .panel .sub{font-size:13px;color:#8696a0;margin:0 0 .6em}
-  .panel p{font-size:13px;line-height:1.5;color:#aebac1;margin:.6em 0}
-  .legend{margin-top:14px;border:1px solid #2a3942;border-radius:12px;padding:14px 16px;background:#111b21}
-  .legend h2{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#8696a0;margin:0 0 10px}
-  .legend ul{margin:0;padding:0;list-style:none}
-  .legend li{font-size:12.5px;line-height:1.45;color:#cfd9de;padding:7px 0;display:flex;gap:9px;border-top:1px solid #1f2c33}
-  .legend li:first-child{border-top:none}
-  .legend .dot{flex:0 0 auto;width:9px;height:9px;border-radius:50%;margin-top:4px;background:var(--wa-light)}
-  .note{margin-top:14px;font-size:11.5px;color:#7d8c93;line-height:1.5}
-  .restart{margin-top:14px;background:#2a3942;color:#e9edef;border:none;border-radius:9px;padding:10px 14px;
-           font-size:13px;cursor:pointer;width:100%}
-  .restart:hover{background:#374650}
+  /* ---------- LEFT: journey ---------- */
+  .journey{flex:1 1 560px;min-width:340px;max-width:760px;background:var(--card);border:1px solid var(--line);
+           border-radius:16px;padding:14px 16px;display:flex;flex-direction:column}
+  .journey h1{font-size:17px;margin:0;color:#fff}
+  .jhead{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .jhead .sub{font-size:12px;color:#8696a0;margin-top:2px}
+  .zoombtn{background:#2a3942;color:#e9edef;border:none;border-radius:8px;padding:8px 12px;font-size:12.5px;cursor:pointer;white-space:nowrap}
+  .zoombtn:hover{background:#374650}
+  .legend2{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:#9fb0b8;margin:10px 0 6px}
+  .legend2 i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+  .svgwrap{flex:1;min-height:330px;border-radius:10px;background:#0c151b;border:1px solid #1b2730;overflow:hidden}
+  .svgwrap svg{width:100%;height:100%;display:block}
+  .jfoot{font-size:11px;color:#6f8088;line-height:1.5;margin-top:10px;border-top:1px solid var(--line);padding-top:9px}
 
-  .phone{width:390px;max-width:100%;height:800px;background:#000;border-radius:42px;padding:11px;
+  /* journey nodes */
+  .jnode rect{fill:#16232c;stroke:#33454f;stroke-width:1.5;rx:9}
+  .jnode text{fill:#cdd9df;font-size:12px;font-weight:600}
+  .jnode.branch rect{fill:#13202a;stroke:#2c3e48}
+  .jnode.demo rect{fill:#123a33;stroke:#1f8f78;stroke-width:2}
+  .jnode.demo text{fill:#dff5ee}
+  .jnode.active rect{fill:#3a2f0e;stroke:var(--amber);stroke-width:3}
+  .jnode.active text{fill:#ffe9b0}
+  .jstep rect{fill:#16232c;stroke:#33454f;stroke-width:1.5}
+  .jstep text{fill:#aebac1;font-size:11px;font-weight:600}
+  .jstep.done rect{fill:#152a22;stroke:#2e7d68}
+  .jstep.done text{fill:#bfe7da}
+  .jstep.active rect{fill:#3a2f0e;stroke:var(--amber);stroke-width:3}
+  .jstep.active text{fill:#ffe9b0}
+  .jlink{stroke:#3a4c56;stroke-width:1.6;fill:none}
+  .jlink.demo{stroke:#2f8f78;stroke-width:2}
+  .jlink.dotted{stroke:#6a5a2a;stroke-dasharray:4 4}
+  .nowtag{fill:var(--amber);font-size:10px;font-weight:700}
+
+  /* ---------- RIGHT: phone + tray ---------- */
+  .right{display:flex;flex-direction:column;align-items:center;gap:12px;flex:0 0 auto}
+  .phone{width:380px;max-width:92vw;height:660px;background:#000;border-radius:40px;padding:10px;
          box-shadow:0 26px 60px rgba(0,0,0,.55);position:relative}
-  .screen{position:relative;height:100%;border-radius:32px;overflow:hidden;display:flex;flex-direction:column;background:var(--chat-bg)}
-  .notch{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:140px;height:26px;background:#000;border-radius:0 0 16px 16px;z-index:30}
-
-  header.bar{background:var(--wa-green);color:#fff;display:flex;align-items:center;gap:9px;padding:34px 12px 9px;z-index:20}
-  header.bar .back{font-size:22px;opacity:.95}
-  header.bar .av{width:38px;height:38px;border-radius:50%;background:#ccd0d2;display:flex;align-items:center;justify-content:center;font-size:18px}
+  .screen{position:relative;height:100%;border-radius:30px;overflow:hidden;display:flex;flex-direction:column;background:var(--chat-bg)}
+  .notch{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:130px;height:24px;background:#000;border-radius:0 0 15px 15px;z-index:30}
+  header.bar{background:var(--wa-green);color:#fff;display:flex;align-items:center;gap:9px;padding:30px 12px 8px;z-index:20}
+  header.bar .back{font-size:20px;opacity:.95}
+  header.bar .av{width:36px;height:36px;border-radius:50%;background:#ccd0d2;display:flex;align-items:center;justify-content:center;font-size:17px}
   header.bar .who{flex:1;min-width:0}
-  header.bar .who b{display:flex;align-items:center;gap:4px;font-size:15.5px;line-height:1.15}
-  header.bar .who .vf{font-size:11px;color:#a6e3c6}
-  header.bar .who span{font-size:11.5px;opacity:.85}
-  header.bar .ic{font-size:16px;opacity:.92;margin-left:4px}
-
-  .chat{flex:1;overflow-y:auto;padding:10px 12px 6px;
+  header.bar .who b{display:flex;align-items:center;gap:4px;font-size:15px;line-height:1.15}
+  header.bar .who .vf{font-size:10.5px;color:#a6e3c6}
+  header.bar .who span{font-size:11px;opacity:.85}
+  header.bar .ic{font-size:15px;opacity:.92;margin-left:3px}
+  .chat{flex:1;overflow-y:auto;padding:10px 12px 14px;
         background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><circle cx='4' cy='4' r='1' fill='%23000' opacity='0.03'/></svg>");
-        background-color:var(--chat-bg);scroll-behavior:smooth}
-  .sys{align-self:center;background:#fff4c8;color:#54616b;font-size:10.5px;padding:5px 12px;border-radius:8px;
-       margin:8px auto;width:max-content;max-width:88%;text-align:center;box-shadow:0 1px 1px rgba(0,0,0,.05)}
-  .day{align-self:center;background:#d6e7ce;color:#3b4a54;font-size:11px;padding:4px 10px;border-radius:8px;
-       margin:6px auto 10px;width:max-content;box-shadow:0 1px 1px rgba(0,0,0,.05)}
-
+        background-color:var(--chat-bg)}
+  .sys{align-self:center;background:#fff4c8;color:#54616b;font-size:10.5px;padding:5px 12px;border-radius:8px;margin:8px auto;width:max-content;max-width:88%;text-align:center}
+  .day{align-self:center;background:#d6e7ce;color:#3b4a54;font-size:11px;padding:4px 10px;border-radius:8px;margin:6px auto 10px;width:max-content}
   .row{display:flex;margin:5px 0}
   .row.out{justify-content:flex-end}
-  .bubble{max-width:82%;padding:7px 9px 5px;border-radius:9px;font-size:14px;line-height:1.4;position:relative;
-          box-shadow:0 1px 1px rgba(0,0,0,.13);word-wrap:break-word;animation:pop .18s ease-out}
+  .bubble{max-width:82%;padding:7px 9px 5px;border-radius:9px;font-size:13.5px;line-height:1.4;position:relative;box-shadow:0 1px 1px rgba(0,0,0,.13);word-wrap:break-word;animation:pop .18s ease-out}
   .row.in .bubble{background:var(--bubble-in);border-top-left-radius:2px}
   .row.out .bubble{background:var(--bubble-out);border-top-right-radius:2px}
   @keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-  .bubble .en{display:block;color:var(--muted);font-size:11.5px;font-style:italic;margin-top:3px;line-height:1.35}
+  .bubble .en{display:block;color:var(--muted);font-size:11px;font-style:italic;margin-top:3px;line-height:1.35}
   .bubble .t{font-size:9.5px;color:var(--muted);float:right;margin:4px 0 -2px 8px}
   .bubble .check{color:#53bdeb}
   .bubble.reward{background:#eaf7e2;border:1px solid #cfe9bd}
   .bubble.summary{background:#fffdf4;border:1px solid #ece2bd}
   .bubble.summary b.h{display:block;color:#8a6d1f;font-size:11px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:5px}
-  .bubble.summary ol{margin:0;padding-left:18px}
-  .bubble.summary li{margin:2px 0}
-
-  .vn{display:flex;align-items:center;gap:9px;min-width:215px}
-  .vn .av{width:34px;height:34px;border-radius:50%;background:#dfe5e7;flex:0 0 auto;position:relative;display:flex;align-items:center;justify-content:center;font-size:15px}
-  .vn .av .mic{position:absolute;bottom:-2px;right:-3px;font-size:11px}
-  .vn .play{width:30px;height:30px;border-radius:50%;background:var(--wa-teal);color:#fff;flex:0 0 auto;
-            display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;border:none}
-  .vn .mid{flex:1}
-  .vn .track{position:relative;height:20px}
-  .vn .bars{position:absolute;inset:0}
-  .vn .bars svg{width:100%;height:20px}
-  .vn .knob{position:absolute;top:50%;left:0;width:9px;height:9px;border-radius:50%;background:var(--wa-teal);transform:translateX(-50%);margin-top:-4px}
-  .vn .meta{display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted);margin-top:3px}
-  .vn .tag{font-size:10px;color:var(--wa-teal);font-weight:700;letter-spacing:.03em}
-
-  .imgcard{padding:3px}
-  .imgcard .cap{padding:5px 5px 2px;font-size:13px}
+  .bubble.summary ol{margin:0;padding-left:18px}.bubble.summary li{margin:2px 0}
+  .vn{display:flex;align-items:center;gap:9px;min-width:205px}
+  .vn .av{width:32px;height:32px;border-radius:50%;background:#dfe5e7;flex:0 0 auto;position:relative;display:flex;align-items:center;justify-content:center;font-size:14px}
+  .vn .av .mic{position:absolute;bottom:-2px;right:-3px;font-size:10px}
+  .vn .play{width:28px;height:28px;border-radius:50%;background:var(--wa-teal);color:#fff;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;border:none}
+  .vn .mid{flex:1}.vn .track{position:relative;height:18px}
+  .vn .bars{position:absolute;inset:0}.vn .bars svg{width:100%;height:18px}
+  .vn .knob{position:absolute;top:50%;left:0;width:8px;height:8px;border-radius:50%;background:var(--wa-teal);transform:translateX(-50%);margin-top:-4px}
+  .vn .meta{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:3px}
+  .vn .tag{font-size:9.5px;color:var(--wa-teal);font-weight:700}
+  .imgcard{padding:3px}.imgcard .cap{padding:5px 5px 2px;font-size:12.5px}
   .fivehand{width:100%;border-radius:6px;display:block;background:#f3efe6}
-
-  .videocard{width:248px}
-  .videocard video{width:100%;border-radius:6px;display:block;background:#000}
-  .videocard .meta{font-size:11px;color:var(--muted);margin-top:4px}
-
-  .choices{padding:4px 8px 14px;display:flex;flex-direction:column;gap:7px}
-  .choice{background:var(--btn);border:none;border-radius:9px;padding:11px 13px;font-size:13.5px;text-align:left;
-          color:var(--link);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.16);cursor:pointer;
-          display:flex;align-items:flex-start;gap:8px;animation:pop .2s ease-out}
-  .choice:hover{background:#f3fbff}
-  .choice.list{color:var(--ink)}
-  .choice .ic{font-size:14px;line-height:1.3;min-width:16px}
-  .choice .num{font-weight:700;color:var(--wa-teal)}
-  .choice small{display:block;color:var(--muted);font-weight:400;font-size:11.5px;font-style:italic;margin-top:2px}
-  .choicehdr{font-size:10.5px;color:#8696a0;text-transform:uppercase;letter-spacing:.05em;padding:0 4px 2px}
-
-  .typing{display:flex;gap:4px;align-items:center;background:var(--bubble-in);border-radius:9px;border-top-left-radius:2px;
-          padding:11px 12px;width:max-content;box-shadow:0 1px 1px rgba(0,0,0,.13)}
+  .videocard{width:230px}.videocard video{width:100%;border-radius:6px;display:block;background:#000}
+  .videocard .meta{font-size:10.5px;color:var(--muted);margin-top:4px}
+  .typing{display:flex;gap:4px;align-items:center;background:var(--bubble-in);border-radius:9px;border-top-left-radius:2px;padding:10px 12px;width:max-content;box-shadow:0 1px 1px rgba(0,0,0,.13)}
   .typing span{width:7px;height:7px;border-radius:50%;background:#9aa6ac;animation:blink 1.2s infinite}
   .typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
   @keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}
+
+  /* ---------- choice tray (distinct, flies in) ---------- */
+  .tray{width:380px;max-width:92vw;background:#15212a;border:1.5px dashed #3a5563;border-radius:14px;
+        padding:10px 12px 12px;box-shadow:0 14px 30px rgba(0,0,0,.4);
+        transform:translateY(130%);opacity:0;transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .25s;pointer-events:none}
+  .tray.show{transform:translateY(0);opacity:1;pointer-events:auto}
+  .tray .traylabel{font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:#7fd3be;display:flex;align-items:center;gap:6px;margin-bottom:8px}
+  .tray .traylabel b{color:#a9bcc4;font-weight:600;text-transform:none;letter-spacing:0;font-size:10.5px}
+  .tray .qhint{font-size:11px;color:#9fb0b8;margin:-2px 0 8px;font-style:italic}
+  .tray .choice{display:block;width:100%;background:#1d2c36;border:1px solid #33505d;border-radius:9px;
+        padding:10px 12px;font-size:13px;text-align:left;color:#dbe7ec;font-weight:600;cursor:pointer;margin-top:7px;
+        display:flex;align-items:flex-start;gap:9px}
+  .tray .choice:hover{background:#24414f;border-color:#4f7686}
+  .tray .choice .num{color:var(--amber);font-weight:700;min-width:16px}
+  .tray .choice .ic{min-width:16px}
+  .tray .choice small{display:block;color:#8aa0aa;font-weight:400;font-size:11px;font-style:italic;margin-top:2px}
+
+  /* ---------- zoom overlay ---------- */
+  .zoom{position:fixed;inset:0;background:rgba(4,9,12,.94);z-index:100;display:none;flex-direction:column;padding:16px}
+  .zoom.show{display:flex}
+  .zoom .zbar{display:flex;justify-content:space-between;align-items:center;color:#e9edef;margin-bottom:10px}
+  .zoom .zbar b{font-size:15px}
+  .zoom .zclose{background:#2a3942;color:#fff;border:none;border-radius:8px;padding:9px 14px;cursor:pointer;font-size:13px}
+  .zoom .zbody{flex:1;overflow:auto;background:#0c151b;border:1px solid #1b2730;border-radius:12px}
+  .zoom .zbody svg{width:1500px;max-width:none;height:auto;display:block}
+  @media(max-width:900px){ .journey{max-width:none} }
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<div class="panel">
-  <h1>ASHA Saathi</h1>
-  <p class="sub">Clickable mock-up of the WhatsApp refresher tool</p>
-  <p>One training module (<b>kitab</b>) — <b>TPT counselling: the 5-point talk</b> — as an ASHA would receive it before a home visit. Tap the reply buttons to move through it. The voice notes and video really play.</p>
-  <div class="legend">
-    <h2>Built on ASHA tech-engagement research</h2>
-    <ul>
-      <li><span class="dot"></span><b>Clear start &amp; end</b> — every module sets context up front and closes with what comes next.</li>
-      <li><span class="dot"></span><b>List menu + reply buttons</b> — pick a kitab, then act on each step ("Aage badhen") instead of reading passively.</li>
-      <li><span class="dot"></span><b>End-of-lesson summary</b> — key points recapped at the close (the most-valued element in the research).</li>
-      <li><span class="dot"></span><b>Scorecard + remediation</b> — a visible score; a wrong answer re-serves the content, then a retry.</li>
-      <li><span class="dot"></span><b>Plain, short text</b> — minimal emoji; messages kept short to match reading pace.</li>
-      <li><span class="dot"></span><b>Scheduled reminder</b> — closes by offering the next kitab on a set day/evening (an anticipation loop).</li>
-    </ul>
+  <!-- LEFT: USER JOURNEY -->
+  <section class="journey">
+    <div class="jhead">
+      <div>
+        <h1>User journey — ASHA Saathi</h1>
+        <div class="sub">The amber step shows where the live demo is right now →</div>
+      </div>
+      <button class="zoombtn" onclick="openZoom()">⤢ Zoom journey</button>
+    </div>
+    <div class="legend2">
+      <span><i style="background:#1f8f78"></i>Demo path (this build)</span>
+      <span><i style="background:#f4b740"></i>You are here</span>
+      <span><i style="background:#33454f"></i>Planned (not in demo)</span>
+    </div>
+    <div class="svgwrap" id="journeyHost"></div>
+    <div class="jfoot" id="footText">
+      <b>ASHA Saathi</b> — clickable mock-up of the WhatsApp refresher tool. The right panel is the live demo of one module (Kitab 1 — TPT counselling). <b>What's real vs simulated:</b> audio is generated Hindi TTS and the video is an auto-built slide reel (stand-ins for a recorded regional voice / produced video); the chat engine is a front-end mock, not a live WhatsApp connection. Structure adapted from learnings from Treemouse's HCM formative research, content guidelines and their previous learnings on WhatsApp based training tools.
+    </div>
+  </section>
+
+  <!-- RIGHT: PHONE + TRAY -->
+  <div class="right">
+    <div class="phone">
+      <div class="screen">
+        <div class="notch"></div>
+        <header class="bar">
+          <div class="back">‹</div>
+          <div class="av">🩺</div>
+          <div class="who"><b>ASHA Saathi <span class="vf">✔ business</span></b><span>online</span></div>
+          <div class="ic">📹</div><div class="ic">📞</div><div class="ic">⋮</div>
+        </header>
+        <div class="chat" id="chat"></div>
+      </div>
+    </div>
+
+    <div class="tray" id="tray">
+      <div class="traylabel">▲ Demo choices&nbsp;·&nbsp;<b>placeholder — becomes WhatsApp menu navigation later</b></div>
+      <div class="qhint" id="qhint"></div>
+      <div id="trayBody"></div>
+    </div>
   </div>
-  <p class="note"><b>What's real vs simulated:</b> the audio is generated Hindi TTS and the video is an auto-built slide reel — stand-ins so the team can hear/see the format. A production build would use a recorded regional voice. The chat engine is a front-end mock, not a live WhatsApp connection. Structure adapted from learnings from Treemouse's HCM formative research, content guidelines and their previous learnings on WhatsApp based training tools.</p>
-  <button class="restart" onclick="restart()">Restart demo</button>
 </div>
 
-<div class="phone">
-  <div class="screen">
-    <div class="notch"></div>
-    <header class="bar">
-      <div class="back">‹</div>
-      <div class="av">🩺</div>
-      <div class="who"><b>ASHA Saathi <span class="vf">✔ business</span></b><span>online</span></div>
-      <div class="ic">📹</div><div class="ic">📞</div><div class="ic">⋮</div>
-    </header>
-    <div class="chat" id="chat"></div>
-    <div class="choices" id="choices"></div>
-  </div>
+<!-- ZOOM OVERLAY -->
+<div class="zoom" id="zoom">
+  <div class="zbar"><b>User journey — full view</b><button class="zclose" onclick="closeZoom()">✕ Close</button></div>
+  <div class="zbody" id="zoomBody"></div>
 </div>
 
 <script>
-const chat=document.getElementById('chat');
-const choicesEl=document.getElementById('choices');
-let score=0, totalQ=2, vnId=0;
-
-function now(){const d=new Date();let h=d.getHours(),m=d.getMinutes();const ap=h>=12?'pm':'am';h=h%12||12;return h+':'+String(m).padStart(2,'0')+' '+ap;}
-function scroll(){chat.scrollTop=chat.scrollHeight;}
-function sys(t){const e=document.createElement('div');e.className='sys';e.innerHTML=t;chat.appendChild(e);scroll();}
-function day(t){const e=document.createElement('div');e.className='day';e.textContent=t;chat.appendChild(e);scroll();}
-
-function bubble(html,dir='in',en='',cls=''){
-  const row=document.createElement('div');row.className='row '+dir;
-  const b=document.createElement('div');b.className='bubble '+cls;
-  let inner=html; if(en) inner+='<span class="en">'+en+'</span>';
-  inner+='<span class="t">'+now()+(dir==='out'?' <span class="check">✓✓</span>':'')+'</span>';
-  b.innerHTML=inner;row.appendChild(b);chat.appendChild(row);scroll();return b;
+/* ============ JOURNEY MAP ============ */
+const macro=[
+ {id:'n_onboard',x:18,y:24,w:150,h:48,label:['Onboarding','(one-time)']},
+ {id:'n_trigger',x:18,y:104,w:150,h:48,label:['Weekly nudge /','case assigned']},
+ {id:'n_menu',x:18,y:184,w:150,h:48,label:['Main menu']},
+ {id:'n_course',x:236,y:104,w:160,h:48,label:['Take the training'],branch:true,demo:true},
+ {id:'n_jaankari',x:236,y:184,w:160,h:48,label:['Jaankari paayen','(share IEC)'],branch:true},
+ {id:'n_quizgame',x:236,y:264,w:160,h:48,label:['Sawaal-javab khel'],branch:true},
+ {id:'n_progress',x:236,y:344,w:160,h:48,label:['Progress & rewards'],branch:true},
+ {id:'k1',x:470,y:40,w:172,h:46,label:['Kitab 1 — TPT','counselling'],demo:true},
+ {id:'k2',x:470,y:96,w:172,h:46,label:['Kitab 2 — testing','counselling'],branch:true},
+ {id:'k3',x:470,y:152,w:172,h:46,label:['Kitab 3 — contact','tracing'],branch:true},
+ {id:'k4',x:470,y:208,w:172,h:46,label:['Kitab 4 — docs &','reporting'],branch:true},
+ {id:'k5',x:470,y:264,w:172,h:46,label:['Kitab 5 — household','alignment'],branch:true},
+];
+const micro=[
+ {id:'s_intro',label:['Intro /','context']},{id:'s_check',label:['Quick','check']},
+ {id:'s_content',label:['Content','+ media']},{id:'s_summary',label:['Summary']},
+ {id:'s_quiz',label:['Sawaal-','javab']},{id:'s_ask',label:['Ask a','question']},
+ {id:'s_reward',label:['Reward /','badge']},{id:'s_schedule',label:['Schedule','next']},
+];
+const microOrder=micro.map(m=>m.id);
+const mlinks=[['n_onboard','n_trigger'],['n_trigger','n_menu'],['n_menu','n_course'],['n_menu','n_jaankari'],['n_menu','n_quizgame'],['n_menu','n_progress'],['n_course','k1','demo'],['n_course','k2'],['n_course','k3'],['n_course','k4'],['n_course','k5']];
+function nodeById(id){return macro.find(n=>n.id===id);}
+function cx(n){return n.x+n.w/2;} function cy(n){return n.y+n.h/2;}
+function buildJourneySVG(){
+  const MY=360; // micro row baseline
+  const mw=110,mh=50; const mx=i=>14+i*120;
+  let links='';
+  mlinks.forEach(([a,b,d])=>{const A=nodeById(a),B=nodeById(b);
+    links+=`<path class="jlink${d?' demo':''}" d="M${A.x+A.w} ${cy(A)} C ${A.x+A.w+24} ${cy(A)}, ${B.x-24} ${cy(B)}, ${B.x} ${cy(B)}"/>`;});
+  // micro chain links
+  micro.forEach((m,i)=>{ if(i>0) links+=`<path class="jlink" d="M${mx(i-1)+mw} ${MY+mh/2} L ${mx(i)} ${MY+mh/2}"/>`; });
+  // dotted from k1 to s_intro
+  const k1=nodeById('k1');
+  links+=`<path class="jlink dotted" d="M${cx(k1)} ${k1.y+k1.h} C ${cx(k1)} ${MY-30}, ${mx(0)+mw/2} ${MY-30}, ${mx(0)+mw/2} ${MY}"/>`;
+  let nodes='';
+  macro.forEach(n=>{const cls='jnode'+(n.branch?' branch':'')+(n.demo?' demo':'');
+    const ty=n.y+ (n.label.length>1? n.h/2-7 : n.h/2+4);
+    const lines=n.label.map((l,i)=>`<tspan x="${cx(n)}" dy="${i===0?0:14}">${l}</tspan>`).join('');
+    nodes+=`<g class="${cls}" id="${n.id}"><rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="9"/><text x="${cx(n)}" y="${ty}" text-anchor="middle">${lines}</text></g>`;});
+  micro.forEach((m,i)=>{const X=mx(i);const ty=MY+ (m.label.length>1? mh/2-6 : mh/2+4);
+    const lines=m.label.map((l,j)=>`<tspan x="${X+mw/2}" dy="${j===0?0:13}">${l}</tspan>`).join('');
+    nodes+=`<g class="jstep" id="${m.id}"><rect x="${X}" y="${MY}" width="${mw}" height="${mh}" rx="8"/><text x="${X+mw/2}" y="${ty}" text-anchor="middle">${lines}</text></g>`;});
+  const microLabel=`<text x="14" y="${MY-14}" fill="#6f8088" font-size="11" font-weight="700">Inside Kitab 1 — lesson sub-flow (the demo)</text>`;
+  return `<svg viewBox="0 0 980 440" xmlns="http://www.w3.org/2000/svg" id="jsvg">${links}${microLabel}${nodes}</svg>`;
 }
-function scoreMsg(msg,en){score++;bubble(msg+'  <b>Score: '+score+'/'+totalQ+'</b>','in',en,'reward');}
+function renderJourney(){document.getElementById('journeyHost').innerHTML=buildJourneySVG();}
+function stage(macroActive,microActive){
+  document.querySelectorAll('#journeyHost .jnode').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('#journeyHost .jstep').forEach(n=>n.classList.remove('active','done'));
+  if(macroActive){const el=document.getElementById(macroActive);el&&el.classList.add('active');}
+  if(microActive){const k=document.getElementById('k1');k&&k.classList.add('active');
+    const idx=microOrder.indexOf(microActive);
+    microOrder.forEach((id,i)=>{const el=document.getElementById(id);if(!el)return;if(i<idx)el.classList.add('done');if(i===idx)el.classList.add('active');});}
+}
+function openZoom(){document.getElementById('zoomBody').innerHTML=buildJourneySVG();
+  // copy current state classes onto the clone
+  document.querySelectorAll('#journeyHost .jnode,#journeyHost .jstep').forEach(src=>{
+    const dst=document.querySelector('#zoomBody #'+src.id); if(dst) dst.setAttribute('class',src.getAttribute('class'));});
+  document.getElementById('zoom').classList.add('show');}
+function closeZoom(){document.getElementById('zoom').classList.remove('show');}
 
+/* ============ DEMO ENGINE ============ */
+const chat=document.getElementById('chat');
+const tray=document.getElementById('tray'), trayBody=document.getElementById('trayBody'), qhint=document.getElementById('qhint');
+let score=0, totalQ=2, vnId=0;
+function now(){const d=new Date();let h=d.getHours(),m=d.getMinutes();const ap=h>=12?'pm':'am';h=h%12||12;return h+':'+String(m).padStart(2,'0')+' '+ap;}
+function scrollC(){chat.scrollTop=chat.scrollHeight;}
+function sys(t){const e=document.createElement('div');e.className='sys';e.innerHTML=t;chat.appendChild(e);scrollC();}
+function day(t){const e=document.createElement('div');e.className='day';e.textContent=t;chat.appendChild(e);scrollC();}
+function bubble(html,dir='in',en='',cls=''){
+  const row=document.createElement('div');row.className='row '+dir;const b=document.createElement('div');b.className='bubble '+cls;
+  let inner=html;if(en)inner+='<span class="en">'+en+'</span>';
+  inner+='<span class="t">'+now()+(dir==='out'?' <span class="check">✓✓</span>':'')+'</span>';
+  b.innerHTML=inner;row.appendChild(b);chat.appendChild(row);scrollC();return b;}
+function scoreMsg(msg,en){score++;bubble(msg+'  <b>Score: '+score+'/'+totalQ+'</b>','in',en,'reward');}
 function voiceNote(tag,src,secs,en){
   const id='vn'+(++vnId);
-  const bars='<svg viewBox="0 0 150 20" preserveAspectRatio="none">'+
-    Array.from({length:46}).map((_,i)=>{const h=3+Math.abs(Math.sin(i*0.8))*15;const y=(20-h)/2;
-    return `<rect x="${i*3.2}" y="${y}" width="1.6" height="${h}" rx="0.8" fill="#c4ccd0"/>`}).join('')+'</svg>';
-  const html=`<div class="tag">🔊 ${tag}</div>
-   <div class="vn">
-     <button class="play" id="${id}b">▶</button>
-     <div class="mid"><div class="track"><div class="bars">${bars}</div><div class="knob" id="${id}k"></div></div>
-        <div class="meta"><span id="${id}t">0:${String(secs).padStart(2,'0')}</span><span>voice note</span></div></div>
-     <div class="av">🩺<span class="mic">🎙️</span></div>
-   </div>
-   <audio id="${id}a" src="${src}" preload="metadata"></audio>`;
-  const b=bubble(html,'in',en);
-  const a=b.querySelector('#'+id+'a'), btn=b.querySelector('#'+id+'b'),
-        kn=b.querySelector('#'+id+'k'), tt=b.querySelector('#'+id+'t');
-  btn.onclick=()=>{ if(a.paused){document.querySelectorAll('audio').forEach(x=>{if(x!==a)x.pause();});a.play();btn.textContent='❚❚';} else {a.pause();btn.textContent='▶';} };
-  a.ontimeupdate=()=>{const d=a.duration||secs;const p=a.currentTime/d;kn.style.left=(p*100)+'%';
-     const r=Math.max(0,Math.round(d-a.currentTime));tt.textContent='0:'+String(r).padStart(2,'0');};
-  a.onended=()=>{btn.textContent='▶';kn.style.left='0%';tt.textContent='0:'+String(secs).padStart(2,'0');};
-  return b;
-}
+  const bars='<svg viewBox="0 0 150 18" preserveAspectRatio="none">'+Array.from({length:46}).map((_,i)=>{const h=3+Math.abs(Math.sin(i*0.8))*13;const y=(18-h)/2;return `<rect x="${i*3.2}" y="${y}" width="1.6" height="${h}" rx="0.8" fill="#c4ccd0"/>`}).join('')+'</svg>';
+  const html=`<div class="tag">🔊 ${tag}</div><div class="vn"><button class="play" id="${id}b">▶</button><div class="mid"><div class="track"><div class="bars">${bars}</div><div class="knob" id="${id}k"></div></div><div class="meta"><span id="${id}t">0:${String(secs).padStart(2,'0')}</span><span>voice note</span></div></div><div class="av">🩺<span class="mic">🎙️</span></div></div><audio id="${id}a" src="${src}" preload="metadata"></audio>`;
+  const b=bubble(html,'in',en);const a=b.querySelector('#'+id+'a'),btn=b.querySelector('#'+id+'b'),kn=b.querySelector('#'+id+'k'),tt=b.querySelector('#'+id+'t');
+  btn.onclick=()=>{if(a.paused){document.querySelectorAll('audio').forEach(x=>{if(x!==a)x.pause();});a.play();btn.textContent='❚❚';}else{a.pause();btn.textContent='▶';}};
+  a.ontimeupdate=()=>{const d=a.duration||secs;kn.style.left=(a.currentTime/d*100)+'%';const r=Math.max(0,Math.round(d-a.currentTime));tt.textContent='0:'+String(r).padStart(2,'0');};
+  a.onended=()=>{btn.textContent='▶';kn.style.left='0%';tt.textContent='0:'+String(secs).padStart(2,'0');};return b;}
 function fiveHandImage(){
-  const fingers=[['1','Hawa mein kitanu','TB germs in the home air'],
-                 ['2','Phephdo mein','They settle in the lungs'],
-                 ['3','Testing + TPT','Test, then prevent — free'],
-                 ['4','Chote bacche','Under-5s: highest risk'],
-                 ['5','Side-effects','Mild — call CHO, don\'t stop']];
-  const f=fingers.map((x,i)=>{const cx=40+i*62;return `<g>
-      <rect x="${cx-22}" y="70" width="44" height="${120+(i===2?20:0)}" rx="22" fill="#ffd9a8" stroke="#e0a96d"/>
-      <circle cx="${cx}" cy="64" r="14" fill="#0e6b5f"/>
-      <text x="${cx}" y="69" font-size="15" fill="#fff" text-anchor="middle" font-weight="bold">${x[0]}</text>
-      <text x="${cx}" y="210" font-size="10.5" fill="#23303a" text-anchor="middle" font-weight="bold">${x[1]}</text>
-      <text x="${cx}" y="224" font-size="7.6" fill="#5a6a72" text-anchor="middle">${x[2]}</text></g>`}).join('');
-  const svg=`<svg class="fivehand" viewBox="0 0 360 250" xmlns="http://www.w3.org/2000/svg">
-     <rect width="360" height="250" fill="#fbf6ec"/>
-     <text x="180" y="28" font-size="14" fill="#0e6b5f" text-anchor="middle" font-weight="bold">5 ungli, 5 baatein · The 5-point TPT talk</text>
-     ${f}<path d="M20 192 q160 30 320 0" fill="none" stroke="#e0a96d" stroke-width="2" opacity="0.5"/></svg>`;
-  const row=document.createElement('div');row.className='row in';
-  const b=document.createElement('div');b.className='bubble imgcard';
-  b.innerHTML=svg+'<div class="cap">Brochure aid — share with the family<span class="en">An image that works without explanation, as a memory cue she can show the household. Data-light (≈40&nbsp;KB).</span><span class="t">'+now()+'</span></div>';
-  row.appendChild(b);chat.appendChild(row);scroll();
-}
+  const fingers=[['1','Hawa mein kitanu','TB germs in the home air'],['2','Phephdo mein','They settle in the lungs'],['3','Testing + TPT','Test, then prevent — free'],['4','Chote bacche','Under-5s: highest risk'],['5','Side-effects','Mild — call CHO, don\'t stop']];
+  const f=fingers.map((x,i)=>{const cxx=40+i*62;return `<g><rect x="${cxx-22}" y="70" width="44" height="${120+(i===2?20:0)}" rx="22" fill="#ffd9a8" stroke="#e0a96d"/><circle cx="${cxx}" cy="64" r="14" fill="#0e6b5f"/><text x="${cxx}" y="69" font-size="15" fill="#fff" text-anchor="middle" font-weight="bold">${x[0]}</text><text x="${cxx}" y="210" font-size="10.5" fill="#23303a" text-anchor="middle" font-weight="bold">${x[1]}</text><text x="${cxx}" y="224" font-size="7.6" fill="#5a6a72" text-anchor="middle">${x[2]}</text></g>`}).join('');
+  const svg=`<svg class="fivehand" viewBox="0 0 360 250" xmlns="http://www.w3.org/2000/svg"><rect width="360" height="250" fill="#fbf6ec"/><text x="180" y="28" font-size="14" fill="#0e6b5f" text-anchor="middle" font-weight="bold">5 ungli, 5 baatein · The 5-point TPT talk</text>${f}<path d="M20 192 q160 30 320 0" fill="none" stroke="#e0a96d" stroke-width="2" opacity="0.5"/></svg>`;
+  const row=document.createElement('div');row.className='row in';const b=document.createElement('div');b.className='bubble imgcard';
+  b.innerHTML=svg+'<div class="cap">Brochure aid — share with the family<span class="en">An image that works without explanation, as a memory cue. Data-light (≈40&nbsp;KB).</span><span class="t">'+now()+'</span></div>';
+  row.appendChild(b);chat.appendChild(row);scrollC();}
 function videoBubble(){
-  const row=document.createElement('div');row.className='row in';
-  const b=document.createElement('div');b.className='bubble videocard';
-  b.innerHTML='<video controls preload="metadata" playsinline src="./lesson.mp4"></video>'+
-    '<div class="meta">📹 The 5-point talk · 0:41 · Hindi voice-over</div>'+
-    '<span class="en">Same lesson as video — animated visuals were preferred over static. Play or download from the ⋮ menu.</span>'+
-    '<span class="t">'+now()+'</span>';
-  row.appendChild(b);chat.appendChild(row);scroll();
-}
+  const row=document.createElement('div');row.className='row in';const b=document.createElement('div');b.className='bubble videocard';
+  b.innerHTML='<video controls preload="metadata" playsinline src="./lesson.mp4"></video><div class="meta">📹 The 5-point talk · 0:41 · Hindi voice-over</div><span class="en">Same lesson as video. Play or download from the ⋮ menu.</span><span class="t">'+now()+'</span>';
+  row.appendChild(b);chat.appendChild(row);scrollC();}
 
-function clearChoices(){choicesEl.innerHTML='';}
+/* ---- fly-in choice tray ---- */
+function clearChoices(){tray.classList.remove('show');setTimeout(()=>{if(!tray.classList.contains('show')){trayBody.innerHTML='';qhint.textContent='';}},320);}
 function showChoices(list,header){
-  clearChoices();
-  if(header){const h=document.createElement('div');h.className='choicehdr';h.textContent=header;choicesEl.appendChild(h);}
-  list.forEach(c=>{const btn=document.createElement('button');btn.className='choice'+(c.list?' list':'');
+  trayBody.innerHTML=''; qhint.textContent=header||'';
+  list.forEach(c=>{const btn=document.createElement('button');btn.className='choice';
     const lead=c.num?`<span class="num">${c.num}</span>`:(c.ic?`<span class="ic">${c.ic}</span>`:'');
     btn.innerHTML=lead+'<span>'+c.label+(c.sub?`<small>${c.sub}</small>`:'')+'</span>';
-    btn.onclick=()=>{if(c.echo!==false)bubble(c.echo||c.label,'out');clearChoices();c.go();};
-    choicesEl.appendChild(btn);});
-  scroll();
+    btn.onclick=()=>{if(c.echo!==false)bubble(c.echo||c.label,'out');trayBody.innerHTML='';qhint.textContent='';tray.classList.remove('show');c.go();};
+    trayBody.appendChild(btn);});
+  requestAnimationFrame(()=>tray.classList.add('show'));
 }
-function typing(ms,then){const row=document.createElement('div');row.className='row in';
-  const t=document.createElement('div');t.className='typing';t.innerHTML='<span></span><span></span><span></span>';
-  row.appendChild(t);chat.appendChild(row);scroll();setTimeout(()=>{row.remove();then();},ms);}
-function seq(steps,done){let i=0;(function nxt(){if(i>=steps.length){done&&done();return;}
-  const s=steps[i++];typing(s.wait||650,()=>{s.run();nxt();});})();}
+function typing(ms,then){const row=document.createElement('div');row.className='row in';const t=document.createElement('div');t.className='typing';t.innerHTML='<span></span><span></span><span></span>';row.appendChild(t);chat.appendChild(row);scrollC();setTimeout(()=>{row.remove();then();},ms);}
+function seq(steps,done){let i=0;(function nxt(){if(i>=steps.length){done&&done();return;}const s=steps[i++];typing(s.wait||650,()=>{s.run();nxt();});})();}
 
-/* ================= FLOW ================= */
-function restart(){document.querySelectorAll('audio,video').forEach(m=>{try{m.pause()}catch(e){}});chat.innerHTML='';clearChoices();score=0;vnId=0;start();}
-
-/* 1. Onboarding — short, clear start, sets context */
+/* ============ FLOW ============ */
+function restart(){document.querySelectorAll('audio,video').forEach(m=>{try{m.pause()}catch(e){}});chat.innerHTML='';clearChoices();score=0;vnId=0;renderJourney();start();}
 function start(){
-  day('TODAY');
-  sys('🔒 Messages are end-to-end encrypted.');
+  stage('n_trigger',null);
+  day('TODAY');sys('🔒 Messages are end-to-end encrypted.');
   seq([
     {wait:500,run:()=>bubble('Namaste Sunita ji. Aapke kshetra mein ek naya TB case aaya hai.','in','Hi Sunita. A new TB case has been assigned in your area.')},
     {wait:850,run:()=>bubble('Visit se pehle 8 minute ki ek training kar lein? Neeche se chunein.','in','Shall we do an 8-minute training before your visit? Choose below.')},
   ],menu);
 }
-
-/* 2. Take the course — list of training modules (kitab) */
 function menu(){
+  stage('n_course',null);
   showChoices([
-    {num:'1.',label:'TPT counselling — 5 baatein',sub:'Aaj ke liye · ~8 min',list:true,echo:'Kitab 1: TPT counselling',go:kitabIntro},
-    {num:'2.',label:'Ghar walon ko testing ke liye manaana',sub:'Kitab 2',list:true,echo:'Kitab 2',go:()=>soon(kitabIntro)},
-    {num:'3.',label:'Contact tracing aur 10 lakshan',sub:'Kitab 3',list:true,echo:'Kitab 3',go:()=>soon(kitabIntro)},
+    {num:'1.',label:'TPT counselling — 5 baatein',sub:'Aaj ke liye · ~8 min',echo:'Kitab 1: TPT counselling',go:kitabIntro},
+    {num:'2.',label:'Ghar walon ko testing ke liye manaana',sub:'Kitab 2',echo:'Kitab 2',go:()=>soon(kitabIntro)},
+    {num:'3.',label:'Contact tracing aur 10 lakshan',sub:'Kitab 3',echo:'Kitab 3',go:()=>soon(kitabIntro)},
   ],'Training — kitab chunein (1 of 5 complete)');
 }
 function soon(then){bubble('Ye kitab demo mein abhi nahi hai — Kitab 1 khol rahe hain.','in','That module isn’t in this demo yet — opening Kitab 1.');setTimeout(then,750);}
-
-/* 3. Lesson — clear START / context */
 function kitabIntro(){
+  stage('k1','s_intro');
   seq([
     {wait:650,run:()=>bubble('<b>Kitab 1 — TPT counselling.</b> Is kitab mein hum <b>5 baatein</b> seekhenge jo aap pariwar ko bata sakti hain. Samay: ~8 min.','in','Kitab 1 — TPT counselling. We’ll learn the 5 points you can tell the family. About 8 minutes.')},
     {wait:800,run:()=>voiceNote('Shuruaat · 0:13','./anchor.mp3',13,'Sirf 5 baaton se TPT samjhaayein. (tap to play)')},
   ],()=>showChoices([{ic:'▶',label:'Haan, shuru karein',sub:'Yes, start',echo:'Shuru karein',go:scenarioQ}],'Tap to begin'));
 }
-
-/* 4. Quick check (Sawal-Javab) before content — identifies gaps */
 function scenarioQ(){
+  stage('k1','s_check');
   seq([{wait:600,run:()=>bubble('Pehle ek sawaal. <b>TPT kin logon ko lena zaroori hai?</b>','in','First a question. Who needs to take TPT?')}],()=>{
     showChoices([
       {num:'1.',label:'Sirf patient ko',sub:'Only the patient',go:scenarioWrong},
@@ -284,9 +338,8 @@ function scenarioRight(){
     {wait:500,run:()=>scoreMsg('Sahi jawaab.','A visible scorecard — recognition arrives as a message; WhatsApp has no built-in score panel.')},
   ],coreDeliver);
 }
-
-/* 5. Content — short paced steps + image; audio/video available */
 function coreDeliver(){
+  stage('k1','s_content');
   seq([
     {wait:700,run:()=>bubble('Ab 5 baatein. Neeche padhein — audio ya video bhi dekh sakti hain.','in','Now the 5 points. Read below — you can also play the audio or video.')},
     {wait:700,run:fiveHandImage},
@@ -309,9 +362,8 @@ function coreText(n){
     else lessonSummary();
   });
 }
-
-/* End-of-lesson summary — the most-valued element in the research */
 function lessonSummary(){
+  stage('k1','s_summary');
   seq([
     {wait:650,run:()=>bubble('5 baatein poori.','in','All 5 points covered.')},
     {wait:750,run:()=>bubble('<b class="h">Saaransh · Summary</b><ol><li>Ghar ki hawa mein kitanu</li><li>Phephdon mein bas jaate hain</li><li>Testing, phir TPT — muft</li><li>5 saal se chote bacche — zyada khatra</li><li>Side-effects par CHO/ASHA ko call</li></ol>','in','A short recap of the key points at the close of the lesson.','summary')},
@@ -320,9 +372,8 @@ function lessonSummary(){
     {wait:700,run:videoBubble},
   ],()=>showChoices([{ic:'▸',label:'Aage — sawaal-javab',sub:'Continue to the quiz',echo:'Aage badhen',go:recapQ}],'Tap to continue'));
 }
-
-/* 6. Sawal-Javab — quiz with scorecard + remediation */
 function recapQ(){
+  stage('k1','s_quiz');
   seq([{wait:600,run:()=>bubble('Sawaal-javab. <b>Agar kisi ko TPT lene se thakaan ya ulti ho, to kya karein?</b>','in','Quiz. If someone feels tired or nauseous on TPT, what should they do?')}],()=>{
     showChoices([
       {num:'1.',label:'Dawa turant band kar dein',sub:'Stop the medicine',go:recapWrong},
@@ -342,9 +393,8 @@ function recapRight(){
     {wait:750,run:()=>voiceNote('Mukhya baat · 0:14','./key.mp3',14,'Har TB patient ke ghar, brochure se pariwar ko samjhayein ki testing aur TPT zaroori hai.')},
   ],askWindow);
 }
-
-/* Ask-a-question window */
 function askWindow(){
+  stage('k1','s_ask');
   seq([{wait:650,run:()=>bubble('Koi sawaal hai? Voice note ya text bhej sakti hain.','in','Any questions? Send a voice note or text.')}],()=>{
     showChoices([
       {ic:'🎙',label:'Voice note bhejein',sub:'Ask by voice',echo:'🎙 Voice note (0:12)',go:askSent},
@@ -355,9 +405,8 @@ function askWindow(){
 function askSent(){
   seq([{wait:700,run:()=>bubble('Mil gaya. Ye clinical sawaal aapke <b>CHO</b> ko bhej diya gaya hai — jawaab 1–2 din mein.','in','Got it — routed to your CHO. Reply in 1–2 days. Common questions are auto-answered.')}],finish);
 }
-
-/* 7. Definitive END — reward, scorecard, then a scheduled reminder */
 function finish(){
+  stage('k1','s_reward');
   seq([
     {wait:800,run:()=>bubble('<b>Kitab 1 poori.</b> Aaj ka score: <b>'+score+'/'+totalQ+' sahi.</b> Aapko "TPT Counselling" ka badge milaa.','in','Kitab 1 complete. Today’s score: '+score+'/'+totalQ+'. You earned the "TPT Counselling" badge.','reward')},
     {wait:800,run:()=>bubble('Is hafte ki training poori. Ab aap visit ke liye taiyaar hain.','in','This week’s training is done. You’re ready for the visit.')},
@@ -368,14 +417,16 @@ function finish(){
   ],'Reminder set karein'));
 }
 function reminderSet(){
+  stage('k1','s_schedule');
   seq([{wait:650,run:()=>bubble('Theek hai. <b>Agle Somvaar shaam 6 baje</b> Kitab 2 bhejungi. Yaad dila dungi.','in','Done — I’ll send Kitab 2 next Monday at 6pm and remind you. (Scheduled messages build a weekly habit.)')}],closeOut);
 }
 function closeOut(){
   showChoices([
     {ic:'≡',label:'Training menu',sub:'Back to the kitab list',echo:'Menu',go:()=>{bubble('Theek hai.','in');setTimeout(menu,450);}},
     {ic:'↺',label:'Demo dobara chalayein',sub:'Restart the demo',echo:false,go:restart},
-  ],'—');
+  ],'Aage kya karein');
 }
+renderJourney();
 start();
 </script>
 </body>
