@@ -14,7 +14,7 @@
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
        background:var(--bg);color:#e9edef;min-height:100vh;padding:18px}
-  .wrap{display:flex;gap:20px;align-items:stretch;flex-wrap:wrap;justify-content:center}
+  .wrap{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;justify-content:center}
 
   /* ---------- LEFT: journey ---------- */
   .journey{flex:1 1 560px;min-width:340px;max-width:760px;background:var(--card);border:1px solid var(--line);
@@ -26,8 +26,8 @@
   .zoombtn:hover{background:#374650}
   .legend2{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:#9fb0b8;margin:10px 0 6px}
   .legend2 i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
-  .svgwrap{flex:1;min-height:330px;border-radius:10px;background:#0c151b;border:1px solid #1b2730;overflow:hidden}
-  .svgwrap svg{width:100%;height:100%;display:block}
+  .svgwrap{border-radius:10px;background:#0c151b;border:1px solid #1b2730;overflow:hidden;padding:6px}
+  .svgwrap svg{width:100%;height:auto;display:block}
   .jfoot{font-size:11px;color:#6f8088;line-height:1.5;margin-top:10px;border-top:1px solid var(--line);padding-top:9px}
 
   /* journey nodes */
