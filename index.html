@@ -8,276 +8,302 @@
   :root{
     --wa-green:#075E54; --wa-teal:#128C7E; --wa-light:#25D366;
     --bubble-in:#ffffff; --bubble-out:#DCF8C6; --chat-bg:#E5DDD5;
-    --ink:#111b21; --muted:#667781; --btn:#ffffff; --link:#027eb5;
+    --ink:#111b21; --muted:#667781; --link:#027eb5;
     --bg:#0b141a; --card:#111b21; --line:#2a3942; --amber:#f4b740;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
   body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-       background:var(--bg);color:#e9edef;min-height:100vh;padding:18px}
-  .wrap{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;justify-content:center}
+       background:var(--bg);color:#e9edef;display:flex;flex-direction:column;overflow:hidden}
+  .wrap{flex:1;display:flex;gap:16px;padding:14px 14px 8px;min-height:0}
 
   /* ---------- LEFT: journey ---------- */
-  .journey{flex:1 1 560px;min-width:340px;max-width:760px;background:var(--card);border:1px solid var(--line);
-           border-radius:16px;padding:14px 16px;display:flex;flex-direction:column}
-  .journey h1{font-size:17px;margin:0;color:#fff}
+  .journey{flex:1 1 auto;min-width:360px;background:var(--card);border:1px solid var(--line);
+           border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;min-height:0}
   .jhead{display:flex;align-items:center;justify-content:space-between;gap:10px}
-  .jhead .sub{font-size:12px;color:#8696a0;margin-top:2px}
-  .zoombtn{background:#2a3942;color:#e9edef;border:none;border-radius:8px;padding:8px 12px;font-size:12.5px;cursor:pointer;white-space:nowrap}
+  .journey h1{font-size:16px;margin:0;color:#fff}
+  .jhead .sub{font-size:11.5px;color:#8696a0;margin-top:2px}
+  .zoombtn{background:#2a3942;color:#e9edef;border:none;border-radius:8px;padding:7px 11px;font-size:12px;cursor:pointer;white-space:nowrap}
   .zoombtn:hover{background:#374650}
-  .legend2{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:#9fb0b8;margin:10px 0 6px}
-  .legend2 i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
-  .svgwrap{border-radius:10px;background:#0c151b;border:1px solid #1b2730;overflow:hidden;padding:6px}
+  .legend2{display:flex;gap:13px;flex-wrap:wrap;font-size:10.5px;color:#9fb0b8;margin:8px 0 6px}
+  .legend2 i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+  .svgwrap{flex:1;min-height:0;border-radius:10px;background:#0c151b;border:1px solid #1b2730;overflow:auto;padding:6px}
   .svgwrap svg{width:100%;height:auto;display:block}
-  .jfoot{font-size:11px;color:#6f8088;line-height:1.5;margin-top:10px;border-top:1px solid var(--line);padding-top:9px}
 
   /* journey nodes */
-  .jnode rect{fill:#16232c;stroke:#33454f;stroke-width:1.5;rx:9}
-  .jnode text{fill:#cdd9df;font-size:12px;font-weight:600}
+  .jnode rect{fill:#16232c;stroke:#33454f;stroke-width:1.5}
+  .jnode .ttl{fill:#cdd9df;font-size:12px;font-weight:700}
+  .jnode .syn{fill:#8ea3ad;font-size:9.6px}
   .jnode.branch rect{fill:#13202a;stroke:#2c3e48}
+  .jnode.branch .ttl{fill:#9fb0b8}
   .jnode.demo rect{fill:#123a33;stroke:#1f8f78;stroke-width:2}
-  .jnode.demo text{fill:#dff5ee}
+  .jnode.demo .ttl{fill:#dff5ee}
   .jnode.active rect{fill:#3a2f0e;stroke:var(--amber);stroke-width:3}
-  .jnode.active text{fill:#ffe9b0}
-  .jstep rect{fill:#16232c;stroke:#33454f;stroke-width:1.5}
-  .jstep text{fill:#aebac1;font-size:11px;font-weight:600}
-  .jstep.done rect{fill:#152a22;stroke:#2e7d68}
-  .jstep.done text{fill:#bfe7da}
-  .jstep.active rect{fill:#3a2f0e;stroke:var(--amber);stroke-width:3}
-  .jstep.active text{fill:#ffe9b0}
+  .jnode.active .ttl{fill:#ffe9b0}
+  .jnode.active .syn{fill:#e7d4a0}
+  .jnode.mini .ttl{font-weight:700}
   .jlink{stroke:#3a4c56;stroke-width:1.6;fill:none}
   .jlink.demo{stroke:#2f8f78;stroke-width:2}
   .jlink.dotted{stroke:#6a5a2a;stroke-dasharray:4 4}
-  .nowtag{fill:var(--amber);font-size:10px;font-weight:700}
+  .jlink.bad{stroke:#a6603a;stroke-dasharray:3 3}
+  .llabel{font-size:9px;font-weight:700}
+  .llabel.ok{fill:#5fc6a4}.llabel.no{fill:#d08a5e}.llabel.loop{fill:#9a8740}
 
-  /* ---------- RIGHT: phone + tray ---------- */
-  .right{display:flex;flex-direction:column;align-items:center;gap:12px;flex:0 0 auto}
-  .phone{width:380px;max-width:92vw;height:660px;background:#000;border-radius:40px;padding:10px;
-         box-shadow:0 26px 60px rgba(0,0,0,.55);position:relative}
-  .screen{position:relative;height:100%;border-radius:30px;overflow:hidden;display:flex;flex-direction:column;background:var(--chat-bg)}
-  .notch{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:130px;height:24px;background:#000;border-radius:0 0 15px 15px;z-index:30}
-  header.bar{background:var(--wa-green);color:#fff;display:flex;align-items:center;gap:9px;padding:30px 12px 8px;z-index:20}
-  header.bar .back{font-size:20px;opacity:.95}
-  header.bar .av{width:36px;height:36px;border-radius:50%;background:#ccd0d2;display:flex;align-items:center;justify-content:center;font-size:17px}
+  /* ---------- RIGHT: phone ---------- */
+  .right{flex:0 0 auto;height:100%;display:flex;align-items:center}
+  .phone{width:372px;max-width:42vw;height:100%;max-height:720px;background:#000;border-radius:38px;padding:9px;
+         box-shadow:0 22px 50px rgba(0,0,0,.55);position:relative}
+  .screen{position:relative;height:100%;border-radius:29px;overflow:hidden;display:flex;flex-direction:column;background:var(--chat-bg)}
+  .notch{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:124px;height:22px;background:#000;border-radius:0 0 14px 14px;z-index:30}
+  header.bar{background:var(--wa-green);color:#fff;display:flex;align-items:center;gap:8px;padding:28px 11px 7px;z-index:20}
+  header.bar .back{font-size:19px;opacity:.95}
+  header.bar .av{width:34px;height:34px;border-radius:50%;background:#ccd0d2;display:flex;align-items:center;justify-content:center;font-size:16px}
   header.bar .who{flex:1;min-width:0}
-  header.bar .who b{display:flex;align-items:center;gap:4px;font-size:15px;line-height:1.15}
-  header.bar .who .vf{font-size:10.5px;color:#a6e3c6}
-  header.bar .who span{font-size:11px;opacity:.85}
-  header.bar .ic{font-size:15px;opacity:.92;margin-left:3px}
-  .chat{flex:1;overflow-y:auto;padding:10px 12px 14px;
+  header.bar .who b{display:flex;align-items:center;gap:4px;font-size:14.5px;line-height:1.15}
+  header.bar .who .vf{font-size:10px;color:#a6e3c6}
+  header.bar .who span{font-size:10.5px;opacity:.85}
+  header.bar .ic{font-size:14px;opacity:.92;margin-left:3px}
+  .chat{flex:1;min-height:0;overflow-y:auto;padding:9px 11px 12px;
         background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><circle cx='4' cy='4' r='1' fill='%23000' opacity='0.03'/></svg>");
         background-color:var(--chat-bg)}
-  .sys{align-self:center;background:#fff4c8;color:#54616b;font-size:10.5px;padding:5px 12px;border-radius:8px;margin:8px auto;width:max-content;max-width:88%;text-align:center}
-  .day{align-self:center;background:#d6e7ce;color:#3b4a54;font-size:11px;padding:4px 10px;border-radius:8px;margin:6px auto 10px;width:max-content}
-  .row{display:flex;margin:5px 0}
-  .row.out{justify-content:flex-end}
-  .bubble{max-width:82%;padding:7px 9px 5px;border-radius:9px;font-size:13.5px;line-height:1.4;position:relative;box-shadow:0 1px 1px rgba(0,0,0,.13);word-wrap:break-word;animation:pop .18s ease-out}
+  .sys{align-self:center;background:#fff4c8;color:#54616b;font-size:10px;padding:5px 11px;border-radius:8px;margin:7px auto;width:max-content;max-width:88%;text-align:center}
+  .day{align-self:center;background:#d6e7ce;color:#3b4a54;font-size:10.5px;padding:4px 9px;border-radius:8px;margin:5px auto 9px;width:max-content}
+  .row{display:flex;margin:4px 0}.row.out{justify-content:flex-end}
+  .bubble{max-width:82%;padding:6px 9px 5px;border-radius:9px;font-size:13px;line-height:1.4;position:relative;box-shadow:0 1px 1px rgba(0,0,0,.13);word-wrap:break-word;animation:pop .18s ease-out}
   .row.in .bubble{background:var(--bubble-in);border-top-left-radius:2px}
   .row.out .bubble{background:var(--bubble-out);border-top-right-radius:2px}
   @keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-  .bubble .en{display:block;color:var(--muted);font-size:11px;font-style:italic;margin-top:3px;line-height:1.35}
-  .bubble .t{font-size:9.5px;color:var(--muted);float:right;margin:4px 0 -2px 8px}
+  .bubble .en{display:block;color:var(--muted);font-size:10.5px;font-style:italic;margin-top:3px;line-height:1.35}
+  .bubble .t{font-size:9px;color:var(--muted);float:right;margin:4px 0 -2px 8px}
   .bubble .check{color:#53bdeb}
   .bubble.reward{background:#eaf7e2;border:1px solid #cfe9bd}
   .bubble.summary{background:#fffdf4;border:1px solid #ece2bd}
-  .bubble.summary b.h{display:block;color:#8a6d1f;font-size:11px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:5px}
-  .bubble.summary ol{margin:0;padding-left:18px}.bubble.summary li{margin:2px 0}
-  .vn{display:flex;align-items:center;gap:9px;min-width:205px}
-  .vn .av{width:32px;height:32px;border-radius:50%;background:#dfe5e7;flex:0 0 auto;position:relative;display:flex;align-items:center;justify-content:center;font-size:14px}
+  .bubble.summary b.h{display:block;color:#8a6d1f;font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px}
+  .bubble.summary ol{margin:0;padding-left:17px}.bubble.summary li{margin:2px 0}
+  .vn{display:flex;align-items:center;gap:8px;min-width:200px}
+  .vn .av{width:30px;height:30px;border-radius:50%;background:#dfe5e7;flex:0 0 auto;position:relative;display:flex;align-items:center;justify-content:center;font-size:13px}
   .vn .av .mic{position:absolute;bottom:-2px;right:-3px;font-size:10px}
-  .vn .play{width:28px;height:28px;border-radius:50%;background:var(--wa-teal);color:#fff;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;border:none}
-  .vn .mid{flex:1}.vn .track{position:relative;height:18px}
-  .vn .bars{position:absolute;inset:0}.vn .bars svg{width:100%;height:18px}
+  .vn .play{width:27px;height:27px;border-radius:50%;background:var(--wa-teal);color:#fff;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer;border:none}
+  .vn .mid{flex:1}.vn .track{position:relative;height:17px}.vn .bars{position:absolute;inset:0}.vn .bars svg{width:100%;height:17px}
   .vn .knob{position:absolute;top:50%;left:0;width:8px;height:8px;border-radius:50%;background:var(--wa-teal);transform:translateX(-50%);margin-top:-4px}
-  .vn .meta{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:3px}
-  .vn .tag{font-size:9.5px;color:var(--wa-teal);font-weight:700}
-  .imgcard{padding:3px}.imgcard .cap{padding:5px 5px 2px;font-size:12.5px}
+  .vn .meta{display:flex;justify-content:space-between;font-size:9.5px;color:var(--muted);margin-top:2px}
+  .vn .tag{font-size:9px;color:var(--wa-teal);font-weight:700}
+  .imgcard{padding:3px}.imgcard .cap{padding:4px 5px 2px;font-size:12px}
   .fivehand{width:100%;border-radius:6px;display:block;background:#f3efe6}
-  .videocard{width:230px}.videocard video{width:100%;border-radius:6px;display:block;background:#000}
-  .videocard .meta{font-size:10.5px;color:var(--muted);margin-top:4px}
-  .typing{display:flex;gap:4px;align-items:center;background:var(--bubble-in);border-radius:9px;border-top-left-radius:2px;padding:10px 12px;width:max-content;box-shadow:0 1px 1px rgba(0,0,0,.13)}
-  .typing span{width:7px;height:7px;border-radius:50%;background:#9aa6ac;animation:blink 1.2s infinite}
+  .videocard{width:220px}.videocard video{width:100%;border-radius:6px;display:block;background:#000}
+  .videocard .meta{font-size:10px;color:var(--muted);margin-top:3px}
+  .typing{display:flex;gap:4px;align-items:center;background:var(--bubble-in);border-radius:9px;border-top-left-radius:2px;padding:9px 11px;width:max-content;box-shadow:0 1px 1px rgba(0,0,0,.13)}
+  .typing span{width:6px;height:6px;border-radius:50%;background:#9aa6ac;animation:blink 1.2s infinite}
   .typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
   @keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}
 
-  /* ---------- choice tray (distinct, flies in) ---------- */
-  .tray{width:380px;max-width:92vw;background:#15212a;border:1.5px dashed #3a5563;border-radius:14px;
-        padding:10px 12px 12px;box-shadow:0 14px 30px rgba(0,0,0,.4);
-        transform:translateY(130%);opacity:0;transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .25s;pointer-events:none}
-  .tray.show{transform:translateY(0);opacity:1;pointer-events:auto}
-  .tray .traylabel{font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:#7fd3be;display:flex;align-items:center;gap:6px;margin-bottom:8px}
-  .tray .traylabel b{color:#a9bcc4;font-weight:600;text-transform:none;letter-spacing:0;font-size:10.5px}
-  .tray .qhint{font-size:11px;color:#9fb0b8;margin:-2px 0 8px;font-style:italic}
-  .tray .choice{display:block;width:100%;background:#1d2c36;border:1px solid #33505d;border-radius:9px;
-        padding:10px 12px;font-size:13px;text-align:left;color:#dbe7ec;font-weight:600;cursor:pointer;margin-top:7px;
-        display:flex;align-items:flex-start;gap:9px}
-  .tray .choice:hover{background:#24414f;border-color:#4f7686}
-  .tray .choice .num{color:var(--amber);font-weight:700;min-width:16px}
-  .tray .choice .ic{min-width:16px}
-  .tray .choice small{display:block;color:#8aa0aa;font-weight:400;font-size:11px;font-style:italic;margin-top:2px}
+  /* ---------- choice tray: docked at phone bottom, flies in ---------- */
+  .tray{flex:0 0 auto;max-height:0;overflow:hidden;background:#16242e;border-top:2px dashed #3a5563;
+        transition:max-height .34s cubic-bezier(.2,.8,.2,1)}
+  .tray.show{max-height:58%}
+  .tray .inner{transform:translateY(16px);opacity:0;transition:transform .3s ease,opacity .28s;padding:8px 11px 11px}
+  .tray.show .inner{transform:none;opacity:1}
+  .tray .traylabel{font-size:9.5px;letter-spacing:.04em;text-transform:uppercase;color:#7fd3be;margin-bottom:4px}
+  .tray .traylabel b{color:#9fb4bc;font-weight:600;text-transform:none;letter-spacing:0}
+  .tray .qhint{font-size:11px;color:#a9bcc4;margin:0 0 4px;font-style:italic}
+  .tray .choice{display:flex;align-items:flex-start;gap:8px;width:100%;background:transparent;border:none;
+        border-top:1px solid #2a3b45;padding:9px 2px;font-size:12.5px;text-align:left;color:#e3edf1;font-weight:600;cursor:pointer}
+  .tray .choice:hover{background:#1d2f3a}
+  .tray .choice .num{color:var(--amber);font-weight:700;min-width:15px}
+  .tray .choice .ic{min-width:15px}
+  .tray .choice small{display:block;color:#8aa0aa;font-weight:400;font-size:10.5px;font-style:italic;margin-top:1px}
+
+  /* ---------- footer banner ---------- */
+  footer.banner{flex:0 0 auto;background:#0c151b;border-top:1px solid var(--line);color:#7f9098;
+        font-size:10.8px;line-height:1.5;padding:8px 16px}
+  footer.banner b{color:#aebac1}
 
   /* ---------- zoom overlay ---------- */
-  .zoom{position:fixed;inset:0;background:rgba(4,9,12,.94);z-index:100;display:none;flex-direction:column;padding:16px}
+  .zoom{position:fixed;inset:0;background:rgba(4,9,12,.95);z-index:100;display:none;flex-direction:column;padding:16px}
   .zoom.show{display:flex}
   .zoom .zbar{display:flex;justify-content:space-between;align-items:center;color:#e9edef;margin-bottom:10px}
   .zoom .zbar b{font-size:15px}
   .zoom .zclose{background:#2a3942;color:#fff;border:none;border-radius:8px;padding:9px 14px;cursor:pointer;font-size:13px}
   .zoom .zbody{flex:1;overflow:auto;background:#0c151b;border:1px solid #1b2730;border-radius:12px}
-  .zoom .zbody svg{width:1500px;max-width:none;height:auto;display:block}
-  @media(max-width:900px){ .journey{max-width:none} }
+  .zoom .zbody svg{width:760px;max-width:none;height:auto;display:block;margin:0 auto}
 </style>
 </head>
 <body>
-<div class="wrap">
-
-  <!-- LEFT: USER JOURNEY -->
-  <section class="journey">
-    <div class="jhead">
-      <div>
-        <h1>User journey — ASHA Saathi</h1>
-        <div class="sub">The amber step shows where the live demo is right now →</div>
+  <div class="wrap">
+    <!-- LEFT: adaptive conversation flow -->
+    <section class="journey">
+      <div class="jhead">
+        <div>
+          <h1>Adaptive conversation flow — Theme 2 (TPT &amp; medication)</h1>
+          <div class="sub">How the conversation branches on the ASHA's answers. Amber = where the live demo is now →</div>
+        </div>
+        <button class="zoombtn" onclick="openZoom()">⤢ Zoom</button>
       </div>
-      <button class="zoombtn" onclick="openZoom()">⤢ Zoom journey</button>
-    </div>
-    <div class="legend2">
-      <span><i style="background:#1f8f78"></i>Demo path (this build)</span>
-      <span><i style="background:#f4b740"></i>You are here</span>
-      <span><i style="background:#33454f"></i>Planned (not in demo)</span>
-    </div>
-    <div class="svgwrap" id="journeyHost"></div>
-    <div class="jfoot" id="footText">
-      <b>ASHA Saathi</b> — clickable mock-up of the WhatsApp refresher tool. The right panel is the live demo of one module (Kitab 1 — TPT counselling). <b>What's real vs simulated:</b> audio is generated Hindi TTS and the video is an auto-built slide reel (stand-ins for a recorded regional voice / produced video); the chat engine is a front-end mock, not a live WhatsApp connection. Structure adapted from learnings from Treemouse's HCM formative research, content guidelines and their previous learnings on WhatsApp based training tools.
-    </div>
-  </section>
-
-  <!-- RIGHT: PHONE + TRAY -->
-  <div class="right">
-    <div class="phone">
-      <div class="screen">
-        <div class="notch"></div>
-        <header class="bar">
-          <div class="back">‹</div>
-          <div class="av">🩺</div>
-          <div class="who"><b>ASHA Saathi <span class="vf">✔ business</span></b><span>online</span></div>
-          <div class="ic">📹</div><div class="ic">📞</div><div class="ic">⋮</div>
-        </header>
-        <div class="chat" id="chat"></div>
+      <div class="legend2">
+        <span><i style="background:#1f8f78"></i>Demo path (this build)</span>
+        <span><i style="background:#f4b740"></i>You are here</span>
+        <span><i style="background:#33454f"></i>Other themes / lessons</span>
+        <span><i style="background:#a6603a"></i>Wrong answer → remediation loop</span>
       </div>
-    </div>
+      <div class="svgwrap" id="journeyHost"></div>
+    </section>
 
-    <div class="tray" id="tray">
-      <div class="traylabel">▲ Demo choices&nbsp;·&nbsp;<b>placeholder — becomes WhatsApp menu navigation later</b></div>
-      <div class="qhint" id="qhint"></div>
-      <div id="trayBody"></div>
+    <!-- RIGHT: phone with docked fly-in tray -->
+    <div class="right">
+      <div class="phone">
+        <div class="screen">
+          <div class="notch"></div>
+          <header class="bar">
+            <div class="back">‹</div>
+            <div class="av">🩺</div>
+            <div class="who"><b>ASHA Saathi <span class="vf">✔ business</span></b><span>online</span></div>
+            <div class="ic">📹</div><div class="ic">📞</div><div class="ic">⋮</div>
+          </header>
+          <div class="chat" id="chat"></div>
+          <div class="tray" id="tray">
+            <div class="inner">
+              <div class="traylabel">Demo input · <b>placeholder — becomes WhatsApp menu navigation</b></div>
+              <div class="qhint" id="qhint"></div>
+              <div id="trayBody"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- ZOOM OVERLAY -->
-<div class="zoom" id="zoom">
-  <div class="zbar"><b>User journey — full view</b><button class="zclose" onclick="closeZoom()">✕ Close</button></div>
-  <div class="zbody" id="zoomBody"></div>
-</div>
+  <footer class="banner">
+    <b>ASHA Saathi</b> — clickable mock-up of the WhatsApp refresher tool (right). The left panel is the adaptive conversation flow for Theme 2 → TPT counselling, showing each interaction and its branches. <b>Real vs simulated:</b> audio is generated Hindi TTS and the video is an auto-built slide reel (stand-ins for a recorded regional voice / produced video); the chat engine is a front-end mock, not a live WhatsApp connection. Structure adapted from learnings from Treemouse's HCM formative research, content guidelines and their previous learnings on WhatsApp based training tools.
+  </footer>
+
+  <div class="zoom" id="zoom">
+    <div class="zbar"><b>Adaptive conversation flow — full view</b><button class="zclose" onclick="closeZoom()">✕ Close</button></div>
+    <div class="zbody" id="zoomBody"></div>
+  </div>
 
 <script>
-/* ============ JOURNEY MAP ============ */
-const macro=[
- {id:'n_onboard',x:18,y:24,w:150,h:48,label:['Onboarding','(one-time)']},
- {id:'n_trigger',x:18,y:104,w:150,h:48,label:['Weekly nudge /','case assigned']},
- {id:'n_menu',x:18,y:184,w:150,h:48,label:['Main menu']},
- {id:'n_course',x:236,y:104,w:160,h:48,label:['Take the training'],branch:true,demo:true},
- {id:'n_jaankari',x:236,y:184,w:160,h:48,label:['Jaankari paayen','(share IEC)'],branch:true},
- {id:'n_quizgame',x:236,y:264,w:160,h:48,label:['Sawaal-javab khel'],branch:true},
- {id:'n_progress',x:236,y:344,w:160,h:48,label:['Progress & rewards'],branch:true},
- {id:'k1',x:470,y:40,w:172,h:46,label:['Kitab 1 — TPT','counselling'],demo:true},
- {id:'k2',x:470,y:96,w:172,h:46,label:['Kitab 2 — testing','counselling'],branch:true},
- {id:'k3',x:470,y:152,w:172,h:46,label:['Kitab 3 — contact','tracing'],branch:true},
- {id:'k4',x:470,y:208,w:172,h:46,label:['Kitab 4 — docs &','reporting'],branch:true},
- {id:'k5',x:470,y:264,w:172,h:46,label:['Kitab 5 — household','alignment'],branch:true},
-];
-const micro=[
- {id:'s_intro',label:['Intro /','context']},{id:'s_check',label:['Quick','check']},
- {id:'s_content',label:['Content','+ media']},{id:'s_summary',label:['Summary']},
- {id:'s_quiz',label:['Sawaal-','javab']},{id:'s_ask',label:['Ask a','question']},
- {id:'s_reward',label:['Reward /','badge']},{id:'s_schedule',label:['Schedule','next']},
-];
-const microOrder=micro.map(m=>m.id);
-const mlinks=[['n_onboard','n_trigger'],['n_trigger','n_menu'],['n_menu','n_course'],['n_menu','n_jaankari'],['n_menu','n_quizgame'],['n_menu','n_progress'],['n_course','k1','demo'],['n_course','k2'],['n_course','k3'],['n_course','k4'],['n_course','k5']];
-function nodeById(id){return macro.find(n=>n.id===id);}
-function cx(n){return n.x+n.w/2;} function cy(n){return n.y+n.h/2;}
+/* ============ JOURNEY (adaptive flow) ============ */
+function wrapText(s,max){const w=s.split(' ');let lines=[],cur='';w.forEach(x=>{if((cur+' '+x).trim().length>max){if(cur)lines.push(cur);cur=x;}else cur=(cur+' '+x).trim();});if(cur)lines.push(cur);return lines;}
+let NODES={};
 function buildJourneySVG(){
-  const MY=430; // micro row baseline (clear of the branch column below 'Progress & rewards')
-  const mw=110,mh=50; const mx=i=>14+i*120;
-  let links='';
-  mlinks.forEach(([a,b,d])=>{const A=nodeById(a),B=nodeById(b);
-    links+=`<path class="jlink${d?' demo':''}" d="M${A.x+A.w} ${cy(A)} C ${A.x+A.w+24} ${cy(A)}, ${B.x-24} ${cy(B)}, ${B.x} ${cy(B)}"/>`;});
-  // micro chain links
-  micro.forEach((m,i)=>{ if(i>0) links+=`<path class="jlink" d="M${mx(i-1)+mw} ${MY+mh/2} L ${mx(i)} ${MY+mh/2}"/>`; });
-  // (k1 → sub-flow relationship is shown by the labelled band below, no crossing line)
-  let nodes='';
-  macro.forEach(n=>{const cls='jnode'+(n.branch?' branch':'')+(n.demo?' demo':'');
-    const ty=n.y+ (n.label.length>1? n.h/2-7 : n.h/2+4);
-    const lines=n.label.map((l,i)=>`<tspan x="${cx(n)}" dy="${i===0?0:14}">${l}</tspan>`).join('');
-    nodes+=`<g class="${cls}" id="${n.id}"><rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="9"/><text x="${cx(n)}" y="${ty}" text-anchor="middle">${lines}</text></g>`;});
-  micro.forEach((m,i)=>{const X=mx(i);const ty=MY+ (m.label.length>1? mh/2-6 : mh/2+4);
-    const lines=m.label.map((l,j)=>`<tspan x="${X+mw/2}" dy="${j===0?0:13}">${l}</tspan>`).join('');
-    nodes+=`<g class="jstep" id="${m.id}"><rect x="${X}" y="${MY}" width="${mw}" height="${mh}" rx="8"/><text x="${X+mw/2}" y="${ty}" text-anchor="middle">${lines}</text></g>`;});
-  const microLabel=`<text x="14" y="${MY-16}" fill="#8aa0aa" font-size="11" font-weight="700">Inside Kitab 1 — the lesson sub-flow ↓</text>`;
-  return `<svg viewBox="0 0 980 500" xmlns="http://www.w3.org/2000/svg" id="jsvg">${links}${microLabel}${nodes}</svg>`;
+  const colX=26,colW=256,sideX=312,sideW=224;
+  const themes=[['th1','1 · TB'],['th2','2 · TPT & meds'],['th3','3 · Docs'],['th4','4 · Households'],['th5','5 · Digital']];
+  const sW=110,sGap=6,sY=26,sH=28;
+  const main=[
+    {id:'trigger',t:'Reminder / trigger',s:'Weekly calendar ya nayi TB case → push + image'},
+    {id:'menu',t:'Choose theme & lesson',s:'Theme 2 (TPT) → lesson chunein'},
+    {id:'lesson1',t:'Lesson: TPT counselling',s:'5-finger framework — this demo'},
+    {id:'anchor',t:'Anchor — 30s audio',s:'Sirf 5 baaton se TPT samjhaayein'},
+    {id:'q1',t:'Scenario MCQ',s:'TPT kin logon ko? · sahi: dono / sabhi ghar wale'},
+    {id:'core',t:'Core lesson — 3–5 min audio',s:'5 points + brochure image + short video'},
+    {id:'summary',t:'Lesson summary',s:'5 mukhya baatein dohraayi jaati hain'},
+    {id:'q2',t:'Recap MCQ',s:'Side-effect ho to? · sahi: CHO/ASHA ko call'},
+    {id:'key',t:'Key message — 30s audio',s:'Testing + TPT zaroori; pariwar surakshit'},
+    {id:'ask',t:'Ask a question',s:'Voice/text → CHO; common Qs auto-answered'},
+    {id:'done',t:'Completion',s:'Score + badge; CHO ko notify'},
+    {id:'schedule',t:'Schedule next',s:'Agli lesson + "Revision after x days" MCQ'},
+  ];
+  const demo=new Set(['trigger','menu','lesson1','anchor','q1','r1','core','summary','q2','r2','key','ask','done','schedule','th2']);
+  function prep(n){n.lines=wrapText(n.s,34);n.h=20+n.lines.length*11+8;return n;}
+  let cur=64;
+  main.forEach(n=>{prep(n);n.x=colX;n.w=colW;n.y=cur;cur+=n.h+22;});
+  const B={};main.forEach(n=>B[n.id]=n);
+  const l2=prep({id:'l2',t:'Lesson: testing manaana',s:'Convincing household for testing'});l2.x=sideX;l2.w=sideW;l2.y=B.lesson1.y;
+  const l3=prep({id:'l3',t:'Lesson: HHC card',s:'Track TPT doses at home'});l3.x=sideX;l3.w=sideW;l3.y=B.lesson1.y+l2.h+10;
+  const r1=prep({id:'r1',t:'Remediation (galat jawaab)',s:'"Poora ghar khatre mein" → wapas sawaal'});r1.x=sideX;r1.w=sideW;r1.y=B.q1.y;
+  const r2=prep({id:'r2',t:'Remediation (galat jawaab)',s:'Dawa na chhodein, CHO ko call → wapas sawaal'});r2.x=sideX;r2.w=sideW;r2.y=B.q2.y;
+  const side=[l2,l3,r1,r2];
+  const all=main.concat(side);
+  all.forEach(n=>{if(demo.has(n.id))n.cls='demo';else n.cls='branch';});
+  const totalH=Math.max(cur,r2.y+r2.h)+18;
+  const vbW=Math.max(sideX+sideW+50, colX+5*(sW+sGap));
+  // links
+  const cyN=n=>n.y+n.h/2, midX=n=>n.x+n.w/2;
+  let L='';
+  const linkV=(a,b,cls='')=>`<path class="jlink ${cls}" d="M${midX(a)} ${a.y+a.h} L ${midX(b)} ${b.y}"/>`;
+  const linkR=(a,b,cls='')=>`<path class="jlink ${cls}" d="M${a.x+a.w} ${cyN(a)} L ${b.x} ${cyN(b)}"/>`;
+  // vertical demo chain
+  const chain=['trigger','menu','lesson1','anchor','q1','core','summary','q2','key','ask','done','schedule'];
+  for(let i=0;i<chain.length-1;i++){L+=linkV(B[chain[i]],B[chain[i+1]],'demo');}
+  // ok labels
+  L+=`<text class="llabel ok" x="${midX(B.q1)+6}" y="${B.core.y-7}">Sahi ✓</text>`;
+  L+=`<text class="llabel ok" x="${midX(B.q2)+6}" y="${B.key.y-7}">Sahi ✓</text>`;
+  // lessons off lesson1
+  L+=linkR(B.lesson1,l2);L+=linkR(B.lesson1,l3,'');
+  // remediation: q1->r1 (bad), r1->q1 back (bad dashed)
+  L+=linkR(B.q1,r1,'bad');
+  L+=`<text class="llabel no" x="${B.q1.x+B.q1.w+4}" y="${cyN(B.q1)-4}">Galat ✗</text>`;
+  L+=`<path class="jlink bad" d="M${r1.x} ${r1.y+r1.h} C ${r1.x-30} ${r1.y+r1.h+18}, ${midX(B.q1)+40} ${B.q1.y+B.q1.h+10}, ${midX(B.q1)} ${B.q1.y+B.q1.h}"/>`;
+  L+=`<text class="llabel no" x="${midX(B.q1)+20}" y="${B.q1.y+B.q1.h+20}">dobara</text>`;
+  L+=linkR(B.q2,r2,'bad');
+  L+=`<text class="llabel no" x="${B.q2.x+B.q2.w+4}" y="${cyN(B.q2)-4}">Galat ✗</text>`;
+  L+=`<path class="jlink bad" d="M${r2.x} ${r2.y+r2.h} C ${r2.x-30} ${r2.y+r2.h+18}, ${midX(B.q2)+40} ${B.q2.y+B.q2.h+10}, ${midX(B.q2)} ${B.q2.y+B.q2.h}"/>`;
+  L+=`<text class="llabel no" x="${midX(B.q2)+20}" y="${B.q2.y+B.q2.h+20}">dobara</text>`;
+  // loop schedule -> menu (far right dashed)
+  const lx=vbW-16;
+  L+=`<path class="jlink dotted" d="M${B.schedule.x+B.schedule.w} ${cyN(B.schedule)} L ${lx} ${cyN(B.schedule)} L ${lx} ${cyN(B.menu)} L ${B.menu.x+B.menu.w} ${cyN(B.menu)}"/>`;
+  L+=`<text class="llabel loop" x="${lx-78}" y="${(cyN(B.schedule)+cyN(B.menu))/2}">loop → agli lesson</text>`;
+  // theme strip + connector th2 -> menu
+  let strip=`<text x="${colX}" y="${sY-6}" font-size="9.5" fill="#6f8088" font-weight="700">THEMES — Theme 2 detailed below</text>`;
+  themes.forEach((th,i)=>{const x=colX+i*(sW+sGap);const cls='jnode mini '+(th[0]==='th2'?'demo':'branch');
+    strip+=`<g class="${cls}" id="${th[0]}"><rect x="${x}" y="${sY}" width="${sW}" height="${sH}" rx="7"/><text class="ttl" x="${x+sW/2}" y="${sY+sH/2+4}" text-anchor="middle">${th[1]}</text></g>`;});
+  const th2x=colX+1*(sW+sGap)+sW/2;
+  L=`<path class="jlink demo dotted" d="M${th2x} ${sY+sH} L ${th2x} ${B.trigger.y-2}"/>`+L;
+  // nodes
+  function nodeSVG(n){
+    const tx=midX(n);
+    let inner=`<text class="ttl" x="${n.x+10}" y="${n.y+16}">${n.t}</text>`;
+    n.lines.forEach((ln,i)=>{inner+=`<text class="syn" x="${n.x+10}" y="${n.y+30+i*11}">${ln}</text>`;});
+    return `<g class="jnode ${n.cls}" id="${n.id}"><rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="9"/>${inner}</g>`;
+  }
+  let nodes=all.map(nodeSVG).join('');
+  NODES=B;
+  return `<svg viewBox="0 0 ${vbW} ${totalH}" xmlns="http://www.w3.org/2000/svg" id="jsvg">${L}${strip}${nodes}</svg>`;
 }
 function renderJourney(){document.getElementById('journeyHost').innerHTML=buildJourneySVG();}
-function stage(macroActive,microActive){
+function stage(id){
   document.querySelectorAll('#journeyHost .jnode').forEach(n=>n.classList.remove('active'));
-  document.querySelectorAll('#journeyHost .jstep').forEach(n=>n.classList.remove('active','done'));
-  if(macroActive){const el=document.getElementById(macroActive);el&&el.classList.add('active');}
-  if(microActive){const k=document.getElementById('k1');k&&k.classList.add('active');
-    const idx=microOrder.indexOf(microActive);
-    microOrder.forEach((id,i)=>{const el=document.getElementById(id);if(!el)return;if(i<idx)el.classList.add('done');if(i===idx)el.classList.add('active');});}
+  const el=document.getElementById(id);
+  if(el){el.classList.add('active'); try{el.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){}}
 }
 function openZoom(){document.getElementById('zoomBody').innerHTML=buildJourneySVG();
-  // copy current state classes onto the clone
-  document.querySelectorAll('#journeyHost .jnode,#journeyHost .jstep').forEach(src=>{
-    const dst=document.querySelector('#zoomBody #'+src.id); if(dst) dst.setAttribute('class',src.getAttribute('class'));});
+  document.querySelectorAll('#journeyHost .jnode').forEach(src=>{const dst=document.querySelector('#zoomBody #'+src.id);if(dst)dst.setAttribute('class',src.getAttribute('class'));});
   document.getElementById('zoom').classList.add('show');}
 function closeZoom(){document.getElementById('zoom').classList.remove('show');}
 
 /* ============ DEMO ENGINE ============ */
 const chat=document.getElementById('chat');
-const tray=document.getElementById('tray'), trayBody=document.getElementById('trayBody'), qhint=document.getElementById('qhint');
-let score=0, totalQ=2, vnId=0;
+const tray=document.getElementById('tray'),trayBody=document.getElementById('trayBody'),qhint=document.getElementById('qhint');
+let score=0,totalQ=2,vnId=0;
 function now(){const d=new Date();let h=d.getHours(),m=d.getMinutes();const ap=h>=12?'pm':'am';h=h%12||12;return h+':'+String(m).padStart(2,'0')+' '+ap;}
 function scrollC(){chat.scrollTop=chat.scrollHeight;}
-function sys(t){const e=document.createElement('div');e.className='sys';e.innerHTML=t;chat.appendChild(e);scrollC();}
+function sysM(t){const e=document.createElement('div');e.className='sys';e.innerHTML=t;chat.appendChild(e);scrollC();}
 function day(t){const e=document.createElement('div');e.className='day';e.textContent=t;chat.appendChild(e);scrollC();}
-function bubble(html,dir='in',en='',cls=''){
-  const row=document.createElement('div');row.className='row '+dir;const b=document.createElement('div');b.className='bubble '+cls;
-  let inner=html;if(en)inner+='<span class="en">'+en+'</span>';
-  inner+='<span class="t">'+now()+(dir==='out'?' <span class="check">✓✓</span>':'')+'</span>';
+function bubble(html,dir='in',en='',cls=''){const row=document.createElement('div');row.className='row '+dir;const b=document.createElement('div');b.className='bubble '+cls;
+  let inner=html;if(en)inner+='<span class="en">'+en+'</span>';inner+='<span class="t">'+now()+(dir==='out'?' <span class="check">✓✓</span>':'')+'</span>';
   b.innerHTML=inner;row.appendChild(b);chat.appendChild(row);scrollC();return b;}
 function scoreMsg(msg,en){score++;bubble(msg+'  <b>Score: '+score+'/'+totalQ+'</b>','in',en,'reward');}
-function voiceNote(tag,src,secs,en){
-  const id='vn'+(++vnId);
-  const bars='<svg viewBox="0 0 150 18" preserveAspectRatio="none">'+Array.from({length:46}).map((_,i)=>{const h=3+Math.abs(Math.sin(i*0.8))*13;const y=(18-h)/2;return `<rect x="${i*3.2}" y="${y}" width="1.6" height="${h}" rx="0.8" fill="#c4ccd0"/>`}).join('')+'</svg>';
+function voiceNote(tag,src,secs,en){const id='vn'+(++vnId);
+  const bars='<svg viewBox="0 0 150 17" preserveAspectRatio="none">'+Array.from({length:46}).map((_,i)=>{const h=3+Math.abs(Math.sin(i*0.8))*12;const y=(17-h)/2;return `<rect x="${i*3.2}" y="${y}" width="1.6" height="${h}" rx="0.8" fill="#c4ccd0"/>`}).join('')+'</svg>';
   const html=`<div class="tag">🔊 ${tag}</div><div class="vn"><button class="play" id="${id}b">▶</button><div class="mid"><div class="track"><div class="bars">${bars}</div><div class="knob" id="${id}k"></div></div><div class="meta"><span id="${id}t">0:${String(secs).padStart(2,'0')}</span><span>voice note</span></div></div><div class="av">🩺<span class="mic">🎙️</span></div></div><audio id="${id}a" src="${src}" preload="metadata"></audio>`;
   const b=bubble(html,'in',en);const a=b.querySelector('#'+id+'a'),btn=b.querySelector('#'+id+'b'),kn=b.querySelector('#'+id+'k'),tt=b.querySelector('#'+id+'t');
   btn.onclick=()=>{if(a.paused){document.querySelectorAll('audio').forEach(x=>{if(x!==a)x.pause();});a.play();btn.textContent='❚❚';}else{a.pause();btn.textContent='▶';}};
   a.ontimeupdate=()=>{const d=a.duration||secs;kn.style.left=(a.currentTime/d*100)+'%';const r=Math.max(0,Math.round(d-a.currentTime));tt.textContent='0:'+String(r).padStart(2,'0');};
   a.onended=()=>{btn.textContent='▶';kn.style.left='0%';tt.textContent='0:'+String(secs).padStart(2,'0');};return b;}
-function fiveHandImage(){
-  const fingers=[['1','Hawa mein kitanu','TB germs in the home air'],['2','Phephdo mein','They settle in the lungs'],['3','Testing + TPT','Test, then prevent — free'],['4','Chote bacche','Under-5s: highest risk'],['5','Side-effects','Mild — call CHO, don\'t stop']];
+function fiveHandImage(){const fingers=[['1','Hawa mein kitanu','TB germs in the home air'],['2','Phephdo mein','They settle in the lungs'],['3','Testing + TPT','Test, then prevent — free'],['4','Chote bacche','Under-5s: highest risk'],['5','Side-effects','Mild — call CHO, don\'t stop']];
   const f=fingers.map((x,i)=>{const cxx=40+i*62;return `<g><rect x="${cxx-22}" y="70" width="44" height="${120+(i===2?20:0)}" rx="22" fill="#ffd9a8" stroke="#e0a96d"/><circle cx="${cxx}" cy="64" r="14" fill="#0e6b5f"/><text x="${cxx}" y="69" font-size="15" fill="#fff" text-anchor="middle" font-weight="bold">${x[0]}</text><text x="${cxx}" y="210" font-size="10.5" fill="#23303a" text-anchor="middle" font-weight="bold">${x[1]}</text><text x="${cxx}" y="224" font-size="7.6" fill="#5a6a72" text-anchor="middle">${x[2]}</text></g>`}).join('');
   const svg=`<svg class="fivehand" viewBox="0 0 360 250" xmlns="http://www.w3.org/2000/svg"><rect width="360" height="250" fill="#fbf6ec"/><text x="180" y="28" font-size="14" fill="#0e6b5f" text-anchor="middle" font-weight="bold">5 ungli, 5 baatein · The 5-point TPT talk</text>${f}<path d="M20 192 q160 30 320 0" fill="none" stroke="#e0a96d" stroke-width="2" opacity="0.5"/></svg>`;
   const row=document.createElement('div');row.className='row in';const b=document.createElement('div');b.className='bubble imgcard';
   b.innerHTML=svg+'<div class="cap">Brochure aid — share with the family<span class="en">An image that works without explanation, as a memory cue. Data-light (≈40&nbsp;KB).</span><span class="t">'+now()+'</span></div>';
   row.appendChild(b);chat.appendChild(row);scrollC();}
-function videoBubble(){
-  const row=document.createElement('div');row.className='row in';const b=document.createElement('div');b.className='bubble videocard';
+function videoBubble(){const row=document.createElement('div');row.className='row in';const b=document.createElement('div');b.className='bubble videocard';
   b.innerHTML='<video controls preload="metadata" playsinline src="./lesson.mp4"></video><div class="meta">📹 The 5-point talk · 0:41 · Hindi voice-over</div><span class="en">Same lesson as video. Play or download from the ⋮ menu.</span><span class="t">'+now()+'</span>';
   row.appendChild(b);chat.appendChild(row);scrollC();}
 
-/* ---- fly-in choice tray ---- */
-function clearChoices(){tray.classList.remove('show');setTimeout(()=>{if(!tray.classList.contains('show')){trayBody.innerHTML='';qhint.textContent='';}},320);}
+/* fly-in tray docked at phone bottom */
+function clearChoices(){tray.classList.remove('show');setTimeout(()=>{if(!tray.classList.contains('show')){trayBody.innerHTML='';qhint.textContent='';}},340);}
 function showChoices(list,header){
-  trayBody.innerHTML=''; qhint.textContent=header||'';
+  trayBody.innerHTML='';qhint.textContent=header||'';
   list.forEach(c=>{const btn=document.createElement('button');btn.className='choice';
     const lead=c.num?`<span class="num">${c.num}</span>`:(c.ic?`<span class="ic">${c.ic}</span>`:'');
     btn.innerHTML=lead+'<span>'+c.label+(c.sub?`<small>${c.sub}</small>`:'')+'</span>';
@@ -290,59 +316,45 @@ function seq(steps,done){let i=0;(function nxt(){if(i>=steps.length){done&&done(
 
 /* ============ FLOW ============ */
 function restart(){document.querySelectorAll('audio,video').forEach(m=>{try{m.pause()}catch(e){}});chat.innerHTML='';clearChoices();score=0;vnId=0;renderJourney();start();}
-function start(){
-  stage('n_trigger',null);
-  day('TODAY');sys('🔒 Messages are end-to-end encrypted.');
+function start(){stage('trigger');day('TODAY');sysM('🔒 Messages are end-to-end encrypted.');
   seq([
     {wait:500,run:()=>bubble('Namaste Sunita ji. Aapke kshetra mein ek naya TB case aaya hai.','in','Hi Sunita. A new TB case has been assigned in your area.')},
     {wait:850,run:()=>bubble('Visit se pehle 8 minute ki ek training kar lein? Neeche se chunein.','in','Shall we do an 8-minute training before your visit? Choose below.')},
-  ],menu);
-}
-function menu(){
-  stage('n_course',null);
+  ],menu);}
+function menu(){stage('menu');
   showChoices([
-    {num:'1.',label:'TPT counselling — 5 baatein',sub:'Aaj ke liye · ~8 min',echo:'Kitab 1: TPT counselling',go:kitabIntro},
-    {num:'2.',label:'Ghar walon ko testing ke liye manaana',sub:'Kitab 2',echo:'Kitab 2',go:()=>soon(kitabIntro)},
-    {num:'3.',label:'Contact tracing aur 10 lakshan',sub:'Kitab 3',echo:'Kitab 3',go:()=>soon(kitabIntro)},
-  ],'Training — kitab chunein (1 of 5 complete)');
-}
-function soon(then){bubble('Ye kitab demo mein abhi nahi hai — Kitab 1 khol rahe hain.','in','That module isn’t in this demo yet — opening Kitab 1.');setTimeout(then,750);}
-function kitabIntro(){
-  stage('k1','s_intro');
+    {num:'1.',label:'TPT counselling — 5 baatein',sub:'Aaj ke liye · ~8 min',echo:'Lesson: TPT counselling',go:kitabIntro},
+    {num:'2.',label:'Ghar walon ko testing ke liye manaana',sub:'Lesson 2',echo:'Lesson 2',go:()=>soon(kitabIntro)},
+    {num:'3.',label:'HHC card — doses track karna',sub:'Lesson 3',echo:'Lesson 3',go:()=>soon(kitabIntro)},
+  ],'Theme 2 — lesson chunein');}
+function soon(then){bubble('Ye lesson demo mein abhi nahi hai — TPT counselling khol rahe hain.','in','That lesson isn’t in this demo yet — opening TPT counselling.');setTimeout(then,750);}
+function kitabIntro(){stage('anchor');
   seq([
-    {wait:650,run:()=>bubble('<b>Kitab 1 — TPT counselling.</b> Is kitab mein hum <b>5 baatein</b> seekhenge jo aap pariwar ko bata sakti hain. Samay: ~8 min.','in','Kitab 1 — TPT counselling. We’ll learn the 5 points you can tell the family. About 8 minutes.')},
+    {wait:650,run:()=>bubble('<b>Lesson: TPT counselling.</b> Is lesson mein hum <b>5 baatein</b> seekhenge jo aap pariwar ko bata sakti hain. Samay: ~8 min.','in','Lesson: TPT counselling. We’ll learn the 5 points you can tell the family. ~8 min.')},
     {wait:800,run:()=>voiceNote('Shuruaat · 0:13','./anchor.mp3',13,'Sirf 5 baaton se TPT samjhaayein. (tap to play)')},
-  ],()=>showChoices([{ic:'▶',label:'Haan, shuru karein',sub:'Yes, start',echo:'Shuru karein',go:scenarioQ}],'Tap to begin'));
-}
-function scenarioQ(){
-  stage('k1','s_check');
+  ],()=>showChoices([{ic:'▶',label:'Haan, shuru karein',sub:'Yes, start',echo:'Shuru karein',go:scenarioQ}],'Tap to begin'));}
+function scenarioQ(){stage('q1');
   seq([{wait:600,run:()=>bubble('Pehle ek sawaal. <b>TPT kin logon ko lena zaroori hai?</b>','in','First a question. Who needs to take TPT?')}],()=>{
     showChoices([
       {num:'1.',label:'Sirf patient ko',sub:'Only the patient',go:scenarioWrong},
       {num:'2.',label:'Sirf pariwar walon ko',sub:'Only the family',go:scenarioWrong},
       {num:'3.',label:'Dono / sabhi ghar walon ko',sub:'Both / the whole household',go:scenarioRight},
-    ],'Apna jawaab chunein');
-  });
-}
-function scenarioWrong(){
+    ],'Apna jawaab chunein');});}
+function scenarioWrong(){stage('r1');
   seq([
     {wait:500,run:()=>bubble('Sahi nahi. Ek baar phir dekhein.','in','Not right — look once more.')},
     {wait:800,run:()=>bubble('TB ek vyakti tak simit nahi rehta. Ghar ke <b>sabhi eligible contacts</b> khatre mein hote hain — isliye TPT poore ghar ke liye hai.','in','TB isn’t limited to one person. All eligible household contacts are at risk, so TPT is for the whole household.')},
-  ],()=>showChoices([{ic:'↩',label:'Phir se koshish karein',sub:'Try again',echo:'Phir se',go:scenarioQ}]));
-}
+  ],()=>showChoices([{ic:'↩',label:'Phir se koshish karein',sub:'Try again',echo:'Phir se',go:scenarioQ}]));}
 function scenarioRight(){
   seq([
     {wait:500,run:()=>bubble('Sahi. Dono / sabhi eligible ghar walon ko.','in','Correct. Both / all eligible household members.')},
     {wait:500,run:()=>scoreMsg('Sahi jawaab.','A visible scorecard — recognition arrives as a message; WhatsApp has no built-in score panel.')},
-  ],coreDeliver);
-}
-function coreDeliver(){
-  stage('k1','s_content');
+  ],coreDeliver);}
+function coreDeliver(){stage('core');
   seq([
     {wait:700,run:()=>bubble('Ab 5 baatein. Neeche padhein — audio ya video bhi dekh sakti hain.','in','Now the 5 points. Read below — you can also play the audio or video.')},
     {wait:700,run:fiveHandImage},
-  ],()=>coreText(1));
-}
+  ],()=>coreText(1));}
 const fingersContent=[
  {hi:'<b>Baat 1.</b> Jis ghar mein TB patient hai, us ghar ki hawa mein TB ke kitanu hote hain, jo aas-paas ke logon ke phephdon mein ja sakte hain.',en:'Point 1: The home’s air carries TB germs that can reach nearby lungs.'},
  {hi:'<b>Baat 2.</b> Ye kitanu phephdon mein bas jaate hain. Kuch turant bimaar, kuch baad mein — par darne ki baat nahi.',en:'Point 2: They settle in the lungs — some fall ill now, some later. No need to fear.'},
@@ -350,80 +362,60 @@ const fingersContent=[
  {hi:'<b>Baat 4.</b> 5 saal se chote bacchon ko sabse zyada khatra. Testing ki zaroorat nahi — doctor se baat karke seedhe TPT.',en:'Point 4: Under-5s are highest risk. No test — start TPT on the doctor’s advice.'},
  {hi:'<b>Baat 5.</b> Kabhi thakaan, ulti ya bukhar ho sakta hai. Aisa ho to CHO/ASHA ko call karein — par dawai na chhodein.',en:'Point 5: Mild side-effects can occur — call the CHO/ASHA, don’t stop the medicine.'},
 ];
-function coreText(n){
-  const f=fingersContent[n-1];
+function coreText(n){const f=fingersContent[n-1];
   seq([{wait:600,run:()=>bubble(f.hi,'in',f.en)}],()=>{
     if(n<5) showChoices([
         {ic:'▸',label:'Aage badhen',sub:'Next ('+n+'/5)',echo:'Aage badhen',go:()=>coreText(n+1)},
         {ic:'↺',label:'Phir se',sub:'Repeat this point',echo:'Phir se',go:()=>{bubble('Theek hai.','in');setTimeout(()=>coreText(n),450);}},
       ],'Aage badhne ke liye tap karein');
-    else lessonSummary();
-  });
-}
-function lessonSummary(){
-  stage('k1','s_summary');
+    else lessonSummary();});}
+function lessonSummary(){stage('summary');
   seq([
     {wait:650,run:()=>bubble('5 baatein poori.','in','All 5 points covered.')},
     {wait:750,run:()=>bubble('<b class="h">Saaransh · Summary</b><ol><li>Ghar ki hawa mein kitanu</li><li>Phephdon mein bas jaate hain</li><li>Testing, phir TPT — muft</li><li>5 saal se chote bacche — zyada khatra</li><li>Side-effects par CHO/ASHA ko call</li></ol>','in','A short recap of the key points at the close of the lesson.','summary')},
     {wait:700,run:()=>bubble('Yahi lesson audio aur video mein bhi hai — dohraana ho to.','in','The same lesson is here as audio and video — to revise if you like.')},
     {wait:650,run:()=>voiceNote('Poora lesson · 0:13','./finger3.mp3',13,'Spoken version. In production: the full narrated lesson in a warm regional voice.')},
     {wait:700,run:videoBubble},
-  ],()=>showChoices([{ic:'▸',label:'Aage — sawaal-javab',sub:'Continue to the quiz',echo:'Aage badhen',go:recapQ}],'Tap to continue'));
-}
-function recapQ(){
-  stage('k1','s_quiz');
+  ],()=>showChoices([{ic:'▸',label:'Aage — sawaal-javab',sub:'Continue to the quiz',echo:'Aage badhen',go:recapQ}],'Tap to continue'));}
+function recapQ(){stage('q2');
   seq([{wait:600,run:()=>bubble('Sawaal-javab. <b>Agar kisi ko TPT lene se thakaan ya ulti ho, to kya karein?</b>','in','Quiz. If someone feels tired or nauseous on TPT, what should they do?')}],()=>{
     showChoices([
       {num:'1.',label:'Dawa turant band kar dein',sub:'Stop the medicine',go:recapWrong},
       {num:'2.',label:'Kisi ko bataye bina ghar pe rahein',sub:'Stay quiet at home',go:recapWrong},
       {num:'3.',label:'CHO ya ASHA ko contact karein',sub:'Contact the CHO or ASHA',go:recapRight},
-    ],'Apna jawaab chunein');
-  });
-}
-function recapWrong(){
+    ],'Apna jawaab chunein');});}
+function recapWrong(){stage('r2');
   seq([{wait:500,run:()=>bubble('Dawa band karna sahi nahi — isse TB se bachav adhura reh jaata hai. Ek baar phir dekhein.','in','Stopping the medicine isn’t right — it leaves protection incomplete. Look once more.')}],
-   ()=>showChoices([{ic:'↩',label:'Phir se koshish karein',sub:'Try again',echo:'Phir se',go:recapQ}]));
-}
+   ()=>showChoices([{ic:'↩',label:'Phir se koshish karein',sub:'Try again',echo:'Phir se',go:recapQ}]));}
 function recapRight(){
   seq([
     {wait:500,run:()=>scoreMsg('Sahi jawaab.','')},
     {wait:700,run:()=>bubble('Halki side-effects par dawa band na karein. CHO/ASHA se sampark karein — zaroorat ho to doctor se baat hogi.','in','Don’t stop for mild side-effects — contact the CHO/ASHA; a doctor is looped in if needed.')},
     {wait:750,run:()=>voiceNote('Mukhya baat · 0:14','./key.mp3',14,'Har TB patient ke ghar, brochure se pariwar ko samjhayein ki testing aur TPT zaroori hai.')},
-  ],askWindow);
-}
-function askWindow(){
-  stage('k1','s_ask');
+  ],askWindow);}
+function askWindow(){stage('ask');
   seq([{wait:650,run:()=>bubble('Koi sawaal hai? Voice note ya text bhej sakti hain.','in','Any questions? Send a voice note or text.')}],()=>{
     showChoices([
       {ic:'🎙',label:'Voice note bhejein',sub:'Ask by voice',echo:'🎙 Voice note (0:12)',go:askSent},
       {ic:'✔',label:'Nahi, samajh aaya',sub:'No, all clear',echo:'Samajh aaya, dhanyavaad',go:finish},
-    ],'Sawaal poochhne ke liye');
-  });
-}
-function askSent(){
-  seq([{wait:700,run:()=>bubble('Mil gaya. Ye clinical sawaal aapke <b>CHO</b> ko bhej diya gaya hai — jawaab 1–2 din mein.','in','Got it — routed to your CHO. Reply in 1–2 days. Common questions are auto-answered.')}],finish);
-}
-function finish(){
-  stage('k1','s_reward');
+    ],'Sawaal poochhne ke liye');});}
+function askSent(){seq([{wait:700,run:()=>bubble('Mil gaya. Ye clinical sawaal aapke <b>CHO</b> ko bhej diya gaya hai — jawaab 1–2 din mein.','in','Got it — routed to your CHO. Reply in 1–2 days. Common questions are auto-answered.')}],finish);}
+function finish(){stage('done');
   seq([
-    {wait:800,run:()=>bubble('<b>Kitab 1 poori.</b> Aaj ka score: <b>'+score+'/'+totalQ+' sahi.</b> Aapko "TPT Counselling" ka badge milaa.','in','Kitab 1 complete. Today’s score: '+score+'/'+totalQ+'. You earned the "TPT Counselling" badge.','reward')},
+    {wait:800,run:()=>bubble('<b>Lesson poori.</b> Aaj ka score: <b>'+score+'/'+totalQ+' sahi.</b> Aapko "TPT Counselling" ka badge milaa.','in','Lesson complete. Today’s score: '+score+'/'+totalQ+'. You earned the "TPT Counselling" badge.','reward')},
     {wait:800,run:()=>bubble('Is hafte ki training poori. Ab aap visit ke liye taiyaar hain.','in','This week’s training is done. You’re ready for the visit.')},
-    {wait:800,run:()=>bubble('Agli kitab kab bheju?','in','When should I send the next kitab?')},
+    {wait:800,run:()=>bubble('Agli lesson kab bheju?','in','When should I send the next lesson?')},
   ],()=>showChoices([
       {ic:'🗓',label:'Agle Somvaar, shaam 6 baje',sub:'Next Monday, 6pm',echo:'Agle Somvaar shaam',go:reminderSet},
       {ic:'🔕',label:'Abhi nahi',sub:'Not now',echo:'Abhi nahi',go:closeOut},
-  ],'Reminder set karein'));
-}
-function reminderSet(){
-  stage('k1','s_schedule');
-  seq([{wait:650,run:()=>bubble('Theek hai. <b>Agle Somvaar shaam 6 baje</b> Kitab 2 bhejungi. Yaad dila dungi.','in','Done — I’ll send Kitab 2 next Monday at 6pm and remind you. (Scheduled messages build a weekly habit.)')}],closeOut);
-}
+  ],'Reminder set karein'));}
+function reminderSet(){stage('schedule');
+  seq([{wait:650,run:()=>bubble('Theek hai. <b>Agle Somvaar shaam 6 baje</b> agli lesson bhejungi, aur kuch din baad ek chhota "revision" sawaal bhi.','in','Done — I’ll send the next lesson next Monday 6pm, and a short revision question a few days later.')}],closeOut);}
 function closeOut(){
   showChoices([
-    {ic:'≡',label:'Training menu',sub:'Back to the kitab list',echo:'Menu',go:()=>{bubble('Theek hai.','in');setTimeout(menu,450);}},
+    {ic:'≡',label:'Lesson menu',sub:'Back to Theme 2 lessons',echo:'Menu',go:()=>{bubble('Theek hai.','in');setTimeout(menu,450);}},
     {ic:'↺',label:'Demo dobara chalayein',sub:'Restart the demo',echo:false,go:restart},
-  ],'Aage kya karein');
-}
+  ],'Aage kya karein');}
 renderJourney();
 start();
 </script>
