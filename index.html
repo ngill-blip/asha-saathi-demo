@@ -6,66 +6,85 @@
 <title>ASHA Saathi — WhatsApp Refresher Demo</title>
 <style>
   :root{
-    --wa-green:#075E54; --wa-teal:#128C7E; --wa-light:#25D366;
-    --bubble-in:#ffffff; --bubble-out:#DCF8C6; --chat-bg:#E5DDD5;
-    --ink:#111b21; --muted:#667781; --link:#027eb5;
-    --bg:#0b141a; --card:#111b21; --line:#2a3942; --amber:#f4b740;
+    --wa-green:#075E54; --wa-teal:#128C7E; --bubble-in:#ffffff; --bubble-out:#DCF8C6; --chat-bg:#E5DDD5;
+    --ink:#26241f; --muted:#7a756b; --link:#027eb5;
+    --page:#faf8f2; --card:#ffffff; --line:#e7e2d8; --teal:#2f6b4a; --terra:#c8552f; --amber:#c8552f;
+    --serif:Georgia,"Times New Roman",serif; --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    /* category accents */
+    --c-sys:#a8a296; --c-content:#2f6b4a; --c-q:#b07d2b; --c-msg:#3f6f8f; --c-reward:#2f6b4a; --c-rem:#c8552f;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{height:100%}
   body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-       background:var(--bg);color:#e9edef;display:flex;flex-direction:column;overflow:hidden}
+       background:var(--page);color:var(--ink);display:flex;flex-direction:column;overflow:hidden}
   .wrap{flex:1;display:flex;gap:16px;padding:14px 14px 8px;min-height:0}
 
-  /* ---------- LEFT: journey ---------- */
-  .journey{flex:1 1 auto;min-width:360px;background:var(--card);border:1px solid var(--line);
-           border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;min-height:0}
-  .jhead{display:flex;align-items:center;justify-content:space-between;gap:10px}
-  .journey h1{font-size:16px;margin:0;color:#fff}
-  .jhead .sub{font-size:11.5px;color:#8696a0;margin-top:2px}
-  .zoombtn{background:#2a3942;color:#e9edef;border:none;border-radius:8px;padding:7px 11px;font-size:12px;cursor:pointer;white-space:nowrap}
-  .zoombtn:hover{background:#374650}
-  .legend2{display:flex;gap:13px;flex-wrap:wrap;font-size:10.5px;color:#9fb0b8;margin:8px 0 6px}
-  .legend2 i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
-  .svgwrap{flex:1;min-height:0;border-radius:10px;background:#0c151b;border:1px solid #1b2730;overflow:auto;padding:6px}
-  .svgwrap svg{width:100%;height:auto;display:block}
+  /* ---------- LEFT: journey (light) ---------- */
+  .journey{flex:1 1 auto;min-width:380px;background:var(--card);border:1px solid var(--line);
+           border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;min-height:0;box-shadow:0 2px 10px rgba(20,40,50,.05)}
+  .jhead{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+  .journey h1{font-family:var(--serif);font-size:22px;margin:0;color:#23302a;font-weight:600;letter-spacing:.2px}
+  .jhead .sub{font-size:12px;color:var(--muted);margin-top:4px;max-width:640px}
+  .zoombtn{background:#1a1a1a;color:#fff;border:none;border-radius:7px;padding:8px 13px;font-family:var(--mono);font-size:11px;letter-spacing:.04em;cursor:pointer;white-space:nowrap}
+  .zoombtn:hover{background:#000}
+  .themestrip{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 6px}
+  .chip{font-family:var(--mono);font-size:10.5px;letter-spacing:.03em;color:#86807500;color:#867f73;background:transparent;border:1px solid var(--line);border-radius:4px;padding:5px 11px}
+  .chip.on{color:#2f6b4a;background:#eaf2ec;border-color:#bcdcc8;font-weight:700}
+  .legend2{display:flex;gap:15px;flex-wrap:wrap;font-family:var(--mono);font-size:10px;letter-spacing:.03em;color:#867f73;margin:8px 0 8px}
+  .legend2 i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:-1px}
 
-  /* journey nodes */
-  .jnode rect{fill:#16232c;stroke:#33454f;stroke-width:1.5}
-  .jnode .ttl{fill:#cdd9df;font-size:12px;font-weight:700}
-  .jnode .syn{fill:#8ea3ad;font-size:9.6px}
-  .jnode.branch rect{fill:#13202a;stroke:#2c3e48}
-  .jnode.branch .ttl{fill:#9fb0b8}
-  .jnode.demo rect{fill:#123a33;stroke:#1f8f78;stroke-width:2}
-  .jnode.demo .ttl{fill:#dff5ee}
-  .jnode.active rect{fill:#3a2f0e;stroke:var(--amber);stroke-width:3}
-  .jnode.active .ttl{fill:#ffe9b0}
-  .jnode.active .syn{fill:#e7d4a0}
-  .jnode.mini .ttl{font-weight:700}
-  .jlink{stroke:#3a4c56;stroke-width:1.6;fill:none}
-  .jlink.demo{stroke:#2f8f78;stroke-width:2}
-  .jlink.dotted{stroke:#6a5a2a;stroke-dasharray:4 4}
-  .jlink.bad{stroke:#a6603a;stroke-dasharray:3 3}
-  .llabel{font-size:9px;font-weight:700}
-  .llabel.ok{fill:#5fc6a4}.llabel.no{fill:#d08a5e}.llabel.loop{fill:#9a8740}
+  /* flow */
+  .jflow{flex:1;min-height:0;overflow-x:auto;overflow-y:auto;padding:8px 4px 14px}
+  .track{display:flex;align-items:flex-start;gap:0;min-width:max-content;position:relative}
+  .track::before{content:"";position:absolute;left:14px;right:14px;top:13px;height:1px;background:#ddd6c8}
+  .col{position:relative;display:flex;flex-direction:column;align-items:center;padding-top:26px;width:198px;flex:0 0 auto;cursor:pointer}
+  .col .dot{position:absolute;top:7px;left:50%;transform:translateX(-50%);width:12px;height:12px;border-radius:50%;background:#faf8f2;border:2px solid var(--teal);z-index:2;transition:.18s}
+  .col.active .dot{background:var(--terra);border-color:var(--terra);box-shadow:0 0 0 4px rgba(200,85,47,.18)}
+
+  .stage{background:#fff;border:1px solid var(--line);border-top:3px solid var(--ac,#cbd5d8);border-radius:8px;
+         padding:9px 11px;width:100%;box-shadow:0 1px 2px rgba(40,36,31,.05);transition:opacity .18s,box-shadow .18s,transform .18s}
+  .stage .stype{font-family:var(--mono);font-size:8.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ac);margin-bottom:3px;font-weight:700}
+  .stage .stitle{font-size:12.5px;font-weight:700;color:#2a2722;line-height:1.25}
+  .stage .ssyn{font-size:11px;color:#736e64;line-height:1.42;margin-top:4px}
+  .type-sys{--ac:var(--c-sys)} .type-content{--ac:var(--c-content)} .type-q{--ac:var(--c-q)}
+  .type-msg{--ac:var(--c-msg)} .type-reward{--ac:var(--c-reward)}
+  .col.active .stage{box-shadow:0 0 0 2px var(--terra);background:#fffaf6}
+
+  .branchlbl{font-family:var(--mono);font-size:9px;font-weight:700;color:#c8552f;margin:8px 0 4px;letter-spacing:.05em}
+  .rem{background:#fdf3ee;border:1px dashed #e6b39f;border-top:3px solid var(--c-rem);border-radius:8px;padding:9px 11px;width:100%;transition:opacity .18s,box-shadow .18s}
+  .rem .stype{font-family:var(--mono);font-size:8.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--c-rem);font-weight:700;margin-bottom:3px}
+  .rem .stitle{font-size:12px;font-weight:700;color:#a8492f}
+  .rem .ssyn{font-size:10.5px;color:#8a6a61;line-height:1.45;margin-top:4px}
+  .rem .retry{font-family:var(--mono);font-size:9px;font-weight:700;color:#c8552f;margin-top:6px;letter-spacing:.03em}
+  .col.rem-on .rem{box-shadow:0 0 0 2px var(--terra);background:#fdeee7}
+
+  /* connector between columns */
+  .conn{flex:0 0 auto;width:40px;align-self:flex-start;margin-top:26px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;position:relative;height:46px}
+  .conn .arw{color:#c2bbac;font-size:18px;line-height:46px}
+  .conn .clbl{position:absolute;top:-12px;font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.04em;color:#2f6b4a;white-space:nowrap}
+  .conn.hl .arw{color:var(--teal)}
+
+  /* hover / pin highlight */
+  .jflow.focus .stage:not(.hl), .jflow.focus .rem:not(.hl){opacity:.34}
+  .jflow.focus .col.active .stage{opacity:1}
+  .stage.hl{opacity:1;box-shadow:0 0 0 2px var(--teal);transform:translateY(-2px)}
+  .rem.hl{opacity:1;box-shadow:0 0 0 2px var(--c-rem)}
 
   /* ---------- RIGHT: phone ---------- */
   .right{flex:0 0 auto;height:100%;display:flex;align-items:center}
-  .phone{width:372px;max-width:42vw;height:100%;max-height:720px;background:#000;border-radius:38px;padding:9px;
-         box-shadow:0 22px 50px rgba(0,0,0,.55);position:relative}
+  .phone{width:366px;max-width:42vw;height:100%;max-height:716px;background:#0b0f12;border-radius:38px;padding:9px;box-shadow:0 18px 44px rgba(20,40,50,.32);position:relative}
   .screen{position:relative;height:100%;border-radius:29px;overflow:hidden;display:flex;flex-direction:column;background:var(--chat-bg)}
-  .notch{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:124px;height:22px;background:#000;border-radius:0 0 14px 14px;z-index:30}
-  header.bar{background:var(--wa-green);color:#fff;display:flex;align-items:center;gap:8px;padding:28px 11px 7px;z-index:20}
-  header.bar .back{font-size:19px;opacity:.95}
-  header.bar .av{width:34px;height:34px;border-radius:50%;background:#ccd0d2;display:flex;align-items:center;justify-content:center;font-size:16px}
+  .notch{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:120px;height:21px;background:#0b0f12;border-radius:0 0 14px 14px;z-index:30}
+  header.bar{background:var(--wa-green);color:#fff;display:flex;align-items:center;gap:8px;padding:27px 11px 7px;z-index:20}
+  header.bar .back{font-size:18px;opacity:.95}
+  header.bar .av{width:33px;height:33px;border-radius:50%;background:#ccd0d2;display:flex;align-items:center;justify-content:center;font-size:15px}
   header.bar .who{flex:1;min-width:0}
-  header.bar .who b{display:flex;align-items:center;gap:4px;font-size:14.5px;line-height:1.15}
+  header.bar .who b{display:flex;align-items:center;gap:4px;font-size:14px;line-height:1.15}
   header.bar .who .vf{font-size:10px;color:#a6e3c6}
-  header.bar .who span{font-size:10.5px;opacity:.85}
-  header.bar .ic{font-size:14px;opacity:.92;margin-left:3px}
+  header.bar .who span{font-size:10px;opacity:.85}
+  header.bar .ic{font-size:13px;opacity:.92;margin-left:3px}
   .chat{flex:1;min-height:0;overflow-y:auto;padding:9px 11px 12px;
-        background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><circle cx='4' cy='4' r='1' fill='%23000' opacity='0.03'/></svg>");
-        background-color:var(--chat-bg)}
+        background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><circle cx='4' cy='4' r='1' fill='%23000' opacity='0.03'/></svg>");background-color:var(--chat-bg)}
   .sys{align-self:center;background:#fff4c8;color:#54616b;font-size:10px;padding:5px 11px;border-radius:8px;margin:7px auto;width:max-content;max-width:88%;text-align:center}
   .day{align-self:center;background:#d6e7ce;color:#3b4a54;font-size:10.5px;padding:4px 9px;border-radius:8px;margin:5px auto 9px;width:max-content}
   .row{display:flex;margin:4px 0}.row.out{justify-content:flex-end}
@@ -84,7 +103,7 @@
   .vn .av{width:30px;height:30px;border-radius:50%;background:#dfe5e7;flex:0 0 auto;position:relative;display:flex;align-items:center;justify-content:center;font-size:13px}
   .vn .av .mic{position:absolute;bottom:-2px;right:-3px;font-size:10px}
   .vn .play{width:27px;height:27px;border-radius:50%;background:var(--wa-teal);color:#fff;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer;border:none}
-  .vn .mid{flex:1}.vn .track{position:relative;height:17px}.vn .bars{position:absolute;inset:0}.vn .bars svg{width:100%;height:17px}
+  .vn .mid{flex:1}.vn .track2{position:relative;height:17px}.vn .bars{position:absolute;inset:0}.vn .bars svg{width:100%;height:17px}
   .vn .knob{position:absolute;top:50%;left:0;width:8px;height:8px;border-radius:50%;background:var(--wa-teal);transform:translateX(-50%);margin-top:-4px}
   .vn .meta{display:flex;justify-content:space-between;font-size:9.5px;color:var(--muted);margin-top:2px}
   .vn .tag{font-size:9px;color:var(--wa-teal);font-weight:700}
@@ -97,181 +116,149 @@
   .typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
   @keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}
 
-  /* ---------- choice tray: docked at phone bottom, flies in ---------- */
-  .tray{flex:0 0 auto;max-height:0;overflow:hidden;background:#16242e;border-top:2px dashed #3a5563;
-        transition:max-height .34s cubic-bezier(.2,.8,.2,1)}
+  .tray{flex:0 0 auto;max-height:0;overflow:hidden;background:#16242e;border-top:2px dashed #4a6b78;transition:max-height .34s cubic-bezier(.2,.8,.2,1)}
   .tray.show{max-height:58%}
   .tray .inner{transform:translateY(16px);opacity:0;transition:transform .3s ease,opacity .28s;padding:8px 11px 11px}
   .tray.show .inner{transform:none;opacity:1}
   .tray .traylabel{font-size:9.5px;letter-spacing:.04em;text-transform:uppercase;color:#7fd3be;margin-bottom:4px}
   .tray .traylabel b{color:#9fb4bc;font-weight:600;text-transform:none;letter-spacing:0}
   .tray .qhint{font-size:11px;color:#a9bcc4;margin:0 0 4px;font-style:italic}
-  .tray .choice{display:flex;align-items:flex-start;gap:8px;width:100%;background:transparent;border:none;
-        border-top:1px solid #2a3b45;padding:9px 2px;font-size:12.5px;text-align:left;color:#e3edf1;font-weight:600;cursor:pointer}
+  .tray .choice{display:flex;align-items:flex-start;gap:8px;width:100%;background:transparent;border:none;border-top:1px solid #2a3b45;padding:9px 2px;font-size:12.5px;text-align:left;color:#e3edf1;font-weight:600;cursor:pointer}
   .tray .choice:hover{background:#1d2f3a}
   .tray .choice .num{color:var(--amber);font-weight:700;min-width:15px}
   .tray .choice .ic{min-width:15px}
   .tray .choice small{display:block;color:#8aa0aa;font-weight:400;font-size:10.5px;font-style:italic;margin-top:1px}
 
-  /* ---------- footer banner ---------- */
-  footer.banner{flex:0 0 auto;background:#0c151b;border-top:1px solid var(--line);color:#7f9098;
-        font-size:10.8px;line-height:1.5;padding:8px 16px}
-  footer.banner b{color:#aebac1}
+  footer.banner{flex:0 0 auto;background:#fff;border-top:1px solid var(--line);color:#6f8088;font-size:10.8px;line-height:1.5;padding:8px 16px}
+  footer.banner b{color:#4a5b62}
 
-  /* ---------- zoom overlay ---------- */
-  .zoom{position:fixed;inset:0;background:rgba(4,9,12,.95);z-index:100;display:none;flex-direction:column;padding:16px}
+  .zoom{position:fixed;inset:0;background:rgba(238,242,243,.97);z-index:100;display:none;flex-direction:column;padding:18px}
   .zoom.show{display:flex}
-  .zoom .zbar{display:flex;justify-content:space-between;align-items:center;color:#e9edef;margin-bottom:10px}
-  .zoom .zbar b{font-size:15px}
-  .zoom .zclose{background:#2a3942;color:#fff;border:none;border-radius:8px;padding:9px 14px;cursor:pointer;font-size:13px}
-  .zoom .zbody{flex:1;overflow:auto;background:#0c151b;border:1px solid #1b2730;border-radius:12px}
-  .zoom .zbody svg{width:760px;max-width:none;height:auto;display:block;margin:0 auto}
+  .zoom .zbar{display:flex;justify-content:space-between;align-items:center;color:#27424b;margin-bottom:10px}
+  .zoom .zbar b{font-size:16px;color:var(--teal)}
+  .zoom .zclose{background:#eef3f3;color:#3c545b;border:1px solid var(--line);border-radius:8px;padding:9px 14px;cursor:pointer;font-size:13px}
+  .zoom .zbody{flex:1;overflow:auto;background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px}
 </style>
 </head>
 <body>
   <div class="wrap">
-    <!-- LEFT: adaptive conversation flow -->
+    <!-- LEFT: adaptive conversation journey (light) -->
     <section class="journey">
       <div class="jhead">
         <div>
-          <h1>Adaptive conversation flow — Theme 2 (TPT &amp; medication)</h1>
-          <div class="sub">How the conversation branches on the ASHA's answers. Amber = where the live demo is now →</div>
+          <h1>ASHA Saathi — conversation journey</h1>
+          <div class="sub">Theme 2 · TPT counselling. Hover any step to trace its path: the step, its remediation loop, and the next step. Amber = where the live demo is now.</div>
         </div>
-        <button class="zoombtn" onclick="openZoom()">⤢ Zoom</button>
+        <button class="zoombtn" onclick="openZoom()">⤢ Expand</button>
       </div>
+      <div class="themestrip" id="themestrip"></div>
       <div class="legend2">
-        <span><i style="background:#1f8f78"></i>Demo path (this build)</span>
-        <span><i style="background:#f4b740"></i>You are here</span>
-        <span><i style="background:#33454f"></i>Other themes / lessons</span>
-        <span><i style="background:#a6603a"></i>Wrong answer → remediation loop</span>
+        <span><i style="background:#2f6b4a"></i>LESSON CONTENT</span>
+        <span><i style="background:#b07d2b"></i>QUESTION</span>
+        <span><i style="background:#c8552f"></i>REMEDIATION LOOP</span>
+        <span><i style="background:#2f6b4a"></i>REWARD</span>
+        <span><i style="background:#a8a296"></i>SYSTEM</span>
       </div>
-      <div class="svgwrap" id="journeyHost"></div>
+      <div class="jflow" id="journeyHost"></div>
     </section>
 
-    <!-- RIGHT: phone with docked fly-in tray -->
+    <!-- RIGHT: phone -->
     <div class="right">
       <div class="phone">
         <div class="screen">
           <div class="notch"></div>
           <header class="bar">
-            <div class="back">‹</div>
-            <div class="av">🩺</div>
+            <div class="back">‹</div><div class="av">🩺</div>
             <div class="who"><b>ASHA Saathi <span class="vf">✔ business</span></b><span>online</span></div>
             <div class="ic">📹</div><div class="ic">📞</div><div class="ic">⋮</div>
           </header>
           <div class="chat" id="chat"></div>
-          <div class="tray" id="tray">
-            <div class="inner">
-              <div class="traylabel">Demo input · <b>placeholder — becomes WhatsApp menu navigation</b></div>
-              <div class="qhint" id="qhint"></div>
-              <div id="trayBody"></div>
-            </div>
-          </div>
+          <div class="tray" id="tray"><div class="inner">
+            <div class="traylabel">Demo input · <b>placeholder — becomes WhatsApp menu navigation</b></div>
+            <div class="qhint" id="qhint"></div><div id="trayBody"></div>
+          </div></div>
         </div>
       </div>
     </div>
   </div>
 
   <footer class="banner">
-    <b>ASHA Saathi</b> — clickable mock-up of the WhatsApp refresher tool (right). The left panel is the adaptive conversation flow for Theme 2 → TPT counselling, showing each interaction and its branches. <b>Real vs simulated:</b> audio is generated Hindi TTS and the video is an auto-built slide reel (stand-ins for a recorded regional voice / produced video); the chat engine is a front-end mock, not a live WhatsApp connection. Structure adapted from learnings from Treemouse's HCM formative research, content guidelines and their previous learnings on WhatsApp based training tools.
+    <b>ASHA Saathi</b> — clickable mock-up of the WhatsApp refresher tool (right). The left panel is the adaptive conversation journey for Theme 2 → TPT counselling, showing each step and its branches. <b>Real vs simulated:</b> audio is generated Hindi TTS and the video is an auto-built slide reel (stand-ins for a recorded regional voice / produced video); the chat engine is a front-end mock, not a live WhatsApp connection. Structure adapted from learnings from Treemouse's HCM formative research, content guidelines and their previous learnings on WhatsApp based training tools.
   </footer>
 
   <div class="zoom" id="zoom">
-    <div class="zbar"><b>Adaptive conversation flow — full view</b><button class="zclose" onclick="closeZoom()">✕ Close</button></div>
+    <div class="zbar"><b>Conversation journey — full view</b><button class="zclose" onclick="closeZoom()">✕ Close</button></div>
     <div class="zbody" id="zoomBody"></div>
   </div>
 
 <script>
-/* ============ JOURNEY (adaptive flow) ============ */
-function wrapText(s,max){const w=s.split(' ');let lines=[],cur='';w.forEach(x=>{if((cur+' '+x).trim().length>max){if(cur)lines.push(cur);cur=x;}else cur=(cur+' '+x).trim();});if(cur)lines.push(cur);return lines;}
-let NODES={};
-function buildJourneySVG(){
-  const colX=26,colW=256,sideX=312,sideW=224;
-  const themes=[['th1','1 · TB'],['th2','2 · TPT & meds'],['th3','3 · Docs'],['th4','4 · Households'],['th5','5 · Digital']];
-  const sW=110,sGap=6,sY=26,sH=28;
-  const main=[
-    {id:'trigger',t:'Reminder / trigger',s:'Weekly calendar ya nayi TB case → push + image'},
-    {id:'menu',t:'Choose theme & lesson',s:'Theme 2 (TPT) → lesson chunein'},
-    {id:'lesson1',t:'Lesson: TPT counselling',s:'5-finger framework — this demo'},
-    {id:'anchor',t:'Anchor — 30s audio',s:'Sirf 5 baaton se TPT samjhaayein'},
-    {id:'q1',t:'Scenario MCQ',s:'TPT kin logon ko? · sahi: dono / sabhi ghar wale'},
-    {id:'core',t:'Core lesson — 3–5 min audio',s:'5 points + brochure image + short video'},
-    {id:'summary',t:'Lesson summary',s:'5 mukhya baatein dohraayi jaati hain'},
-    {id:'q2',t:'Recap MCQ',s:'Side-effect ho to? · sahi: CHO/ASHA ko call'},
-    {id:'key',t:'Key message — 30s audio',s:'Testing + TPT zaroori; pariwar surakshit'},
-    {id:'ask',t:'Ask a question',s:'Voice/text → CHO; common Qs auto-answered'},
-    {id:'done',t:'Completion',s:'Score + badge; CHO ko notify'},
-    {id:'schedule',t:'Schedule next',s:'Agli lesson + "Revision after x days" MCQ'},
-  ];
-  const demo=new Set(['trigger','menu','lesson1','anchor','q1','r1','core','summary','q2','r2','key','ask','done','schedule','th2']);
-  function prep(n){n.lines=wrapText(n.s,34);n.h=20+n.lines.length*11+8;return n;}
-  let cur=64;
-  main.forEach(n=>{prep(n);n.x=colX;n.w=colW;n.y=cur;cur+=n.h+22;});
-  const B={};main.forEach(n=>B[n.id]=n);
-  const l2=prep({id:'l2',t:'Lesson: testing manaana',s:'Convincing household for testing'});l2.x=sideX;l2.w=sideW;l2.y=B.lesson1.y;
-  const l3=prep({id:'l3',t:'Lesson: HHC card',s:'Track TPT doses at home'});l3.x=sideX;l3.w=sideW;l3.y=B.lesson1.y+l2.h+10;
-  const r1=prep({id:'r1',t:'Remediation (galat jawaab)',s:'"Poora ghar khatre mein" → wapas sawaal'});r1.x=sideX;r1.w=sideW;r1.y=B.q1.y;
-  const r2=prep({id:'r2',t:'Remediation (galat jawaab)',s:'Dawa na chhodein, CHO ko call → wapas sawaal'});r2.x=sideX;r2.w=sideW;r2.y=B.q2.y;
-  const side=[l2,l3,r1,r2];
-  const all=main.concat(side);
-  all.forEach(n=>{if(demo.has(n.id))n.cls='demo';else n.cls='branch';});
-  const totalH=Math.max(cur,r2.y+r2.h)+18;
-  const vbW=Math.max(sideX+sideW+50, colX+5*(sW+sGap));
-  // links
-  const cyN=n=>n.y+n.h/2, midX=n=>n.x+n.w/2;
-  let L='';
-  const linkV=(a,b,cls='')=>`<path class="jlink ${cls}" d="M${midX(a)} ${a.y+a.h} L ${midX(b)} ${b.y}"/>`;
-  const linkR=(a,b,cls='')=>`<path class="jlink ${cls}" d="M${a.x+a.w} ${cyN(a)} L ${b.x} ${cyN(b)}"/>`;
-  // vertical demo chain
-  const chain=['trigger','menu','lesson1','anchor','q1','core','summary','q2','key','ask','done','schedule'];
-  for(let i=0;i<chain.length-1;i++){L+=linkV(B[chain[i]],B[chain[i+1]],'demo');}
-  // ok labels
-  L+=`<text class="llabel ok" x="${midX(B.q1)+6}" y="${B.core.y-7}">Sahi ✓</text>`;
-  L+=`<text class="llabel ok" x="${midX(B.q2)+6}" y="${B.key.y-7}">Sahi ✓</text>`;
-  // lessons off lesson1
-  L+=linkR(B.lesson1,l2);L+=linkR(B.lesson1,l3,'');
-  // remediation: q1->r1 (bad), r1->q1 back (bad dashed)
-  L+=linkR(B.q1,r1,'bad');
-  L+=`<text class="llabel no" x="${B.q1.x+B.q1.w+4}" y="${cyN(B.q1)-4}">Galat ✗</text>`;
-  L+=`<path class="jlink bad" d="M${r1.x} ${r1.y+r1.h} C ${r1.x-30} ${r1.y+r1.h+18}, ${midX(B.q1)+40} ${B.q1.y+B.q1.h+10}, ${midX(B.q1)} ${B.q1.y+B.q1.h}"/>`;
-  L+=`<text class="llabel no" x="${midX(B.q1)+20}" y="${B.q1.y+B.q1.h+20}">dobara</text>`;
-  L+=linkR(B.q2,r2,'bad');
-  L+=`<text class="llabel no" x="${B.q2.x+B.q2.w+4}" y="${cyN(B.q2)-4}">Galat ✗</text>`;
-  L+=`<path class="jlink bad" d="M${r2.x} ${r2.y+r2.h} C ${r2.x-30} ${r2.y+r2.h+18}, ${midX(B.q2)+40} ${B.q2.y+B.q2.h+10}, ${midX(B.q2)} ${B.q2.y+B.q2.h}"/>`;
-  L+=`<text class="llabel no" x="${midX(B.q2)+20}" y="${B.q2.y+B.q2.h+20}">dobara</text>`;
-  // loop schedule -> menu (far right dashed)
-  const lx=vbW-16;
-  L+=`<path class="jlink dotted" d="M${B.schedule.x+B.schedule.w} ${cyN(B.schedule)} L ${lx} ${cyN(B.schedule)} L ${lx} ${cyN(B.menu)} L ${B.menu.x+B.menu.w} ${cyN(B.menu)}"/>`;
-  L+=`<text class="llabel loop" x="${lx-78}" y="${(cyN(B.schedule)+cyN(B.menu))/2}">loop → agli lesson</text>`;
-  // theme strip + connector th2 -> menu
-  let strip=`<text x="${colX}" y="${sY-6}" font-size="9.5" fill="#6f8088" font-weight="700">THEMES — Theme 2 detailed below</text>`;
-  themes.forEach((th,i)=>{const x=colX+i*(sW+sGap);const cls='jnode mini '+(th[0]==='th2'?'demo':'branch');
-    strip+=`<g class="${cls}" id="${th[0]}"><rect x="${x}" y="${sY}" width="${sW}" height="${sH}" rx="7"/><text class="ttl" x="${x+sW/2}" y="${sY+sH/2+4}" text-anchor="middle">${th[1]}</text></g>`;});
-  const th2x=colX+1*(sW+sGap)+sW/2;
-  L=`<path class="jlink demo dotted" d="M${th2x} ${sY+sH} L ${th2x} ${B.trigger.y-2}"/>`+L;
-  // nodes
-  function nodeSVG(n){
-    const tx=midX(n);
-    let inner=`<text class="ttl" x="${n.x+10}" y="${n.y+16}">${n.t}</text>`;
-    n.lines.forEach((ln,i)=>{inner+=`<text class="syn" x="${n.x+10}" y="${n.y+30+i*11}">${ln}</text>`;});
-    return `<g class="jnode ${n.cls}" id="${n.id}"><rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="9"/>${inner}</g>`;
-  }
-  let nodes=all.map(nodeSVG).join('');
-  NODES=B;
-  return `<svg viewBox="0 0 ${vbW} ${totalH}" xmlns="http://www.w3.org/2000/svg" id="jsvg">${L}${strip}${nodes}</svg>`;
+/* ============ JOURNEY (light, horizontal, hover) ============ */
+const THEMES=[['t1','1 · TB & treatment',false],['t2','2 · TPT & medication',true],['t3','3 · Documentation',false],['t4','4 · Household alignment',false],['t5','5 · Digital enablement',false]];
+const STEPS=[
+ {id:'trigger',type:'sys',title:'Reminder / trigger',syn:'A weekly nudge — or a new TB case assigned — sends a push message with an image.'},
+ {id:'menu',type:'sys',title:'Choose a lesson',syn:'Theme 2 (TPT & medication): the ASHA picks a lesson from the list.'},
+ {id:'anchor',type:'content',title:'Anchor · 30-sec audio',syn:'Sets up the lesson — the whole TPT message in just 5 points.'},
+ {id:'q1',type:'q',title:'Scenario question',syn:'Who needs to take TPT? Correct: everyone eligible in the household.',
+   rem:{id:'r1',title:'Remediation loop',syn:'Wrong answer? The bot gently explains — “TB isn’t limited to one person; everyone in the household is at risk, so TPT is for all eligible contacts” — then returns her to the same question. The conversation only moves on once she answers correctly.'},corr:true},
+ {id:'core',type:'content',title:'Core lesson · 3–5 min audio',syn:'The 5-point talk, plus a shareable brochure image and a short video.'},
+ {id:'summary',type:'content',title:'Summary',syn:'The 5 key points, recapped in one message.'},
+ {id:'q2',type:'q',title:'Recap quiz',syn:'What to do about side-effects? Correct: contact the CHO / ASHA.',
+   rem:{id:'r2',title:'Remediation loop',syn:'Wrong answer? It explains — “don’t stop the medicine, that leaves protection incomplete; mild side-effects are normal — contact the CHO/ASHA and a doctor is looped in if needed” — then back to the question to retry.'},corr:true},
+ {id:'key',type:'msg',title:'Key message · 30-sec audio',syn:'Testing and TPT keep the whole family and village safe.'},
+ {id:'ask',type:'sys',title:'Ask a question',syn:'A voice note or text — routed to the CHO; common questions answered automatically.'},
+ {id:'done',type:'reward',title:'Completion',syn:'Score and a badge; completion is shared with the CHO.'},
+ {id:'schedule',type:'sys',title:'Schedule next',syn:'The next lesson is scheduled, with a short revision question a few days later.'},
+];
+const TYPELBL={sys:'System',content:'Lesson',q:'Question',msg:'Key message',reward:'Reward'};
+function buildJourney(){
+  const strip=THEMES.map(t=>`<span class="chip${t[2]?' on':''}">${t[1]}</span>`).join('');
+  document.getElementById('themestrip').innerHTML=strip;
+  let html='<div class="track">';
+  STEPS.forEach((s,i)=>{
+    const next=STEPS[i+1]?STEPS[i+1].id:'';
+    html+=`<div class="col" id="col_${s.id}" data-id="${s.id}" data-rem="${s.rem?s.rem.id:''}" data-next="${next}"
+            onmouseenter="hoverIn('${s.id}')" onmouseleave="hoverOut()" onclick="pinCol('${s.id}')">
+       <div class="dot"></div>
+       <div class="stage type-${s.type}" id="${s.id}"><div class="stype">${TYPELBL[s.type]||''}</div><div class="stitle">${s.title}</div><div class="ssyn">${s.syn}</div></div>`;
+    if(s.rem){
+      html+=`<div class="branchlbl">✗ IF WRONG ↓</div>
+        <div class="rem" id="${s.rem.id}"><div class="stype">Remediation</div><div class="stitle">${s.rem.title}</div><div class="ssyn">${s.rem.syn}</div><div class="retry">↺ BACK TO THE QUESTION — RETRY</div></div>`;
+    }
+    html+='</div>';
+    if(next){
+      const lbl=s.corr?'<span class="clbl">if correct →</span>':'';
+      html+=`<div class="conn" id="conn_${s.id}">${lbl}<span class="arw">›</span></div>`;
+    }
+  });
+  html+='</div>';
+  document.getElementById('journeyHost').innerHTML=html;
 }
-function renderJourney(){document.getElementById('journeyHost').innerHTML=buildJourneySVG();}
+let pinned=null;
+function applyHL(id){
+  const flow=document.getElementById('journeyHost');
+  flow.querySelectorAll('.hl').forEach(e=>e.classList.remove('hl'));
+  flow.querySelectorAll('.conn.hl').forEach(e=>e.classList.remove('hl'));
+  if(!id){flow.classList.remove('focus');return;}
+  flow.classList.add('focus');
+  const col=document.getElementById('col_'+id);
+  const ids=[id]; if(col.dataset.rem)ids.push(col.dataset.rem); if(col.dataset.next)ids.push(col.dataset.next);
+  ids.forEach(x=>{const el=document.getElementById(x);if(el)el.classList.add('hl');});
+  const c=document.getElementById('conn_'+id); if(c)c.classList.add('hl');
+}
+function hoverIn(id){applyHL(id);}
+function hoverOut(){applyHL(pinned);}
+function pinCol(id){pinned=(pinned===id)?null:id;applyHL(pinned);}
 function stage(id){
-  document.querySelectorAll('#journeyHost .jnode').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('#journeyHost .col').forEach(c=>c.classList.remove('active','rem-on'));
   const el=document.getElementById(id);
-  if(el){el.classList.add('active'); try{el.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){}}
+  const col=el?el.closest('.col'):document.getElementById('col_'+id);
+  if(col){col.classList.add('active'); if(el&&el.classList.contains('rem'))col.classList.add('rem-on');
+    try{col.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});}catch(e){}}
 }
-function openZoom(){document.getElementById('zoomBody').innerHTML=buildJourneySVG();
-  document.querySelectorAll('#journeyHost .jnode').forEach(src=>{const dst=document.querySelector('#zoomBody #'+src.id);if(dst)dst.setAttribute('class',src.getAttribute('class'));});
-  document.getElementById('zoom').classList.add('show');}
+function openZoom(){document.getElementById('zoomBody').innerHTML=document.getElementById('journeyHost').innerHTML;document.getElementById('zoom').classList.add('show');}
 function closeZoom(){document.getElementById('zoom').classList.remove('show');}
 
-/* ============ DEMO ENGINE ============ */
+/* ============ DEMO ENGINE (phone) ============ */
 const chat=document.getElementById('chat');
 const tray=document.getElementById('tray'),trayBody=document.getElementById('trayBody'),qhint=document.getElementById('qhint');
 let score=0,totalQ=2,vnId=0;
@@ -285,7 +272,7 @@ function bubble(html,dir='in',en='',cls=''){const row=document.createElement('di
 function scoreMsg(msg,en){score++;bubble(msg+'  <b>Score: '+score+'/'+totalQ+'</b>','in',en,'reward');}
 function voiceNote(tag,src,secs,en){const id='vn'+(++vnId);
   const bars='<svg viewBox="0 0 150 17" preserveAspectRatio="none">'+Array.from({length:46}).map((_,i)=>{const h=3+Math.abs(Math.sin(i*0.8))*12;const y=(17-h)/2;return `<rect x="${i*3.2}" y="${y}" width="1.6" height="${h}" rx="0.8" fill="#c4ccd0"/>`}).join('')+'</svg>';
-  const html=`<div class="tag">🔊 ${tag}</div><div class="vn"><button class="play" id="${id}b">▶</button><div class="mid"><div class="track"><div class="bars">${bars}</div><div class="knob" id="${id}k"></div></div><div class="meta"><span id="${id}t">0:${String(secs).padStart(2,'0')}</span><span>voice note</span></div></div><div class="av">🩺<span class="mic">🎙️</span></div></div><audio id="${id}a" src="${src}" preload="metadata"></audio>`;
+  const html=`<div class="tag">🔊 ${tag}</div><div class="vn"><button class="play" id="${id}b">▶</button><div class="mid"><div class="track2"><div class="bars">${bars}</div><div class="knob" id="${id}k"></div></div><div class="meta"><span id="${id}t">0:${String(secs).padStart(2,'0')}</span><span>voice note</span></div></div><div class="av">🩺<span class="mic">🎙️</span></div></div><audio id="${id}a" src="${src}" preload="metadata"></audio>`;
   const b=bubble(html,'in',en);const a=b.querySelector('#'+id+'a'),btn=b.querySelector('#'+id+'b'),kn=b.querySelector('#'+id+'k'),tt=b.querySelector('#'+id+'t');
   btn.onclick=()=>{if(a.paused){document.querySelectorAll('audio').forEach(x=>{if(x!==a)x.pause();});a.play();btn.textContent='❚❚';}else{a.pause();btn.textContent='▶';}};
   a.ontimeupdate=()=>{const d=a.duration||secs;kn.style.left=(a.currentTime/d*100)+'%';const r=Math.max(0,Math.round(d-a.currentTime));tt.textContent='0:'+String(r).padStart(2,'0');};
@@ -299,23 +286,18 @@ function fiveHandImage(){const fingers=[['1','Hawa mein kitanu','TB germs in the
 function videoBubble(){const row=document.createElement('div');row.className='row in';const b=document.createElement('div');b.className='bubble videocard';
   b.innerHTML='<video controls preload="metadata" playsinline src="./lesson.mp4"></video><div class="meta">📹 The 5-point talk · 0:41 · Hindi voice-over</div><span class="en">Same lesson as video. Play or download from the ⋮ menu.</span><span class="t">'+now()+'</span>';
   row.appendChild(b);chat.appendChild(row);scrollC();}
-
-/* fly-in tray docked at phone bottom */
 function clearChoices(){tray.classList.remove('show');setTimeout(()=>{if(!tray.classList.contains('show')){trayBody.innerHTML='';qhint.textContent='';}},340);}
-function showChoices(list,header){
-  trayBody.innerHTML='';qhint.textContent=header||'';
+function showChoices(list,header){trayBody.innerHTML='';qhint.textContent=header||'';
   list.forEach(c=>{const btn=document.createElement('button');btn.className='choice';
     const lead=c.num?`<span class="num">${c.num}</span>`:(c.ic?`<span class="ic">${c.ic}</span>`:'');
     btn.innerHTML=lead+'<span>'+c.label+(c.sub?`<small>${c.sub}</small>`:'')+'</span>';
     btn.onclick=()=>{if(c.echo!==false)bubble(c.echo||c.label,'out');trayBody.innerHTML='';qhint.textContent='';tray.classList.remove('show');c.go();};
     trayBody.appendChild(btn);});
-  requestAnimationFrame(()=>tray.classList.add('show'));
-}
+  requestAnimationFrame(()=>tray.classList.add('show'));}
 function typing(ms,then){const row=document.createElement('div');row.className='row in';const t=document.createElement('div');t.className='typing';t.innerHTML='<span></span><span></span><span></span>';row.appendChild(t);chat.appendChild(row);scrollC();setTimeout(()=>{row.remove();then();},ms);}
 function seq(steps,done){let i=0;(function nxt(){if(i>=steps.length){done&&done();return;}const s=steps[i++];typing(s.wait||650,()=>{s.run();nxt();});})();}
 
-/* ============ FLOW ============ */
-function restart(){document.querySelectorAll('audio,video').forEach(m=>{try{m.pause()}catch(e){}});chat.innerHTML='';clearChoices();score=0;vnId=0;renderJourney();start();}
+function restart(){document.querySelectorAll('audio,video').forEach(m=>{try{m.pause()}catch(e){}});chat.innerHTML='';clearChoices();score=0;vnId=0;buildJourney();start();}
 function start(){stage('trigger');day('TODAY');sysM('🔒 Messages are end-to-end encrypted.');
   seq([
     {wait:500,run:()=>bubble('Namaste Sunita ji. Aapke kshetra mein ek naya TB case aaya hai.','in','Hi Sunita. A new TB case has been assigned in your area.')},
@@ -416,7 +398,7 @@ function closeOut(){
     {ic:'≡',label:'Lesson menu',sub:'Back to Theme 2 lessons',echo:'Menu',go:()=>{bubble('Theek hai.','in');setTimeout(menu,450);}},
     {ic:'↺',label:'Demo dobara chalayein',sub:'Restart the demo',echo:false,go:restart},
   ],'Aage kya karein');}
-renderJourney();
+buildJourney();
 start();
 </script>
 </body>
