@@ -156,7 +156,7 @@
       <div class="jhead">
         <div>
           <h1>ASHA Saathi — conversation journey</h1>
-          <div class="sub">Hover a step to trace its path — step, remediation loop, next step. <b style="color:#c8552f;font-weight:600">Amber</b> = where the live demo is now.</div>
+          <div class="sub">Hover to trace a path · <b>click any step to play the demo from there</b> · <b style="color:#c8552f;font-weight:600">amber</b> = live position.</div>
         </div>
         <button class="zoombtn" onclick="openZoom()">⤢ Expand</button>
       </div>
@@ -239,7 +239,7 @@ function trackHTML(steps){
   steps.forEach((s,i)=>{
     const next=steps[i+1]?steps[i+1].id:'';
     html+=`<div class="col" id="col_${s.id}" data-id="${s.id}" data-rem="${s.rem?s.rem.id:''}" data-next="${next}"
-            onmouseenter="hoverIn('${s.id}')" onmouseleave="hoverOut()" onclick="pinCol('${s.id}')">
+            onmouseenter="hoverIn('${s.id}')" onmouseleave="hoverOut()" onclick="jumpTo('${s.id}')" title="▶ Click to play the demo from this step">
        <div class="dot"></div>
        <div class="stage type-${s.type}" id="${s.id}"><div class="stype">${TYPELBL[s.type]||''}</div><div class="stitle">${s.title}</div><div class="ssyn">${s.syn}</div></div>`;
     if(s.rem){
@@ -275,8 +275,10 @@ function applyHL(id){
   ids.forEach(x=>{const el=document.getElementById(x);if(el)el.classList.add('hl');});
   const c=document.getElementById('conn_'+id); if(c)c.classList.add('hl');
 }
-function hoverIn(id){applyHL(id);const b=document.getElementById('col_'+id);const blk=b&&b.closest('.lessonblock');if(blk)blk.classList.add('peek');}
-function hoverOut(){applyHL(pinned);document.querySelectorAll('#journeyHost .lessonblock.peek').forEach(x=>x.classList.remove('peek'));}
+function hoverIn(id){const b=document.getElementById('col_'+id);const blk=b&&b.closest('.lessonblock');
+  if(blk&&blk.classList.contains('dim'))return;   /* unselected lessons stay uniformly light — no half-lit hover */
+  applyHL(id);}
+function hoverOut(){applyHL(pinned);}
 function pinCol(id){pinned=(pinned===id)?null:id;applyHL(pinned);}
 function stage(id){
   document.querySelectorAll('#journeyHost .col').forEach(c=>c.classList.remove('active','rem-on'));
@@ -578,6 +580,28 @@ function closeOut(){
     {ic:'≡',label:'Lesson menu',sub:'Back to Theme 2 lessons',echo:'Menu',go:()=>{bubble('Theek hai.','in');setTimeout(menu,450);}},
     {ic:'↺',label:'Demo dobara chalayein',sub:'Restart the demo',echo:false,go:restart},
   ],'Aage kya karein');}
+/* ---- click a journey step to play the demo from there ---- */
+const JUMP={
+  trigger:start, menu:menu, anchor:kitabIntro, q1:scenarioQ,
+  r1:function(){wrong1=0;scenarioWrong();},
+  core:coreDeliver, summary:lessonSummary, q2:recapQ,
+  r2:function(){wrong2=0;recapWrong();},
+  key:afterRecap, ask:askWindow, done:finish, schedule:reminderSet,
+  l2_anchor:l2Intro, l2_q1:l2ScenarioQ,
+  l2_r1:function(){wrong1=0;l2ScenarioWrong();},
+  l2_core:l2Core, l2_summary:l2Summary, l2_q2:l2RecapQ,
+  l2_r2:function(){wrong2=0;l2RecapWrong();},
+  l2_key:l2AfterRecap, l2_ask:l2AskWindow, l2_done:l2Finish,
+  l2_schedule:function(){stage('l2_schedule');seq([{wait:650,run:()=>bubble('Theek hai. <b>Agle Somvaar shaam 6 baje</b> agli lesson bhejungi, aur kuch din baad ek chhota revision sawaal bhi.','in','Done — I’ll send the next lesson next Monday 6pm, plus a short revision question a few days later.')}],closeOut);}
+};
+function jumpTo(id){
+  if(!JUMP[id]) return;
+  document.querySelectorAll('audio,video').forEach(m=>{try{m.pause()}catch(e){}});
+  chat.innerHTML='';clearChoices();wrong1=0;wrong2=0;
+  score=(id==='done'||id==='l2_done')?totalQ:0;
+  sysM('▶ Demo started from this step (clicked in the journey)');
+  JUMP[id]();
+}
 buildJourney();
 start();
 </script>
