@@ -24,7 +24,8 @@
            border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;min-height:0;box-shadow:0 2px 10px rgba(20,40,50,.05)}
   .jhead{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
   .journey h1{font-family:var(--serif);font-size:22px;margin:0;color:#23302a;font-weight:600;letter-spacing:.2px}
-  .jhead .sub{font-size:12px;color:var(--muted);margin-top:4px;max-width:640px}
+  .jhead .sub{font-size:12px;color:var(--muted);margin-top:4px;max-width:none;white-space:nowrap}
+  @media(max-width:1180px){.jhead .sub{white-space:normal}}
   .zoombtn{background:#1a1a1a;color:#fff;border:none;border-radius:7px;padding:8px 13px;font-family:var(--mono);font-size:11px;letter-spacing:.04em;cursor:pointer;white-space:nowrap}
   .zoombtn:hover{background:#000}
   .themestrip{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 6px}
@@ -38,6 +39,9 @@
   .tracklabel{font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:#5d6b62;text-transform:uppercase;margin:2px 0 4px}
   .tracklabel.l2{border-top:1px dashed var(--line);margin-top:18px;padding-top:12px}
   .branchnote{font-family:var(--mono);font-size:10px;color:#3aa088;margin:8px 0 2px;letter-spacing:.02em}
+  .lessonblock{transition:opacity .25s}
+  .lessonblock.dim{opacity:.4}
+  .lessonblock.dim.peek,.lessonblock.peek{opacity:1}
   .track{display:flex;align-items:flex-start;gap:0;min-width:max-content;position:relative}
   .track::before{content:"";position:absolute;left:14px;right:14px;top:13px;height:1px;background:#ddd6c8}
   .col{position:relative;display:flex;flex-direction:column;align-items:center;padding-top:26px;width:198px;flex:0 0 auto;cursor:pointer}
@@ -152,7 +156,7 @@
       <div class="jhead">
         <div>
           <h1>ASHA Saathi — conversation journey</h1>
-          <div class="sub">Hover any step to trace its path — the step, its remediation loop, and the next step. Amber = where the live demo is now.</div>
+          <div class="sub">Hover a step to trace its path — step, remediation loop, next step. <b style="color:#c8552f;font-weight:600">Amber</b> = where the live demo is now.</div>
         </div>
         <button class="zoombtn" onclick="openZoom()">⤢ Expand</button>
       </div>
@@ -254,10 +258,10 @@ function trackHTML(steps){
 function buildJourney(){
   document.getElementById('themestrip').innerHTML=THEMES.map(t=>`<span class="chip${t[2]?' on':''}">${t[1]}</span>`).join('');
   document.getElementById('journeyHost').innerHTML=
-    '<div class="tracklabel">Shared entry — every session starts here</div>'+trackHTML(ENTRYSTEPS)+
+    '<div class="lessonblock" data-lesson="entry"><div class="tracklabel">Shared entry — every session starts here</div>'+trackHTML(ENTRYSTEPS)+'</div>'+
     '<div class="branchnote">↓ Once the ASHA chooses a lesson, the flow splits into the lessons below</div>'+
-    '<div class="tracklabel l2">Lesson 1 · TPT counselling</div>'+trackHTML(L1STEPS)+
-    '<div class="tracklabel l2">Lesson 2 · Convincing the household for testing</div>'+trackHTML(L2STEPS);
+    '<div class="lessonblock" data-lesson="l1"><div class="tracklabel l2">Lesson 1 · TPT counselling</div>'+trackHTML(L1STEPS)+'</div>'+
+    '<div class="lessonblock" data-lesson="l2"><div class="tracklabel l2">Lesson 2 · Convincing the household for testing</div>'+trackHTML(L2STEPS)+'</div>';
 }
 let pinned=null;
 function applyHL(id){
@@ -271,15 +275,22 @@ function applyHL(id){
   ids.forEach(x=>{const el=document.getElementById(x);if(el)el.classList.add('hl');});
   const c=document.getElementById('conn_'+id); if(c)c.classList.add('hl');
 }
-function hoverIn(id){applyHL(id);}
-function hoverOut(){applyHL(pinned);}
+function hoverIn(id){applyHL(id);const b=document.getElementById('col_'+id);const blk=b&&b.closest('.lessonblock');if(blk)blk.classList.add('peek');}
+function hoverOut(){applyHL(pinned);document.querySelectorAll('#journeyHost .lessonblock.peek').forEach(x=>x.classList.remove('peek'));}
 function pinCol(id){pinned=(pinned===id)?null:id;applyHL(pinned);}
 function stage(id){
   document.querySelectorAll('#journeyHost .col').forEach(c=>c.classList.remove('active','rem-on'));
   const el=document.getElementById(id);
   const col=el?el.closest('.col'):document.getElementById('col_'+id);
+  // lighten the lesson rows not in focus
+  const lesson = id.indexOf('l2_')===0 ? 'l2' : (id==='trigger'||id==='menu' ? 'entry' : 'l1');
+  document.querySelectorAll('#journeyHost .lessonblock').forEach(b=>{
+    b.classList.remove('peek');
+    const isOther = (lesson==='entry') ? (b.dataset.lesson!=='entry') : (b.dataset.lesson!==lesson);
+    b.classList.toggle('dim', isOther);
+  });
   if(col){col.classList.add('active'); if(el&&el.classList.contains('rem'))col.classList.add('rem-on');
-    try{col.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});}catch(e){}}
+    try{col.scrollIntoView({behavior:'smooth',inline:'center',block:'center'});}catch(e){}}
 }
 function openZoom(){document.getElementById('zoomBody').innerHTML=document.getElementById('journeyHost').innerHTML;document.getElementById('zoom').classList.add('show');}
 function closeZoom(){document.getElementById('zoom').classList.remove('show');}
