@@ -147,9 +147,51 @@
   .zoom .zbar b{font-size:16px;color:var(--teal)}
   .zoom .zclose{background:#eef3f3;color:#3c545b;border:1px solid var(--line);border-radius:8px;padding:9px 14px;cursor:pointer;font-size:13px}
   .zoom .zbody{flex:1;overflow:auto;background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px}
+
+  /* ============ MOBILE (≤640px) — desktop/laptop view is untouched ============ */
+  .mtabs{display:none}
+  @media(max-width:640px){
+    body{height:100dvh}
+    .mtabs{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px;background:#fff;border-bottom:1px solid var(--line);z-index:50;flex:0 0 auto}
+    .mtitle{font-family:var(--serif);font-weight:600;font-size:15px;color:#23302a}
+    .mtabbtns{display:flex;gap:6px}
+    .mtab{font-family:var(--mono);font-size:11.5px;padding:7px 12px;border:1px solid var(--line);background:#f3f6f6;color:#5d6b62;border-radius:8px}
+    .mtab.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+    .wrap{flex-direction:column;padding:0;gap:0;min-height:0}
+    body.tab-demo .journey{display:none}
+    body.tab-journey .right{display:none}
+    /* full-screen, bezel-less chat */
+    .right{flex:1;width:100%;max-width:none;height:auto;flex-direction:column;align-items:stretch}
+    .phone{flex:1;width:100%;max-width:none;height:auto;background:none;padding:0;border-radius:0;box-shadow:none}
+    .screen{border-radius:0;height:100%}
+    .notch{display:none}
+    header.bar{padding-top:12px}
+    /* journey: vertical, tap-friendly */
+    .journey{flex:1;min-width:0;border:none;border-radius:0;box-shadow:none;padding:12px 13px 0}
+    .journey h1{font-size:20px}
+    .jhead .sub{white-space:normal}
+    .jflow{overflow-x:hidden}
+    .track{flex-direction:column;align-items:stretch;min-width:0}
+    .track::before{display:none}
+    .col{width:100%;padding-top:4px}
+    .col .dot{display:none}
+    .conn{width:100%;height:20px;margin:1px 0;align-self:stretch;justify-content:center}
+    .conn .arw{transform:rotate(90deg);line-height:20px}
+    .conn .clbl{position:static;text-align:center;display:block}
+    /* footer hidden on the demo tab to maximise the chat */
+    body.tab-demo footer.banner{display:none}
+    footer.banner{font-size:10px;padding:8px 12px}
+  }
 </style>
 </head>
-<body>
+<body class="tab-demo">
+  <div class="mtabs" id="mtabs">
+    <span class="mtitle">ASHA Saathi</span>
+    <div class="mtabbtns">
+      <button class="mtab active" data-tab="demo" onclick="setMobileTab('demo')">▶ Demo</button>
+      <button class="mtab" data-tab="journey" onclick="setMobileTab('journey')">🗺 Journey</button>
+    </div>
+  </div>
   <div class="wrap">
     <!-- LEFT: adaptive conversation journey (light) -->
     <section class="journey">
@@ -594,8 +636,14 @@ const JUMP={
   l2_key:l2AfterRecap, l2_ask:l2AskWindow, l2_done:l2Finish,
   l2_schedule:function(){stage('l2_schedule');seq([{wait:650,run:()=>bubble('Theek hai. <b>Agle Somvaar shaam 6 baje</b> agli lesson bhejungi, aur kuch din baad ek chhota revision sawaal bhi.','in','Done — I’ll send the next lesson next Monday 6pm, plus a short revision question a few days later.')}],closeOut);}
 };
+function setMobileTab(t){
+  document.body.classList.remove('tab-demo','tab-journey');
+  document.body.classList.add('tab-'+t);
+  document.querySelectorAll('.mtab').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));
+}
 function jumpTo(id){
   if(!JUMP[id]) return;
+  if(window.matchMedia && window.matchMedia('(max-width:640px)').matches) setMobileTab('demo');
   document.querySelectorAll('audio,video').forEach(m=>{try{m.pause()}catch(e){}});
   chat.innerHTML='';clearChoices();wrong1=0;wrong2=0;
   score=(id==='done'||id==='l2_done')?totalQ:0;
