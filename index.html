@@ -1,657 +1,484 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ASHA Saathi — WhatsApp Refresher Demo</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASHA Saathi — The Case for a Digital Refresher Tool</title>
+<meta name="description" content="Why ASHA TPT training needs a digital refresher layer to substantiate the Training-of-Trainers cascade — and how we plan to build it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --wa-green:#075E54; --wa-teal:#128C7E; --bubble-in:#ffffff; --bubble-out:#DCF8C6; --chat-bg:#E5DDD5;
-    --ink:#26241f; --muted:#7a756b; --link:#027eb5;
-    --page:#faf8f2; --card:#ffffff; --line:#e7e2d8; --teal:#2f6b4a; --terra:#c8552f; --amber:#c8552f;
-    --serif:Georgia,"Times New Roman",serif; --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
-    /* category accents */
-    --c-sys:#a8a296; --c-content:#2f6b4a; --c-q:#b07d2b; --c-msg:#3f6f8f; --c-reward:#2f6b4a; --c-rem:#c8552f;
-  }
-  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  html,body{height:100%}
-  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-       background:var(--page);color:var(--ink);display:flex;flex-direction:column;overflow:hidden}
-  .wrap{flex:1;display:flex;gap:16px;padding:14px 14px 8px;min-height:0}
+:root{
+  --paper:#faf8f4; --paper2:#f2ede4; --ink:#0f0e09; --ink2:#3a3730; --ink3:#7a766a; --ink4:#b8b2a6;
+  --rule:#e0dbd2; --rule2:#c8c2b6;
+  --orange:#e04e1e; --orange-tint:#fdf2ee;
+  --green:#1a6b3a; --green-tint:#eef7f2; --green-mid:#2e7d4f;
+  --navy:#1a2d52; --navy-tint:#eef1f8;
+  --amber:#8a6000; --amber-tint:#fdf8ec; --red:#b02d1e;
+  --serif:'Playfair Display',Georgia,serif; --mono:'JetBrains Mono','Courier New',monospace; --sans:'Inter',system-ui,sans-serif;
+  --r:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.6}
+.wrap{max-width:1180px;margin:0 auto}
+em{font-style:italic}
+a{color:inherit}
 
-  /* ---------- LEFT: journey (light) ---------- */
-  .journey{flex:1 1 auto;min-width:380px;background:var(--card);border:1px solid var(--line);
-           border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;min-height:0;box-shadow:0 2px 10px rgba(20,40,50,.05)}
-  .jhead{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-  .journey h1{font-family:var(--serif);font-size:22px;margin:0;color:#23302a;font-weight:600;letter-spacing:.2px}
-  .jhead .sub{font-size:12px;color:var(--muted);margin-top:4px;max-width:none;white-space:nowrap}
-  @media(max-width:1180px){.jhead .sub{white-space:normal}}
-  .zoombtn{background:#1a1a1a;color:#fff;border:none;border-radius:7px;padding:8px 13px;font-family:var(--mono);font-size:11px;letter-spacing:.04em;cursor:pointer;white-space:nowrap}
-  .zoombtn:hover{background:#000}
-  .themestrip{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 6px}
-  .chip{font-family:var(--mono);font-size:10.5px;letter-spacing:.03em;color:#86807500;color:#867f73;background:transparent;border:1px solid var(--line);border-radius:4px;padding:5px 11px}
-  .chip.on{color:#2f6b4a;background:#eaf2ec;border-color:#bcdcc8;font-weight:700}
-  .legend2{display:flex;gap:15px;flex-wrap:wrap;font-family:var(--mono);font-size:10px;letter-spacing:.03em;color:#867f73;margin:8px 0 8px}
-  .legend2 i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+/* masthead */
+.masthead{border-bottom:2px solid var(--ink);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--paper);z-index:100;flex-wrap:wrap;gap:10px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-wordmark{font-family:var(--serif);font-size:22px;font-weight:700;letter-spacing:-.3px}
+.brand-divider{width:1px;height:18px;background:var(--rule2)}
+.brand-sub{font-family:var(--mono);font-size:9px;color:var(--ink3);letter-spacing:.8px;text-transform:uppercase}
+.nav-pills{display:flex;border:1px solid var(--rule2);border-radius:4px;overflow:hidden}
+.nav-pill{font-family:var(--mono);font-size:10px;letter-spacing:.4px;text-transform:uppercase;padding:7px 14px;background:none;border:none;border-right:1px solid var(--rule2);cursor:pointer;color:var(--ink3);transition:all .15s;text-decoration:none}
+.nav-pill:last-child{border-right:none}
+.nav-pill:hover{background:var(--paper2);color:var(--ink)}
 
-  /* flow */
-  .jflow{flex:1;min-height:0;overflow-x:auto;overflow-y:auto;padding:8px 4px 14px}
-  .tracklabel{font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:#5d6b62;text-transform:uppercase;margin:2px 0 4px}
-  .tracklabel.l2{border-top:1px dashed var(--line);margin-top:18px;padding-top:12px}
-  .branchnote{font-family:var(--mono);font-size:10px;color:#3aa088;margin:8px 0 2px;letter-spacing:.02em}
-  .lessonblock{transition:opacity .25s}
-  .lessonblock.dim{opacity:.4}
-  .lessonblock.dim.peek,.lessonblock.peek{opacity:1}
-  .track{display:flex;align-items:flex-start;gap:0;min-width:max-content;position:relative}
-  .track::before{content:"";position:absolute;left:14px;right:14px;top:13px;height:1px;background:#ddd6c8}
-  .col{position:relative;display:flex;flex-direction:column;align-items:center;padding-top:26px;width:198px;flex:0 0 auto;cursor:pointer}
-  .col .dot{position:absolute;top:7px;left:50%;transform:translateX(-50%);width:12px;height:12px;border-radius:50%;background:#faf8f2;border:2px solid var(--teal);z-index:2;transition:.18s}
-  .col.active .dot{background:var(--terra);border-color:var(--terra);box-shadow:0 0 0 4px rgba(200,85,47,.18)}
+/* hero */
+.hero{padding:52px 40px 44px;border-bottom:1px solid var(--rule);display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--ink3);margin-bottom:16px}
+.hero-hl{font-family:var(--serif);font-size:42px;font-weight:400;line-height:1.14;letter-spacing:-1px;margin-bottom:20px}
+.hero-body{font-size:15.5px;line-height:1.7;color:var(--ink2);margin-bottom:8px;max-width:520px}
+.demo-bar{margin-top:24px;padding-top:18px;border-top:1px solid var(--rule);display:flex;align-items:center;flex-wrap:wrap;gap:14px}
+.demo-bar-label{font-family:var(--mono);font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:var(--ink3)}
+.demo-link{font-family:var(--mono);font-size:11px;letter-spacing:.3px;padding:9px 16px;border-radius:3px;background:var(--orange);color:#fff;text-decoration:none;transition:opacity .15s}
+.demo-link:hover{opacity:.85}
+.demo-link.alt{background:var(--ink)}
 
-  .stage{background:#fff;border:1px solid var(--line);border-top:3px solid var(--ac,#cbd5d8);border-radius:8px;
-         padding:9px 11px;width:100%;box-shadow:0 1px 2px rgba(40,36,31,.05);transition:opacity .18s,box-shadow .18s,transform .18s}
-  .stage .stype{font-family:var(--mono);font-size:8.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ac);margin-bottom:3px;font-weight:700}
-  .stage .stitle{font-size:12.5px;font-weight:700;color:#2a2722;line-height:1.25}
-  .stage .ssyn{font-size:11px;color:#736e64;line-height:1.42;margin-top:4px}
-  .type-sys{--ac:var(--c-sys)} .type-content{--ac:var(--c-content)} .type-q{--ac:var(--c-q)}
-  .type-msg{--ac:var(--c-msg)} .type-reward{--ac:var(--c-reward)}
-  .col.active .stage{box-shadow:0 0 0 2px var(--terra);background:#fffaf6}
+/* hero phone (WhatsApp refresher) */
+.hero-right{display:flex;justify-content:center}
+.phone-shell{width:268px;background:#fff;border-radius:30px;border:6px solid var(--ink);box-shadow:5px 5px 0 var(--ink);overflow:hidden}
+.phone-notch{height:24px;background:var(--ink);display:flex;align-items:center;justify-content:center}
+.phone-notch-inner{width:60px;height:9px;background:#222;border-radius:5px}
+.wa-top{background:var(--green);color:#fff;padding:10px 12px;display:flex;align-items:center;gap:9px}
+.wa-av{width:30px;height:30px;border-radius:50%;background:#fff;color:var(--green);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.wa-name{font-size:13px;font-weight:600}
+.wa-status{font-size:9px;opacity:.85}
+.wa-body{background:#e6ddd4;padding:14px 12px;display:flex;flex-direction:column;gap:9px;min-height:300px}
+.bubble{max-width:85%;padding:8px 10px;border-radius:9px;font-size:11.5px;line-height:1.45;box-shadow:0 1px 1px rgba(0,0,0,.08)}
+.bin{background:#fff;align-self:flex-start;border-top-left-radius:2px}
+.bout{background:#dcf8c6;align-self:flex-end;border-top-right-radius:2px}
+.voice{display:flex;align-items:center;gap:8px;background:#fff;align-self:flex-start;padding:9px 11px;border-radius:9px;border-top-left-radius:2px;width:85%;box-shadow:0 1px 1px rgba(0,0,0,.08)}
+.voice .play{width:22px;height:22px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;flex:0 0 auto}
+.voice .wavebar{flex:1;height:18px;background:linear-gradient(90deg,var(--green) 0 35%,#bbb 35% 100%);border-radius:9px;opacity:.5}
+.voice .vt{font-family:var(--mono);font-size:8px;color:#666}
+.bmeta{font-family:var(--mono);font-size:8px;color:var(--ink3);align-self:flex-start;margin-top:-4px}
 
-  .branchlbl{font-family:var(--mono);font-size:9px;font-weight:700;color:#c8552f;margin:8px 0 4px;letter-spacing:.05em}
-  .rem{background:#fdf3ee;border:1px dashed #e6b39f;border-top:3px solid var(--c-rem);border-radius:8px;padding:9px 11px;width:100%;transition:opacity .18s,box-shadow .18s}
-  .rem .stype{font-family:var(--mono);font-size:8.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--c-rem);font-weight:700;margin-bottom:3px}
-  .rem .stitle{font-size:12px;font-weight:700;color:#a8492f}
-  .rem .ssyn{font-size:10.5px;color:#8a6a61;line-height:1.45;margin-top:4px}
-  .rem .retry{font-family:var(--mono);font-size:9px;font-weight:700;color:#c8552f;margin-top:6px;letter-spacing:.03em}
-  .col.rem-on .rem{box-shadow:0 0 0 2px var(--terra);background:#fdeee7}
-  .stnote{font-family:var(--mono);font-size:9px;line-height:1.45;color:#8a6d1f;background:#fbf3df;border:1px dashed #e6cf95;border-radius:6px;padding:6px 8px;margin-top:8px;width:100%}
+/* what-bar (big stats) */
+.what-bar{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--rule)}
+.what-cell{padding:26px 32px;border-right:1px solid var(--rule)}
+.what-cell:last-child{border-right:none}
+.what-num{font-family:var(--mono);font-size:40px;font-weight:600;letter-spacing:-2px;margin-bottom:4px;line-height:1}
+.what-num.org{color:var(--orange)} .what-num.grn{color:var(--green)} .what-num.nvy{color:var(--navy)}
+.what-label{font-family:var(--mono);font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
+.what-desc{font-size:13px;color:var(--ink2);line-height:1.55}
 
-  /* connector between columns */
-  .conn{flex:0 0 auto;width:40px;align-self:flex-start;margin-top:26px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;position:relative;height:46px}
-  .conn .arw{color:#c2bbac;font-size:18px;line-height:46px}
-  .conn .clbl{position:absolute;top:-12px;font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.04em;color:#2f6b4a;white-space:nowrap}
-  .conn.hl .arw{color:var(--teal)}
+/* section header */
+.sec-head{padding:30px 40px 6px;display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.sec-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--orange);font-weight:500}
+.sec-hint{font-family:var(--mono);font-size:10px;color:var(--ink3)}
+.sec-title{font-family:var(--serif);font-size:30px;font-weight:500;letter-spacing:-.4px;line-height:1.2;padding:6px 40px 0}
+.sec-intro{padding:14px 40px 0;max-width:760px;font-size:15px;color:var(--ink2);line-height:1.7}
+section{padding-bottom:40px;border-bottom:1px solid var(--rule)}
 
-  /* hover / pin highlight */
-  .jflow.focus .stage:not(.hl), .jflow.focus .rem:not(.hl){opacity:.34}
-  .jflow.focus .col.active .stage{opacity:1}
-  .stage.hl{opacity:1;box-shadow:0 0 0 2px var(--teal);transform:translateY(-2px)}
-  .rem.hl{opacity:1;box-shadow:0 0 0 2px var(--c-rem)}
+/* problem cards */
+.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:0;padding:24px 40px 0}
+.pcard{padding:22px 26px 22px 0;margin-right:26px;border-right:1px solid var(--rule)}
+.pcard:last-child{border-right:none;margin-right:0;padding-right:0}
+.pcard .icon{font-family:var(--serif);font-size:32px;color:var(--orange);line-height:1;margin-bottom:10px}
+.pcard h3{font-size:15px;font-weight:600;margin-bottom:6px;color:var(--ink)}
+.pcard p{font-size:13.5px;color:var(--ink2);line-height:1.6}
 
-  /* ---------- RIGHT: phone ---------- */
-  .right{flex:0 0 auto;height:100%;display:flex;align-items:center}
-  .phone{width:366px;max-width:42vw;height:100%;max-height:716px;background:#0b0f12;border-radius:38px;padding:9px;box-shadow:0 18px 44px rgba(20,40,50,.32);position:relative}
-  .screen{position:relative;height:100%;border-radius:29px;overflow:hidden;display:flex;flex-direction:column;background:var(--chat-bg)}
-  .notch{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:120px;height:21px;background:#0b0f12;border-radius:0 0 14px 14px;z-index:30}
-  header.bar{background:var(--wa-green);color:#fff;display:flex;align-items:center;gap:8px;padding:27px 11px 7px;z-index:20}
-  header.bar .back{font-size:18px;opacity:.95}
-  header.bar .av{width:33px;height:33px;border-radius:50%;background:#ccd0d2;display:flex;align-items:center;justify-content:center;font-size:15px}
-  header.bar .who{flex:1;min-width:0}
-  header.bar .who b{display:flex;align-items:center;gap:4px;font-size:14px;line-height:1.15}
-  header.bar .who .vf{font-size:10px;color:#a6e3c6}
-  header.bar .who span{font-size:10px;opacity:.85}
-  header.bar .ic{font-size:13px;opacity:.92;margin-left:3px}
-  .chat{flex:1;min-height:0;overflow-y:auto;padding:9px 11px 12px;
-        background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><circle cx='4' cy='4' r='1' fill='%23000' opacity='0.03'/></svg>");background-color:var(--chat-bg)}
-  .sys{align-self:center;background:#fff4c8;color:#54616b;font-size:10px;padding:5px 11px;border-radius:8px;margin:7px auto;width:max-content;max-width:88%;text-align:center}
-  .day{align-self:center;background:#d6e7ce;color:#3b4a54;font-size:10.5px;padding:4px 9px;border-radius:8px;margin:5px auto 9px;width:max-content}
-  .row{display:flex;margin:4px 0}.row.out{justify-content:flex-end}
-  .bubble{max-width:82%;padding:6px 9px 5px;border-radius:9px;font-size:13px;line-height:1.4;position:relative;box-shadow:0 1px 1px rgba(0,0,0,.13);word-wrap:break-word;animation:pop .18s ease-out}
-  .row.in .bubble{background:var(--bubble-in);border-top-left-radius:2px}
-  .row.out .bubble{background:var(--bubble-out);border-top-right-radius:2px}
-  @keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-  .bubble .en{display:block;color:var(--muted);font-size:10.5px;font-style:italic;margin-top:3px;line-height:1.35}
-  .bubble .t{font-size:9px;color:var(--muted);float:right;margin:4px 0 -2px 8px}
-  .bubble .check{color:#53bdeb}
-  .bubble.reward{background:#eaf7e2;border:1px solid #cfe9bd}
-  .bubble.wrong{background:#fdecea;border:1px solid #f2c2ba}
-  .bubble.summary{background:#fffdf4;border:1px solid #ece2bd}
-  .bubble.summary b.h{display:block;color:#8a6d1f;font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px}
-  .bubble.summary ol{margin:0;padding-left:17px}.bubble.summary li{margin:2px 0}
-  .vn{display:flex;align-items:center;gap:8px;min-width:200px}
-  .vn .av{width:30px;height:30px;border-radius:50%;background:#dfe5e7;flex:0 0 auto;position:relative;display:flex;align-items:center;justify-content:center;font-size:13px}
-  .vn .av .mic{position:absolute;bottom:-2px;right:-3px;font-size:10px}
-  .vn .play{width:27px;height:27px;border-radius:50%;background:var(--wa-teal);color:#fff;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer;border:none}
-  .vn .mid{flex:1}.vn .track2{position:relative;height:17px}.vn .bars{position:absolute;inset:0}.vn .bars svg{width:100%;height:17px}
-  .vn .knob{position:absolute;top:50%;left:0;width:8px;height:8px;border-radius:50%;background:var(--wa-teal);transform:translateX(-50%);margin-top:-4px}
-  .vn .meta{display:flex;justify-content:space-between;font-size:9.5px;color:var(--muted);margin-top:2px}
-  .vn .tag{font-size:9px;color:var(--wa-teal);font-weight:700}
-  .imgcard{padding:3px}.imgcard img{width:212px;border-radius:6px;display:block}.imgcard .cap{padding:4px 5px 2px;font-size:12px}
-  .fivehand{width:100%;border-radius:6px;display:block;background:#f3efe6}
-  .videocard{width:220px}.videocard video{width:100%;border-radius:6px;display:block;background:#000}
-  .videocard .meta{font-size:10px;color:var(--muted);margin-top:3px}
-  .typing{display:flex;gap:4px;align-items:center;background:var(--bubble-in);border-radius:9px;border-top-left-radius:2px;padding:9px 11px;width:max-content;box-shadow:0 1px 1px rgba(0,0,0,.13)}
-  .typing span{width:6px;height:6px;border-radius:50%;background:#9aa6ac;animation:blink 1.2s infinite}
-  .typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
-  @keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}
+/* callout */
+.callout{margin:26px 40px 0;background:var(--orange-tint);border:1px solid #f0cdbf;border-left:3px solid var(--orange);border-radius:var(--r);padding:18px 22px}
+.callout.grn{background:var(--green-tint);border-color:#bfe0cd;border-left-color:var(--green)}
+.callout p{font-size:14px;color:var(--ink2);line-height:1.65}
+.callout .ctag{font-family:var(--mono);font-size:9px;letter-spacing:.6px;text-transform:uppercase;color:var(--orange);display:block;margin-bottom:6px;font-weight:600}
+.callout.grn .ctag{color:var(--green)}
 
-  .tray{flex:0 0 auto;max-height:0;overflow:hidden;background:#16242e;border-top:2px dashed #4a6b78;transition:max-height .34s cubic-bezier(.2,.8,.2,1)}
-  .tray.show{max-height:58%}
-  .tray .inner{transform:translateY(16px);opacity:0;transition:transform .3s ease,opacity .28s;padding:8px 11px 11px}
-  .tray.show .inner{transform:none;opacity:1}
-  .tray .traylabel{font-size:9.5px;letter-spacing:.04em;text-transform:uppercase;color:#7fd3be;margin-bottom:4px}
-  .tray .traylabel b{color:#9fb4bc;font-weight:600;text-transform:none;letter-spacing:0}
-  .tray .qhint{font-size:11px;color:#a9bcc4;margin:0 0 4px;font-style:italic}
-  .tray .choice{display:flex;align-items:flex-start;gap:8px;width:100%;background:transparent;border:none;border-top:1px solid #2a3b45;padding:9px 2px;font-size:12.5px;text-align:left;color:#e3edf1;font-weight:600;cursor:pointer}
-  .tray .choice:hover{background:#1d2f3a}
-  .tray .choice .num{color:var(--amber);font-weight:700;min-width:15px}
-  .tray .choice .ic{min-width:15px}
-  .tray .choice small{display:block;color:#8aa0aa;font-weight:400;font-size:10.5px;font-style:italic;margin-top:1px}
+/* graph */
+.graph-wrap{margin:24px 40px 0;background:#fff;border:1px solid var(--rule);border-radius:var(--r);padding:24px 24px 14px;box-shadow:3px 3px 0 var(--paper2)}
+.graph-legend{display:flex;gap:20px;flex-wrap:wrap;font-family:var(--mono);font-size:10.5px;color:var(--ink3);margin-bottom:6px}
+.graph-legend i{display:inline-block;width:18px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
+.graph-cap{font-family:var(--mono);font-size:10px;letter-spacing:.2px;color:var(--ink3);margin-top:8px;line-height:1.6}
 
-  footer.banner{flex:0 0 auto;background:#fff;border-top:1px solid var(--line);color:#6f8088;font-size:10.8px;line-height:1.5;padding:8px 16px}
-  footer.banner b{color:#4a5b62}
+/* flow steps */
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;padding:24px 40px 0}
+.step{background:#fff;border:1px solid var(--rule);border-top:3px solid var(--green);border-radius:6px;padding:14px 13px}
+.step .st{font-family:var(--mono);font-size:8.5px;letter-spacing:.6px;text-transform:uppercase;color:var(--green);font-weight:600;margin-bottom:7px}
+.step h4{font-size:13.5px;margin-bottom:4px}
+.step p{font-size:11.5px;color:var(--ink3);line-height:1.5}
 
-  .zoom{position:fixed;inset:0;background:rgba(238,242,243,.97);z-index:100;display:none;flex-direction:column;padding:18px}
-  .zoom.show{display:flex}
-  .zoom .zbar{display:flex;justify-content:space-between;align-items:center;color:#27424b;margin-bottom:10px}
-  .zoom .zbar b{font-size:16px;color:var(--teal)}
-  .zoom .zclose{background:#eef3f3;color:#3c545b;border:1px solid var(--line);border-radius:8px;padding:9px 14px;cursor:pointer;font-size:13px}
-  .zoom .zbody{flex:1;overflow:auto;background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px}
+/* benchmark table */
+.bench{margin:24px 40px 0;border:1px solid var(--rule);border-radius:var(--r);overflow:hidden;background:#fff}
+.bench table{width:100%;border-collapse:collapse}
+.bench th,.bench td{text-align:left;padding:13px 16px;border-bottom:1px solid var(--rule);vertical-align:top}
+.bench th{font-family:var(--mono);font-size:9.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--ink3);background:var(--paper2);font-weight:500}
+.bench tr:last-child td{border-bottom:none}
+.bench td.prog{font-weight:600;font-size:13.5px;width:24%}
+.bench td.cad{font-family:var(--mono);font-size:13px;color:var(--green-mid);font-weight:600;width:20%}
+.bench td.note{font-size:12.5px;color:var(--ink2);line-height:1.55}
+.bench tr.ours td{background:var(--green-tint)}
+.bench tr.ours td.cad{color:var(--green)}
 
-  /* ============ MOBILE (≤640px) — desktop/laptop view is untouched ============ */
-  .mtabs{display:none}
-  @media(max-width:640px){
-    body{height:100dvh}
-    .mtabs{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px;background:#fff;border-bottom:1px solid var(--line);z-index:50;flex:0 0 auto}
-    .mtitle{font-family:var(--serif);font-weight:600;font-size:15px;color:#23302a}
-    .mtabbtns{display:flex;gap:6px}
-    .mtab{font-family:var(--mono);font-size:11.5px;padding:7px 12px;border:1px solid var(--line);background:#f3f6f6;color:#5d6b62;border-radius:8px}
-    .mtab.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
-    .wrap{flex-direction:column;padding:0;gap:0;min-height:0}
-    body.tab-demo .journey{display:none}
-    body.tab-journey .right{display:none}
-    /* full-screen, bezel-less chat */
-    .right{flex:1;width:100%;max-width:none;height:auto;flex-direction:column;align-items:stretch}
-    .phone{flex:1;width:100%;max-width:none;height:auto;background:none;padding:0;border-radius:0;box-shadow:none}
-    .screen{border-radius:0;height:100%}
-    .notch{display:none}
-    header.bar{padding-top:12px}
-    /* journey: vertical, tap-friendly */
-    .journey{flex:1;min-width:0;border:none;border-radius:0;box-shadow:none;padding:12px 13px 0}
-    .journey h1{font-size:20px}
-    .jhead .sub{white-space:normal}
-    .jflow{overflow-x:hidden}
-    .track{flex-direction:column;align-items:stretch;min-width:0}
-    .track::before{display:none}
-    .col{width:100%;padding-top:4px}
-    .col .dot{display:none}
-    .conn{width:100%;height:20px;margin:1px 0;align-self:stretch;justify-content:center}
-    .conn .arw{transform:rotate(90deg);line-height:20px}
-    .conn .clbl{position:static;text-align:center;display:block}
-    /* footer hidden on the demo tab to maximise the chat */
-    body.tab-demo footer.banner{display:none}
-    footer.banner{font-size:10px;padding:8px 12px}
-  }
+/* substantiation list */
+ul.clean{list-style:none;padding:18px 40px 0;margin:0}
+ul.clean li{position:relative;padding:13px 0 13px 26px;border-bottom:1px solid var(--rule);font-size:14px;color:var(--ink2);line-height:1.55}
+ul.clean li:last-child{border-bottom:none}
+ul.clean li::before{content:"";position:absolute;left:0;top:18px;width:8px;height:8px;background:var(--green);border-radius:2px}
+ul.clean li strong{display:block;color:var(--ink);font-weight:600;margin-bottom:2px}
+
+/* plan / why-it-works numbered */
+.plan{padding:22px 40px 0;display:grid;grid-template-columns:1fr;gap:0}
+.phase{display:grid;grid-template-columns:130px 1fr;gap:24px;padding:20px 0;border-bottom:1px solid var(--rule)}
+.phase:last-child{border-bottom:none}
+.phase .pn{font-family:var(--mono);font-size:10px;letter-spacing:.5px;color:#fff;background:var(--green);border-radius:4px;padding:7px 9px;height:fit-content;text-align:center}
+.phase:nth-child(2) .pn{background:var(--orange)}
+.phase:nth-child(3) .pn{background:var(--amber)}
+.phase:nth-child(4) .pn{background:var(--navy)}
+.phase h4{font-size:16px;font-weight:600;margin-bottom:5px}
+.phase p{font-size:13.5px;color:var(--ink2);line-height:1.6}
+.phase .done{font-family:var(--mono);font-size:9px;color:var(--green);letter-spacing:.4px;text-transform:uppercase;margin-top:6px;display:inline-block}
+
+/* footer */
+footer{padding:30px 40px 50px}
+.foot-attr{font-family:var(--serif);font-size:18px;font-weight:500;margin-bottom:8px}
+.foot-meta{font-family:var(--mono);font-size:10px;color:var(--ink3);letter-spacing:.3px;line-height:1.8}
+.sources{margin-top:18px;padding-top:16px;border-top:1px solid var(--rule)}
+.sources h5{font-family:var(--mono);font-size:9.5px;letter-spacing:.6px;text-transform:uppercase;color:var(--ink3);margin-bottom:8px}
+.sources ol{margin:0;padding-left:18px}
+.sources li{font-size:11.5px;color:var(--ink3);line-height:1.7;margin-bottom:2px}
+.sources a{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--navy-tint)}
+
+@media(max-width:880px){
+  .hero{grid-template-columns:1fr;gap:32px}
+  .hero-hl{font-size:34px}
+  .what-bar{grid-template-columns:1fr;border:none}
+  .what-cell{border-right:none;border-bottom:1px solid var(--rule)}
+  .cards3,.flow{grid-template-columns:1fr;gap:0}
+  .pcard{border-right:none;margin-right:0;padding-right:0;border-bottom:1px solid var(--rule)}
+  .flow .step{margin-bottom:0}
+  .phase{grid-template-columns:1fr;gap:8px}
+  .bench{overflow-x:auto}
+  .masthead{padding:12px 20px}
+  .hero,.sec-head,.sec-title,.sec-intro,.cards3,.callout,.graph-wrap,.flow,.bench,ul.clean,.plan,footer{padding-left:20px;padding-right:20px}
+  .callout,.graph-wrap,.bench{margin-left:20px;margin-right:20px}
+}
 </style>
 </head>
-<body class="tab-demo">
-  <div class="mtabs" id="mtabs">
-    <span class="mtitle">ASHA Saathi</span>
-    <div class="mtabbtns">
-      <button class="mtab active" data-tab="demo" onclick="setMobileTab('demo')">▶ Demo</button>
-      <button class="mtab" data-tab="journey" onclick="setMobileTab('journey')">🗺 Journey</button>
+<body>
+
+<div class="masthead">
+  <div class="brand">
+    <span class="brand-wordmark">ASHA Saathi</span>
+    <span class="brand-divider"></span>
+    <span class="brand-sub">Refresher Training · CbHCM</span>
+  </div>
+  <div class="nav-pills">
+    <a class="nav-pill" href="#problem">Problem</a>
+    <a class="nav-pill" href="#matters">Why it matters</a>
+    <a class="nav-pill" href="#solution">Solution</a>
+    <a class="nav-pill" href="#cadence">Cadence</a>
+    <a class="nav-pill" href="#plan">Plan</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="eyebrow">CbHCM Program · ASHA TPT · Internal Note</p>
+    <h1 class="hero-hl">A digital refresher tool to <em>substantiate</em> our Training-of-Trainers.</h1>
+    <p class="hero-body">TPT knowledge reaches frontline ASHAs through a cascade of in-person trainings — master trainers, to district and block trainers, to a single classroom session. That cascade is fragile, decays fast, and we have no way to prove it landed. This is the case for a lightweight, voice-first WhatsApp refresher that keeps the training alive between cases — and turns every lesson into evidence.</p>
+    <div class="demo-bar">
+      <span class="demo-bar-label">▶ See it in action</span>
+      <a class="demo-link" href="./demo.html">Interactive demo ↗</a>
+      <a class="demo-link alt" href="#plan">How we build it ↓</a>
     </div>
   </div>
-  <div class="wrap">
-    <!-- LEFT: adaptive conversation journey (light) -->
-    <section class="journey">
-      <div class="jhead">
-        <div>
-          <h1>ASHA Saathi — conversation journey</h1>
-          <div class="sub">Hover to trace a path · <b>click any step to play the demo from there</b> · <b style="color:#c8552f;font-weight:600">amber</b> = live position.</div>
-        </div>
-        <button class="zoombtn" onclick="openZoom()">⤢ Expand</button>
+  <div class="hero-right">
+    <div class="phone-shell">
+      <div class="phone-notch"><div class="phone-notch-inner"></div></div>
+      <div class="wa-top">
+        <div class="wa-av">स</div>
+        <div><div class="wa-name">ASHA Saathi</div><div class="wa-status">online · lesson 6</div></div>
       </div>
-      <div class="legend2">
-        <span><i style="background:#2f6b4a"></i>LESSON CONTENT</span>
-        <span><i style="background:#b07d2b"></i>QUESTION</span>
-        <span><i style="background:#c8552f"></i>REMEDIATION LOOP</span>
-        <span><i style="background:#2f6b4a"></i>REWARD</span>
-        <span><i style="background:#a8a296"></i>SYSTEM</span>
-      </div>
-      <div class="themestrip" id="themestrip"></div>
-      <div class="jflow" id="journeyHost"></div>
-    </section>
-
-    <!-- RIGHT: phone -->
-    <div class="right">
-      <div class="phone">
-        <div class="screen">
-          <div class="notch"></div>
-          <header class="bar">
-            <div class="back">‹</div><div class="av">🩺</div>
-            <div class="who"><b>ASHA Saathi <span class="vf">✔ business</span></b><span>online</span></div>
-            <div class="ic">📹</div><div class="ic">📞</div><div class="ic">⋮</div>
-          </header>
-          <div class="chat" id="chat"></div>
-          <div class="tray" id="tray"><div class="inner">
-            <div class="traylabel">Demo input · <b>placeholder — becomes WhatsApp menu navigation</b></div>
-            <div class="qhint" id="qhint"></div><div id="trayBody"></div>
-          </div></div>
-        </div>
+      <div class="wa-body">
+        <div class="bubble bin">नमस्ते दीदी 🙏 आज का सबक — TPT काउंसलिंग, 5 उँगली वाला तरीका।</div>
+        <div class="voice"><div class="play">▶</div><div class="wavebar"></div><div class="vt">3:14</div></div>
+        <div class="bmeta">CORE LESSON · VOICE</div>
+        <div class="bubble bin"><b>सवाल:</b> TPT किन लोगों को लेना ज़रूरी है?<br>1️⃣ Patient को 2️⃣ परिवार वालों को 3️⃣ दोनों को</div>
+        <div class="bubble bout">3️⃣ दोनों को ✅</div>
+        <div class="bmeta">SCENARIO MCQ · ANSWERED</div>
+        <div class="bubble bin">सही! 👏 अगला रिवीज़न 3 दिन बाद आएगा।</div>
       </div>
     </div>
   </div>
+</section>
 
-  <footer class="banner">
-    <b>ASHA Saathi</b> — clickable mock-up of the WhatsApp refresher tool (right). The left panel is the adaptive conversation journey for Theme 2 → TPT counselling, showing each step and its branches. <b>Real vs simulated:</b> audio is generated Hindi TTS and the video is an auto-built slide reel (stand-ins for a recorded regional voice / produced video); the chat engine is a front-end mock, not a live WhatsApp connection. Structure adapted from learnings from Treemouse's HCM formative research, content guidelines and their previous learnings on WhatsApp based training tools.
-  </footer>
-
-  <div class="zoom" id="zoom">
-    <div class="zbar"><b>Conversation journey — full view</b><button class="zclose" onclick="closeZoom()">✕ Close</button></div>
-    <div class="zbody" id="zoomBody"></div>
+<!-- WHAT BAR -->
+<div class="what-bar">
+  <div class="what-cell">
+    <div class="what-num org">1×</div>
+    <div class="what-label">Classroom touch</div>
+    <div class="what-desc">TPT content reaches an ASHA through a single cascaded training — then nothing reinforces it in the field.</div>
   </div>
+  <div class="what-cell">
+    <div class="what-num org">0</div>
+    <div class="what-label">Field artefacts in use</div>
+    <div class="what-desc">Feb 2026 prototyping found ASHAs were using no supporting communication material for TPT counselling.</div>
+  </div>
+  <div class="what-cell">
+    <div class="what-num grn">~2×</div>
+    <div class="what-label">Retention, spaced vs. crammed</div>
+    <div class="what-desc">Spaced, distributed reinforcement can roughly double long-term retention versus one-off training.<sup>4</sup></div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="sec-head"><span class="sec-eyebrow">The problem</span><span class="sec-hint">01</span></div>
+  <h2 class="sec-title">A one-time cascade can't carry a year of fieldwork.</h2>
+  <div class="sec-intro">Every hop of the Training-of-Trainers loses fidelity, and the final ASHA session happens once. With infrequent TPT casework between visits, skills go unused and erode — and the program has no signal on what survived.</div>
+  <div class="cards3">
+    <div class="pcard">
+      <div class="icon">↓</div>
+      <h3>Knowledge decays</h3>
+      <p>Without reinforcement, most of a single training is forgotten within weeks. Infrequent casework means skills go unused and erode further.</p>
+    </div>
+    <div class="pcard">
+      <div class="icon">≈</div>
+      <h3>Cascade drift</h3>
+      <p>Each layer of the ToT paraphrases the last. By the time content reaches ASHAs, key messages and counselling structure are diluted or inconsistent.</p>
+    </div>
+    <div class="pcard">
+      <div class="icon">?</div>
+      <h3>No substantiation</h3>
+      <p>We can confirm a training <em>happened</em> (attendance), but never that it <em>worked</em>. No read on retention, gaps, or field confidence.</p>
+    </div>
+  </div>
+  <div class="callout">
+    <span class="ctag">From our own field prototyping · Feb 2026</span>
+    <p><strong>This isn't hypothetical.</strong> The findings flagged it directly: <em>"ASHAs have low retention of training, and there is a time gap between training and case allotment."</em> CHOs also reported that a single counselling session is rarely enough — families need repeated, consistent contact before they test or start TPT, and ASHAs were using no supporting artefact at all.</p>
+  </div>
+</section>
+
+<!-- WHY IT MATTERS / GRAPH -->
+<section id="matters">
+  <div class="sec-head"><span class="sec-eyebrow">Why it matters</span><span class="sec-hint">02</span></div>
+  <h2 class="sec-title">The forgetting curve — and what a refresher does to it.</h2>
+  <div class="sec-intro">A single training decays along the classic forgetting curve. Short, spaced lessons interrupt that decay and lift each subsequent low point higher — the consolidation effect behind spaced repetition.</div>
+  <div class="graph-wrap">
+    <div class="graph-legend">
+      <span><i style="background:#e04e1e"></i>One-time training, no refreshers</span>
+      <span><i style="background:#1a6b3a"></i>With a short weekly refresher</span>
+    </div>
+    <svg id="curve" viewBox="0 0 760 320" width="100%" role="img" aria-label="Retention over time: a decaying curve without refreshers versus a rising sawtooth with weekly refreshers"></svg>
+    <p class="graph-cap" id="cap"></p>
+  </div>
+</section>
+
+<!-- SOLUTION -->
+<section id="solution">
+  <div class="sec-head"><span class="sec-eyebrow">The solution</span><span class="sec-hint">03</span></div>
+  <h2 class="sec-title">A voice-first WhatsApp refresher — one short lesson at a time.</h2>
+  <div class="sec-intro">Built for a low-literacy audience on variable rural connectivity: 8–10 minute lessons (5–7 min content, 3 min activity), every lesson grounded in a real step of the TPT pathway, following one repeatable structure.</div>
+  <div class="flow">
+    <div class="step"><div class="st">Open</div><h4>Anchor</h4><p>30-sec voice note framing a real field moment.</p></div>
+    <div class="step"><div class="st">Deliver</div><h4>Core lesson</h4><p>3–5 min warm Hindi audio + a standalone image cue.</p></div>
+    <div class="step"><div class="st">Check</div><h4>Scenario MCQ</h4><p>"What would you do if…" applied to the pathway.</p></div>
+    <div class="step"><div class="st">Ask</div><h4>Q&amp;A window</h4><p>Voice/text question routed to CHO; common ones auto-answered.</p></div>
+    <div class="step"><div class="st">Reinforce</div><h4>Spaced recap</h4><p>A revision MCQ a few days later locks it in.</p></div>
+  </div>
+  <div class="callout grn">
+    <span class="ctag">Design rule</span>
+    <p>The ASHA should be able to complete a lesson by <strong>listening alone</strong>. Text is a label, not the content. Images must stand on their own as field memory cues she can even show to households.</p>
+  </div>
+</section>
+
+<!-- CADENCE / BENCHMARKS -->
+<section id="cadence">
+  <div class="sec-head"><span class="sec-eyebrow">How often, and what</span><span class="sec-hint">04</span></div>
+  <h2 class="sec-title">Little and often beats long and rare.</h2>
+  <div class="sec-intro">We're not guessing at the cadence. Comparable WhatsApp/SMS health programs — and the learning science — converge on a few short, single-concept messages per week, sustained across the relevant window. Our framework's recommended weekly lesson sits right in that band.</div>
+  <div class="bench">
+    <table>
+      <thead><tr><th>Program</th><th>Cadence</th><th>What we take from it</th></tr></thead>
+      <tbody>
+        <tr class="ours">
+          <td class="prog">ASHA Saathi <span style="font-weight:400;color:var(--ink3)">(proposed)</span></td>
+          <td class="cad">1 / week</td>
+          <td class="note">8–10 min voice-first lesson weekly (fortnightly minimum), each tied to a TPT pathway step, with a spaced recap a few days later.</td>
+        </tr>
+        <tr>
+          <td class="prog">Noora Health <span style="font-weight:400;color:var(--ink3)">— mobile care companion</span></td>
+          <td class="cad">~3–4 / week</td>
+          <td class="note">25 messages incl. 7 videos over 50 days, mirroring the in-person curriculum; concise, spaced, two-way.<sup>1</sup></td>
+        </tr>
+        <tr>
+          <td class="prog">MomConnect <span style="font-weight:400;color:var(--ink3)">— South Africa (Turn.io / Praekelt)</span></td>
+          <td class="cad">2–3 / week</td>
+          <td class="note">Stage-based messages, ~150 in total, from pregnancy registration through the child's first birthday.<sup>2</sup></td>
+        </tr>
+        <tr>
+          <td class="prog">Glific / CLAP <span style="font-weight:400;color:var(--ink3)">— Key Education Foundation</span></td>
+          <td class="cad">weekly nudges</td>
+          <td class="note">Field lesson for low-literacy parents: short, focused messages outperformed lengthy text or video.<sup>3</sup></td>
+        </tr>
+        <tr>
+          <td class="prog">Learning science <span style="font-weight:400;color:var(--ink3)">— the spacing effect</span></td>
+          <td class="cad">spaced</td>
+          <td class="note">Distributed practice can roughly double long-term retention versus massed (crammed) study.<sup>4</sup></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- SUBSTANTIATION -->
+<section id="substantiate">
+  <div class="sec-head"><span class="sec-eyebrow">How it substantiates the ToT</span><span class="sec-hint">05</span></div>
+  <h2 class="sec-title">Every lesson produces evidence, not just delivery.</h2>
+  <div class="sec-intro">Beyond reinforcing knowledge, the tool gives the program a continuous, ASHA-level read on whether the cascade worked — something attendance sheets never could.</div>
+  <ul class="clean">
+    <li><strong>Retention signal</strong>Scenario and recap MCQ results show which messages stuck and which decayed, per topic and per ASHA.</li>
+    <li><strong>Gap detection</strong>Patterns in wrong answers and incoming questions surface where the ToT under-delivered — feeding the next round of trainer content.</li>
+    <li><strong>Field-confidence proxy</strong>Engagement and the nature of questions asked indicate real-world readiness, not just classroom recall.</li>
+    <li><strong>Coverage &amp; cadence</strong>Completion data confirms reinforcement is actually reaching the people the ToT was meant to equip.</li>
+    <li><strong>Closed loop to CHO</strong>Clinical questions route to the supervising CHO, keeping a human in the loop and documenting support.</li>
+  </ul>
+</section>
+
+<!-- PLAN -->
+<section id="plan">
+  <div class="sec-head"><span class="sec-eyebrow">How we're building it</span><span class="sec-hint">06</span></div>
+  <h2 class="sec-title">The plan.</h2>
+  <div class="plan">
+    <div class="phase">
+      <div class="pn">PHASE 1<br>Foundation</div>
+      <div>
+        <h4>Framework &amp; content format</h4>
+        <p>Design principles, the repeatable lesson structure, and the curriculum map across five themes (TB &amp; treatment, TPT &amp; medication, documentation, household alignment, digital enablement) — linked to the CbHCM pathway.</p>
+        <span class="done">✓ Largely complete</span>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="pn">PHASE 2<br>Pilot build</div>
+      <div>
+        <h4>Produce lessons &amp; a working demo</h4>
+        <p>Convert priority topics (TPT counselling &amp; 5-finger framework, convincing households for testing, HHC card) into voice-first lessons. Stand up a WhatsApp-based prototype to test the flow end-to-end.</p>
+        <span class="done">✓ Clickable demo live</span>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="pn">PHASE 3<br>Field test</div>
+      <div>
+        <h4>Validate with ASHAs &amp; CHOs</h4>
+        <p>A focused pilot — one high-incidence block, ~4+ ASHAs and 2 CHOs over ~4 weeks, with a baseline survey before training. Evaluate against the OECD lens (relevance, coherence, effectiveness, efficiency, impact, sustainability): does it lift retention, fit workflows, and cut training burden?</p>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="pn">PHASE 4<br>Scale</div>
+      <div>
+        <h4>Roll out &amp; instrument</h4>
+        <p>Expand the lesson library across all themes, integrate reporting so program leads see retention and gaps, and embed the refresher as the standing reinforcement layer behind every ToT.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-attr">ASHA Saathi — <em>refresher training, substantiated.</em></div>
+  <div class="foot-meta">
+    DRAFT · FOR INTERNAL DISCUSSION · CbHCM / ASHA TPT REFRESHER TRAINING<br>
+    Burgeon Strategy · <a href="./demo.html" style="color:var(--orange);border-bottom:1px solid var(--orange-tint)">Interactive demo ↗</a>
+  </div>
+  <div class="sources">
+    <h5>Sources</h5>
+    <ol>
+      <li>Johnston et al., <em>Bulletin of the WHO</em> (2025), cluster RCT (n=21,937): Noora Health's programme delivers 25 messages, incl. 7 videos, over 50 days. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11978415/">pmc.ncbi.nlm.nih.gov/articles/PMC11978415</a></li>
+      <li>Skinner et al. (2018) on MomConnect: stage-based messaging, 1–3 messages/week through the child's first year. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5922495/">pmc.ncbi.nlm.nih.gov/articles/PMC5922495</a></li>
+      <li>Glific / Key Education Foundation (CLAP): short, focused messages outperformed lengthy text or video for low-literacy parents. <a href="https://glific.org/strengthening-early-learning-at-home-the-journey-of-clap-by-key-education-foundation/">glific.org</a></li>
+      <li>Cepeda et al. (2006), meta-analysis of the spacing effect: distributed practice roughly doubles long-term retention vs. massed study.</li>
+      <li>ASHA TPT Refresher Training Framework &amp; FR Prototype — Findings from the Field (Feb 2026), internal.</li>
+    </ol>
+  </div>
+</footer>
+
+</div>
 
 <script>
-/* ============ JOURNEY (light, horizontal, hover) ============ */
-const THEMES=[['t1','1 · TB & treatment',false],['t2','2 · TPT & medication',true],['t3','3 · Documentation',false],['t4','4 · Household alignment',false],['t5','5 · Digital enablement',false]];
-const ENTRYSTEPS=[
- {id:'trigger',type:'sys',title:'Reminder / trigger',syn:'A weekly nudge — or a new TB case assigned — sends a push message with an image.'},
- {id:'menu',type:'sys',title:'Choose a lesson',syn:'The ASHA picks which lesson to do; the flow then splits per lesson.'},
-];
-const L1STEPS=[
- {id:'anchor',type:'content',title:'Lesson intro',syn:'Sets up the lesson — the 5 points the ASHA will share. No media here yet.'},
- {id:'q1',type:'q',title:'Scenario question',syn:'Who needs to take TPT? Correct: everyone eligible in the household.',
-   rem:{id:'r1',title:'Remediation loop',syn:'Each wrong answer is named clearly first (“that’s not correct”). Tier 1 — a short explanation, then retry. Wrong again → Tier 2 adds the matching illustration + a short audio. Wrong 3× → Tier 3 bundles the key points into a combined refresher video, flags the CHO / next cluster meeting, then reveals the answer.'},corr:true},
- {id:'core',type:'content',title:'Core lesson',syn:'The 5 points as short text + emoji messages, paced one at a time.'},
- {id:'summary',type:'content',title:'Summary',syn:'The 5 key points recapped — plus the brochure image, full audio and a short video.'},
- {id:'q2',type:'q',title:'Recap quiz',syn:'What to do about side-effects? Correct: contact the CHO / ASHA.',
-   rem:{id:'r2',title:'Remediation loop',syn:'Same pattern — names the wrong answer first, then: explanation → re-sent audio → a combined refresher video, with the CHO flagged when a gap persists, then the answer is revealed.'},corr:true},
- {id:'key',type:'msg',title:'Key message · 30-sec audio',syn:'Testing and TPT keep the whole family and village safe.'},
- {id:'ask',type:'sys',title:'Ask a question',syn:'A voice note or text — routed to the CHO; common questions answered automatically.',note:'⚑ Not in Phase 1. Strong candidate for an AI-assisted Q&A journey — flag for consideration.'},
- {id:'done',type:'reward',title:'Completion',syn:'Score and a badge; completion is shared with the CHO.'},
- {id:'schedule',type:'sys',title:'Schedule next',syn:'The next lesson is scheduled, with a short revision question a few days later.'},
-];
-const L2STEPS=[
- {id:'l2_anchor',type:'content',title:'Lesson intro',syn:'Sets up the lesson — how to bring the family to testing, calmly and without conflict.'},
- {id:'l2_q1',type:'q',title:'Scenario question',syn:'Family says “we’re fine, no test needed.” What first? Correct: calmly explain infection can be symptomless; testing is the first step.',
-   rem:{id:'l2_r1',title:'Remediation loop',syn:'Names the wrong approach first, then: explanation → re-sent illustration + audio → combined refresher video + CHO flag, then reveals the answer.'},corr:true},
- {id:'l2_core',type:'content',title:'Core lesson',syn:'Sit together · why testing matters (symptomless infection) · privacy · free & supported · revisit if refused.'},
- {id:'l2_summary',type:'content',title:'Summary',syn:'The key counselling points recapped — plus an image, audio and a short video.'},
- {id:'l2_q2',type:'q',title:'Recap quiz',syn:'Goal of the first visit? Correct: give information and make testing the first step.',
-   rem:{id:'l2_r2',title:'Remediation loop',syn:'Same pattern — names the wrong answer first, then explanation → refresher video + CHO flag, then reveals the answer.'},corr:true},
- {id:'l2_key',type:'msg',title:'Key message',syn:'TB in a home doesn’t mean everyone is ill — but there is risk. Testing, without fear, is the first step.'},
- {id:'l2_ask',type:'sys',title:'Ask a question',syn:'A voice note or text — routed to the CHO; common questions answered automatically.',note:'⚑ Not in Phase 1. Strong candidate for an AI-assisted Q&A journey.'},
- {id:'l2_done',type:'reward',title:'Completion',syn:'Stars + badge; completion shared with the CHO.'},
- {id:'l2_schedule',type:'sys',title:'Schedule next',syn:'The next lesson is scheduled, with a short revision question after a few days.'},
-];
-const TYPELBL={sys:'System',content:'Lesson',q:'Question',msg:'Key message',reward:'Reward'};
-function trackHTML(steps){
-  let html='<div class="track">';
-  steps.forEach((s,i)=>{
-    const next=steps[i+1]?steps[i+1].id:'';
-    html+=`<div class="col" id="col_${s.id}" data-id="${s.id}" data-rem="${s.rem?s.rem.id:''}" data-next="${next}"
-            onmouseenter="hoverIn('${s.id}')" onmouseleave="hoverOut()" onclick="jumpTo('${s.id}')" title="▶ Click to play the demo from this step">
-       <div class="dot"></div>
-       <div class="stage type-${s.type}" id="${s.id}"><div class="stype">${TYPELBL[s.type]||''}</div><div class="stitle">${s.title}</div><div class="ssyn">${s.syn}</div></div>`;
-    if(s.rem){
-      html+=`<div class="branchlbl">✗ IF WRONG ↓</div>
-        <div class="rem" id="${s.rem.id}"><div class="stype">Remediation</div><div class="stitle">${s.rem.title}</div><div class="ssyn">${s.rem.syn}</div><div class="retry">↺ BACK TO THE QUESTION — RETRY</div></div>`;
-    }
-    if(s.note){ html+=`<div class="stnote">${s.note}</div>`; }
-    html+='</div>';
-    if(next){
-      const lbl=s.corr?'<span class="clbl">if correct →</span>':'';
-      html+=`<div class="conn" id="conn_${s.id}">${lbl}<span class="arw">›</span></div>`;
-    }
+(function(){
+  var svg=document.getElementById('curve');
+  if(!svg) return;
+  var W=760,H=320,L=58,R=24,T=24,B=58;
+  var x0=L,x1=W-R,y0=T,y1=H-B;
+  var weeks=16;                 // horizontal span
+  function X(t){return x0+(t/weeks)*(x1-x0);}      // t in weeks
+  function Y(r){return y1-(r/100)*(y1-y0);}        // r in %
+  var NS='http://www.w3.org/2000/svg';
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+
+  // axes
+  svg.appendChild(el('line',{x1:x0,y1:y0,x2:x0,y2:y1,stroke:'#c8c2b6','stroke-width':1.4}));
+  svg.appendChild(el('line',{x1:x0,y1:y1,x2:x1,y2:y1,stroke:'#c8c2b6','stroke-width':1.4}));
+  [0,25,50,75,100].forEach(function(p){
+    var y=Y(p);
+    var g=el('line',{x1:x0,y1:y,x2:x1,y2:y,stroke:'#efeae1','stroke-width':1});svg.appendChild(g);
+    var tx=el('text',{x:x0-9,y:y+4,'text-anchor':'end','font-family':'JetBrains Mono, monospace','font-size':11,fill:'#7a766a'});tx.textContent=p+'%';svg.appendChild(tx);
   });
-  html+='</div>';return html;
-}
-function buildJourney(){
-  document.getElementById('themestrip').innerHTML=THEMES.map(t=>`<span class="chip${t[2]?' on':''}">${t[1]}</span>`).join('');
-  document.getElementById('journeyHost').innerHTML=
-    '<div class="lessonblock" data-lesson="entry"><div class="tracklabel">Shared entry — every session starts here</div>'+trackHTML(ENTRYSTEPS)+'</div>'+
-    '<div class="branchnote">↓ Once the ASHA chooses a lesson, the flow splits into the lessons below</div>'+
-    '<div class="lessonblock" data-lesson="l1"><div class="tracklabel l2">Lesson 1 · TPT counselling</div>'+trackHTML(L1STEPS)+'</div>'+
-    '<div class="lessonblock" data-lesson="l2"><div class="tracklabel l2">Lesson 2 · Convincing the household for testing</div>'+trackHTML(L2STEPS)+'</div>';
-}
-let pinned=null;
-function applyHL(id){
-  const flow=document.getElementById('journeyHost');
-  flow.querySelectorAll('.hl').forEach(e=>e.classList.remove('hl'));
-  flow.querySelectorAll('.conn.hl').forEach(e=>e.classList.remove('hl'));
-  if(!id){flow.classList.remove('focus');return;}
-  flow.classList.add('focus');
-  const col=document.getElementById('col_'+id);
-  const ids=[id]; if(col.dataset.rem)ids.push(col.dataset.rem); if(col.dataset.next)ids.push(col.dataset.next);
-  ids.forEach(x=>{const el=document.getElementById(x);if(el)el.classList.add('hl');});
-  const c=document.getElementById('conn_'+id); if(c)c.classList.add('hl');
-}
-function hoverIn(id){const b=document.getElementById('col_'+id);const blk=b&&b.closest('.lessonblock');
-  if(blk&&blk.classList.contains('dim'))return;   /* unselected lessons stay uniformly light — no half-lit hover */
-  applyHL(id);}
-function hoverOut(){applyHL(pinned);}
-function pinCol(id){pinned=(pinned===id)?null:id;applyHL(pinned);}
-function stage(id){
-  document.querySelectorAll('#journeyHost .col').forEach(c=>c.classList.remove('active','rem-on'));
-  const el=document.getElementById(id);
-  const col=el?el.closest('.col'):document.getElementById('col_'+id);
-  // lighten the lesson rows not in focus
-  const lesson = id.indexOf('l2_')===0 ? 'l2' : (id==='trigger'||id==='menu' ? 'entry' : 'l1');
-  document.querySelectorAll('#journeyHost .lessonblock').forEach(b=>{
-    b.classList.remove('peek');
-    const isOther = (lesson==='entry') ? (b.dataset.lesson!=='entry') : (b.dataset.lesson!==lesson);
-    b.classList.toggle('dim', isOther);
+  function axlabel(t,x,anchor){var e=el('text',{x:x,y:y1+22,'text-anchor':anchor,'font-family':'JetBrains Mono, monospace','font-size':11,fill:'#7a766a'});e.textContent=t;svg.appendChild(e);}
+  axlabel('ToT (week 0)',x0,'start');
+  axlabel('weeks in the field →',(x0+x1)/2,'middle');
+  axlabel('wk '+weeks,x1,'end');
+
+  // ---- decay without refresher: exponential toward a low floor ----
+  var floor=8, A=92, tau=3.0;     // R = floor + A*e^(-t/tau)
+  function decay(t){return floor + A*Math.exp(-t/tau);}
+  var d1='M'; var N=120;
+  for(var i=0;i<=N;i++){var t=weeks*i/N; d1+=(i?' L':'')+X(t).toFixed(1)+','+Y(decay(t)).toFixed(1);}
+  svg.appendChild(el('path',{d:d1,fill:'none',stroke:'#e04e1e','stroke-width':3,'stroke-linecap':'round'}));
+
+  // ---- with weekly refreshers: sawtooth, each reset stronger & shallower decay ----
+  var start=100, tauR=2.4;        // within-week decay constant (slower as it consolidates)
+  var segs=[], cur=start, markers=[];
+  for(var w=0; w<weeks; w++){
+    // decay across this week from cur
+    var localTau=tauR + w*0.18;   // consolidation: slower forgetting over time
+    var pts='';
+    for(var s=0;s<=12;s++){
+      var tt=w + s/12;
+      var r=cur*Math.exp(-(s/12)/localTau);
+      pts+=(s?' L':(w?' L':'M'))+X(tt).toFixed(1)+','+Y(r).toFixed(1);
+      if(s===12) cur=r; // end-of-week level
+    }
+    segs.push(pts);
+    // refresher boost at end of week (except final): pull back up, diminishing headroom
+    if(w<weeks-1){
+      var boosted=Math.min(96, cur + (96-cur)*0.78);
+      markers.push([w+1,boosted,cur]);
+      cur=boosted;
+    }
+  }
+  var dpath=segs.join(' ');
+  // add vertical reconnects at each boost
+  svg.appendChild(el('path',{d:dpath,fill:'none',stroke:'#1a6b3a','stroke-width':3,'stroke-linejoin':'round','stroke-linecap':'round'}));
+  markers.forEach(function(m){
+    var x=X(m[0]);
+    svg.appendChild(el('line',{x1:x,y1:Y(m[2]),x2:x,y2:Y(m[1]),stroke:'#1a6b3a','stroke-width':3}));
+    svg.appendChild(el('circle',{cx:x,cy:Y(m[1]),r:3.6,fill:'#1a6b3a'}));
   });
-  if(col){col.classList.add('active'); if(el&&el.classList.contains('rem'))col.classList.add('rem-on');
-    try{col.scrollIntoView({behavior:'smooth',inline:'center',block:'center'});}catch(e){}}
-}
-function openZoom(){document.getElementById('zoomBody').innerHTML=document.getElementById('journeyHost').innerHTML;document.getElementById('zoom').classList.add('show');}
-function closeZoom(){document.getElementById('zoom').classList.remove('show');}
 
-/* ============ DEMO ENGINE (phone) ============ */
-const chat=document.getElementById('chat');
-const tray=document.getElementById('tray'),trayBody=document.getElementById('trayBody'),qhint=document.getElementById('qhint');
-let score=0,totalQ=2,vnId=0,wrong1=0,wrong2=0;
-function now(){const d=new Date();let h=d.getHours(),m=d.getMinutes();const ap=h>=12?'pm':'am';h=h%12||12;return h+':'+String(m).padStart(2,'0')+' '+ap;}
-function scrollC(){chat.scrollTop=chat.scrollHeight;}
-function sysM(t){const e=document.createElement('div');e.className='sys';e.innerHTML=t;chat.appendChild(e);scrollC();}
-function day(t){const e=document.createElement('div');e.className='day';e.textContent=t;chat.appendChild(e);scrollC();}
-function bubble(html,dir='in',en='',cls=''){const row=document.createElement('div');row.className='row '+dir;const b=document.createElement('div');b.className='bubble '+cls;
-  let inner=html;if(en)inner+='<span class="en">'+en+'</span>';inner+='<span class="t">'+now()+(dir==='out'?' <span class="check">✓✓</span>':'')+'</span>';
-  b.innerHTML=inner;row.appendChild(b);chat.appendChild(row);scrollC();return b;}
-function scoreMsg(msg,en){score++;bubble('🌟 '+msg+' Aapko ek star mila ⭐  <b>('+score+'/'+totalQ+')</b>','in',en,'reward');}
-function voiceNote(tag,src,secs,en){const id='vn'+(++vnId);
-  const bars='<svg viewBox="0 0 150 17" preserveAspectRatio="none">'+Array.from({length:46}).map((_,i)=>{const h=3+Math.abs(Math.sin(i*0.8))*12;const y=(17-h)/2;return `<rect x="${i*3.2}" y="${y}" width="1.6" height="${h}" rx="0.8" fill="#c4ccd0"/>`}).join('')+'</svg>';
-  const html=`<div class="tag">🔊 ${tag}</div><div class="vn"><button class="play" id="${id}b">▶</button><div class="mid"><div class="track2"><div class="bars">${bars}</div><div class="knob" id="${id}k"></div></div><div class="meta"><span id="${id}t">0:${String(secs).padStart(2,'0')}</span><span>voice note</span></div></div><div class="av">🩺<span class="mic">🎙️</span></div></div><audio id="${id}a" src="${src}" preload="metadata"></audio>`;
-  const b=bubble(html,'in',en);const a=b.querySelector('#'+id+'a'),btn=b.querySelector('#'+id+'b'),kn=b.querySelector('#'+id+'k'),tt=b.querySelector('#'+id+'t');
-  btn.onclick=()=>{if(a.paused){document.querySelectorAll('audio').forEach(x=>{if(x!==a)x.pause();});a.play();btn.textContent='❚❚';}else{a.pause();btn.textContent='▶';}};
-  a.ontimeupdate=()=>{const d=a.duration||secs;kn.style.left=(a.currentTime/d*100)+'%';const r=Math.max(0,Math.round(d-a.currentTime));tt.textContent='0:'+String(r).padStart(2,'0');};
-  a.onended=()=>{btn.textContent='▶';kn.style.left='0%';tt.textContent='0:'+String(secs).padStart(2,'0');};return b;}
-function fiveHandImage(){const fingers=[['1','Hawa mein kitanu','TB germs in the home air'],['2','Phephdo mein','They settle in the lungs'],['3','Testing + TPT','Test, then prevent — free'],['4','Chote bacche','Under-5s: highest risk'],['5','Side-effects','Mild — call CHO, don\'t stop']];
-  const f=fingers.map((x,i)=>{const cxx=40+i*62;return `<g><rect x="${cxx-22}" y="70" width="44" height="${120+(i===2?20:0)}" rx="22" fill="#ffd9a8" stroke="#e0a96d"/><circle cx="${cxx}" cy="64" r="14" fill="#0e6b5f"/><text x="${cxx}" y="69" font-size="15" fill="#fff" text-anchor="middle" font-weight="bold">${x[0]}</text><text x="${cxx}" y="210" font-size="10.5" fill="#23303a" text-anchor="middle" font-weight="bold">${x[1]}</text><text x="${cxx}" y="224" font-size="7.6" fill="#5a6a72" text-anchor="middle">${x[2]}</text></g>`}).join('');
-  const svg=`<svg class="fivehand" viewBox="0 0 360 250" xmlns="http://www.w3.org/2000/svg"><rect width="360" height="250" fill="#fbf6ec"/><text x="180" y="28" font-size="14" fill="#0e6b5f" text-anchor="middle" font-weight="bold">5 ungli, 5 baatein · The 5-point TPT talk</text>${f}<path d="M20 192 q160 30 320 0" fill="none" stroke="#e0a96d" stroke-width="2" opacity="0.5"/></svg>`;
-  const row=document.createElement('div');row.className='row in';const b=document.createElement('div');b.className='bubble imgcard';
-  b.innerHTML=svg+'<div class="cap">Brochure aid — share with the family<span class="en">An image that works without explanation, as a memory cue. Data-light (≈40&nbsp;KB).</span><span class="t">'+now()+'</span></div>';
-  row.appendChild(b);chat.appendChild(row);scrollC();}
-function imgBubble(src,cap,en){const row=document.createElement('div');row.className='row in';const b=document.createElement('div');b.className='bubble imgcard';
-  b.innerHTML='<img src="'+src+'" loading="lazy"/>'+'<div class="cap">'+(cap||'')+(en?'<span class="en">'+en+'</span>':'')+'<span class="t">'+now()+'</span></div>';
-  row.appendChild(b);chat.appendChild(row);scrollC();}
-function videoBubble(){const row=document.createElement('div');row.className='row in';const b=document.createElement('div');b.className='bubble videocard';
-  b.innerHTML='<video controls preload="metadata" playsinline src="./lesson.mp4"></video><div class="meta">📹 The 5-point talk · 0:41 · Hindi voice-over</div><span class="en">Same lesson as video. Play or download from the ⋮ menu.</span><span class="t">'+now()+'</span>';
-  row.appendChild(b);chat.appendChild(row);scrollC();}
-function clearChoices(){tray.classList.remove('show');setTimeout(()=>{if(!tray.classList.contains('show')){trayBody.innerHTML='';qhint.textContent='';}},340);}
-function showChoices(list,header){trayBody.innerHTML='';qhint.textContent=header||'';
-  list.forEach(c=>{const btn=document.createElement('button');btn.className='choice';
-    const lead=c.num?`<span class="num">${c.num}</span>`:(c.ic?`<span class="ic">${c.ic}</span>`:'');
-    btn.innerHTML=lead+'<span>'+c.label+(c.sub?`<small>${c.sub}</small>`:'')+'</span>';
-    btn.onclick=()=>{if(c.echo!==false)bubble(c.echo||c.label,'out');trayBody.innerHTML='';qhint.textContent='';tray.classList.remove('show');c.go();};
-    trayBody.appendChild(btn);});
-  requestAnimationFrame(()=>tray.classList.add('show'));setTimeout(scrollC,120);setTimeout(scrollC,430);}
-function typing(ms,then){const row=document.createElement('div');row.className='row in';const t=document.createElement('div');t.className='typing';t.innerHTML='<span></span><span></span><span></span>';row.appendChild(t);chat.appendChild(row);scrollC();setTimeout(()=>{row.remove();then();},ms);}
-function seq(steps,done){let i=0;(function nxt(){if(i>=steps.length){done&&done();return;}const s=steps[i++];typing(s.wait||650,()=>{s.run();nxt();});})();}
+  // inline labels
+  var lblG=el('text',{x:X(8.4),y:Y(decay(2.0))-6,'font-family':'JetBrains Mono, monospace','font-size':11,fill:'#1a6b3a','font-weight':600});lblG.textContent='with weekly refreshers';svg.appendChild(lblG);
+  var lblO=el('text',{x:X(9.2),y:Y(decay(9.2))-8,'font-family':'JetBrains Mono, monospace','font-size':11,fill:'#e04e1e'});lblO.textContent='no refreshers';svg.appendChild(lblO);
 
-function restart(){document.querySelectorAll('audio,video').forEach(m=>{try{m.pause()}catch(e){}});chat.innerHTML='';clearChoices();score=0;vnId=0;wrong1=0;wrong2=0;buildJourney();start();}
-function start(){stage('trigger');day('TODAY');sysM('🔒 Messages are end-to-end encrypted.');
-  seq([
-    {wait:500,run:()=>bubble('Namaste Sunita ji. Aapke kshetra mein ek naya TB case aaya hai.','in','Hi Sunita. A new TB case has been assigned in your area.')},
-    {wait:850,run:()=>bubble('Visit se pehle 8 minute ki ek training kar lein? Neeche se chunein.','in','Shall we do an 8-minute training before your visit? Choose below.')},
-  ],menu);}
-function menu(){stage('menu');
-  showChoices([
-    {num:'1.',label:'TPT counselling — 5 baatein',sub:'~8 min',echo:'Lesson: TPT counselling',go:kitabIntro},
-    {num:'2.',label:'Ghar walon ko testing ke liye manaana',sub:'~8 min',echo:'Lesson 2',go:l2Intro},
-    {num:'3.',label:'HHC card — doses track karna',sub:'Coming soon',echo:'Lesson 3',go:lesson3Soon},
-  ],'Theme 2 — lesson chunein');}
-function lesson3Soon(){bubble('HHC card lesson abhi demo mein nahi hai — jald aayega.','in','The HHC card lesson isn’t in this demo yet — coming soon.');setTimeout(menu,850);}
-function soon(then){bubble('Ye lesson demo mein abhi nahi hai — TPT counselling khol rahe hain.','in','That lesson isn’t in this demo yet — opening TPT counselling.');setTimeout(then,750);}
-function kitabIntro(){stage('anchor');score=0;wrong1=0;wrong2=0;
-  seq([
-    {wait:650,run:()=>bubble('<b>Lesson: TPT counselling.</b> Is lesson mein hum <b>5 baatein</b> seekhenge jo aap pariwar ko bata sakti hain. Samay: ~8 min.','in','Lesson: TPT counselling. We’ll learn the 5 points you can tell the family. ~8 min.')},
-  ],()=>showChoices([{ic:'▶',label:'Haan, shuru karein',sub:'Yes, start',echo:'Shuru karein',go:scenarioQ}],'Tap to begin'));}
-function scenarioQ(){stage('q1');
-  seq([{wait:600,run:()=>bubble('Pehle ek sawaal. <b>TPT kin logon ko lena zaroori hai?</b>','in','First a question. Who needs to take TPT?')}],()=>{
-    showChoices([
-      {num:'1.',label:'Sirf patient ko',sub:'Only the patient',go:scenarioWrong},
-      {num:'2.',label:'Sirf pariwar walon ko',sub:'Only the family',go:scenarioWrong},
-      {num:'3.',label:'Dono / sabhi ghar walon ko',sub:'Both / the whole household',go:scenarioRight},
-    ],'Apna jawaab chunein');});}
-function scenarioWrong(){stage('r1');wrong1++;
-  if(wrong1===1){               /* Tier 1 — say it's wrong, explain, retry */
-    seq([
-      {wait:450,run:()=>bubble('❌ <b>Yeh sahi jawaab nahi hai.</b>','in','That’s not the right answer.','wrong')},
-      {wait:750,run:()=>bubble('👪 TB ek vyakti tak simit nahi rehta. Ghar ke <b>sabhi eligible contacts</b> khatre mein hote hain — isliye TPT poore ghar ke liye hai. 🛡️','in','TB isn’t limited to one person — the whole household is at risk, so TPT is for all eligible contacts.')},
-    ],()=>showChoices([{ic:'↩',label:'Phir se koshish karein',sub:'Try again',echo:'Phir se',go:scenarioQ}]));
-  } else if(wrong1===2){        /* Tier 2 — say wrong again, then illustration + audio */
-    seq([
-      {wait:450,run:()=>bubble('❌ <b>Yeh bhi sahi nahi hai.</b> Koi baat nahi — chaliye ek chitra aur audio se samajhte hain 👇','in','Still not right — no problem. Let’s understand it with a picture and a short audio.','wrong')},
-      {wait:650,run:()=>imgBubble('./p1.jpg','Ghar mein ek TB case = poora pariwar khatre mein.','One TB case at home means the whole household is at risk.')},
-      {wait:700,run:()=>voiceNote('Dobara suniye · 0:13','./finger3.mp3',13,'A short audio re-explaining this point.')},
-    ],()=>showChoices([{ic:'↩',label:'Ab jawaab dein',sub:'Answer again',echo:'Phir se',go:scenarioQ}]));
-  } else {                      /* Tier 3 — say wrong, combined refresher + escalate + reveal */
-    seq([
-      {wait:450,run:()=>bubble('❌ <b>Abhi bhi sahi nahi hua.</b> Chinta na karein — maine mukhya points ek <b>chhote refresher</b> mein jod diye hain 👇','in','Still not correct — no worries. I’ve bundled the key points into a short refresher.','wrong')},
-      {wait:750,run:videoBubble},
-      {wait:700,run:()=>bubble('Ye topic aapke <b>CHO</b> ko bhi bata diya — agli cluster meeting mein wo ispe baat karenge.','in','I’ve also flagged this for your CHO to cover next cluster meeting. (Mobile Academy: persistent gaps escalate to the facilitator.)','reward')},
-      {wait:700,run:()=>bubble('✅ <b>Sahi jawaab:</b> dono / sabhi eligible ghar wale. Chaliye aage badhte hain.','in','The correct answer: both / all eligible household members. Let’s move on.')},
-    ],coreDeliver);
-  }}
-function scenarioRight(){
-  seq([
-    {wait:500,run:()=>bubble('Sahi. Dono / sabhi eligible ghar walon ko.','in','Correct. Both / all eligible household members.')},
-    {wait:500,run:()=>scoreMsg('Sahi jawaab.','A visible scorecard — recognition arrives as a message; WhatsApp has no built-in score panel.')},
-  ],coreDeliver);}
-function coreDeliver(){stage('core');
-  seq([{wait:650,run:()=>bubble('Ab main aapko <b>5 baatein</b> bataungi jo aap pariwar ko samjha sakti hain. Ek-ek karke dekhte hain 👇','in','Now I’ll share the 5 points you can explain to the family — one at a time.')}],()=>coreText(1));}
-const fingersContent=[
- {hi:'🏠 <b>Baat 1.</b> Jis ghar mein TB patient hai, us ghar ki hawa mein TB ke kitanu 🦠 hote hain, jo aas-paas ke logon ke phephdon mein ja sakte hain.',en:'Point 1: The home’s air carries TB germs that can reach nearby lungs.'},
- {hi:'🫁 <b>Baat 2.</b> Ye kitanu phephdon mein bas jaate hain. Kuch turant bimaar, kuch baad mein — par 🚫😟 darne ki baat nahi.',en:'Point 2: They settle in the lungs — some fall ill now, some later. No need to fear.'},
- {hi:'🩺 <b>Baat 3.</b> Testing zaroori hai. Negative aaye to bachav ki goli (TPT) 💊 — hafte mein 1 din, 3 mahine (12 baar). Bilkul <b>muft</b> 🆓.',en:'Point 3: Test. If negative, take TPT — weekly for 3 months (12 doses). Free.'},
- {hi:'👶 <b>Baat 4.</b> 5 saal se chote bacchon ko sabse zyada khatra. Testing ki zaroorat nahi — doctor se baat karke seedhe TPT.',en:'Point 4: Under-5s are highest risk. No test — start TPT on the doctor’s advice.'},
- {hi:'⚠️ <b>Baat 5.</b> Kabhi thakaan, ulti ya bukhar ho sakta hai. Aisa ho to CHO/ASHA ko 📞 call karein — par dawai na chhodein.',en:'Point 5: Mild side-effects can occur — call the CHO/ASHA, don’t stop the medicine.'},
-];
-function coreText(n){const f=fingersContent[n-1];
-  seq([{wait:600,run:()=>bubble(f.hi,'in',f.en)}],()=>{
-    if(n<5) showChoices([
-        {ic:'▸',label:'Aage badhen',sub:'Next ('+n+'/5)',echo:'Aage badhen',go:()=>coreText(n+1)},
-        {ic:'↺',label:'Phir se',sub:'Repeat this point',echo:'Phir se',go:()=>{bubble('Theek hai.','in');setTimeout(()=>coreText(n),450);}},
-      ],'Aage badhne ke liye tap karein');
-    else lessonSummary();});}
-function lessonSummary(){stage('summary');wrong2=0;
-  seq([
-    {wait:650,run:()=>bubble('5 baatein poori 🙌 Ek chhota saaransh 👇','in','All 5 points covered. A short recap.')},
-    {wait:700,run:()=>bubble('<b class="h">Saaransh · Summary</b><ol><li>🏠 Ghar ki hawa mein kitanu</li><li>🫁 Phephdon mein bas jaate hain</li><li>🩺 Testing, phir TPT 💊 — muft</li><li>👶 5 saal se chote bacche — zyada khatra</li><li>⚠️ Side-effects par CHO/ASHA ko 📞 call</li></ol>','in','A short recap of the key points at the close of the lesson.','summary')},
-    {wait:700,run:()=>bubble('Yahi lesson image, audio aur video mein bhi hai — dohraana ho to 👇','in','The same lesson is here as an image, audio and video — to revise if you like.')},
-    {wait:700,run:()=>imgBubble('./summary.jpg','TPT brochure ke chitra — pariwar ko dikhaane / forward karne ke liye.','The TPT brochure illustrations — to show or forward to the family.')},
-    {wait:650,run:()=>voiceNote('Poora lesson · 0:13','./finger3.mp3',13,'The spoken lesson. In production: the full lesson in a warm regional voice.')},
-    {wait:700,run:videoBubble},
-  ],()=>showChoices([{ic:'▸',label:'Aage — recap karein',sub:'Continue to the recap',echo:'Aage badhen',go:recapQ}],'Tap to continue'));}
-function recapQ(){stage('q2');
-  seq([
-    {wait:600,run:()=>bubble('Chaliye, ab thoda recap karte hain jo humne aaj seekha 😊','in','Let’s quickly recap what we learned today.')},
-    {wait:750,run:()=>bubble('<b>Agar kisi ko TPT lene se thakaan ya ulti ho, to kya karein?</b>','in','If someone feels tired or nauseous on TPT, what should they do?')},
-  ],()=>{
-    showChoices([
-      {num:'1.',label:'Dawa turant band kar dein',sub:'Stop the medicine',go:recapWrong},
-      {num:'2.',label:'Kisi ko bataye bina ghar pe rahein',sub:'Stay quiet at home',go:recapWrong},
-      {num:'3.',label:'CHO ya ASHA ko contact karein',sub:'Contact the CHO or ASHA',go:recapRight},
-    ],'Apna jawaab chunein');});}
-function recapWrong(){stage('r2');wrong2++;
-  if(wrong2===1){
-    seq([
-      {wait:450,run:()=>bubble('❌ <b>Yeh sahi jawaab nahi hai.</b>','in','That’s not the right answer.','wrong')},
-      {wait:700,run:()=>bubble('Dawa band karna sahi nahi — isse TB se bachav adhura reh jaata hai.','in','Stopping the medicine isn’t right — protection stays incomplete.')},
-    ],()=>showChoices([{ic:'↩',label:'Phir se koshish karein',sub:'Try again',echo:'Phir se',go:recapQ}]));
-  } else if(wrong2===2){
-    seq([
-      {wait:450,run:()=>bubble('❌ <b>Yeh bhi sahi nahi hai.</b> Dobara suniye 👇','in','Still not right — listen once more.','wrong')},
-      {wait:700,run:()=>bubble('Side-effect halka hota hai. Sabse zaroori: dawa na chhodein, CHO/ASHA ko batayein.','in','Side-effects are mild. Most important — don’t stop, tell the CHO/ASHA.')},
-      {wait:650,run:()=>voiceNote('Dobara suniye · 0:14','./key.mp3',14,'A short audio re-explaining what to do about side-effects.')},
-    ],()=>showChoices([{ic:'↩',label:'Ab jawaab dein',sub:'Answer again',echo:'Phir se',go:recapQ}]));
-  } else {
-    seq([
-      {wait:450,run:()=>bubble('❌ <b>Abhi bhi sahi nahi hua.</b> Koi baat nahi — points ek refresher mein jod diye hain 👇','in','Still not correct — no worries. I’ve bundled the key points into a refresher.','wrong')},
-      {wait:700,run:videoBubble},
-      {wait:700,run:()=>bubble('Ye aapke <b>CHO</b> ko bhi bata diya — agli meeting mein cover honga.','in','Flagged for your CHO too.','reward')},
-      {wait:700,run:()=>bubble('✅ <b>Sahi jawaab:</b> CHO/ASHA ko contact karein.','in','The correct answer: contact the CHO/ASHA.')},
-    ],afterRecap);
-  }}
-function afterRecap(){
-  seq([
-    {wait:650,run:()=>bubble('Halki side-effects par dawa band na karein. CHO/ASHA se sampark karein — zaroorat ho to doctor se baat hogi.','in','Don’t stop for mild side-effects — contact the CHO/ASHA; a doctor is looped in if needed.')},
-    {wait:750,run:()=>voiceNote('Mukhya baat · 0:14','./key.mp3',14,'Har TB patient ke ghar, brochure se pariwar ko samjhayein ki testing aur TPT zaroori hai.')},
-  ],askWindow);}
-function recapRight(){seq([{wait:500,run:()=>scoreMsg('Sahi jawaab.','')}],afterRecap);}
-function askWindow(){stage('ask');
-  seq([
-    {wait:650,run:()=>bubble('Koi sawaal hai? Voice note ya text bhej sakti hain.','in','Any questions? Send a voice note or text.')},
-    {wait:600,run:()=>sysM('ℹ️ Phase 1 note · Voice note &amp; Q&amp;A isn’t built yet — shown here as a placeholder for where it could go.')},
-  ],()=>{
-    showChoices([
-      {ic:'🎙',label:'Voice note bhejein',sub:'Ask by voice (placeholder)',echo:'🎙 Voice note (0:12)',go:askSent},
-      {ic:'✔',label:'Nahi, samajh aaya',sub:'No, all clear',echo:'Samajh aaya, dhanyavaad',go:finish},
-    ],'Sawaal poochhne ke liye');});}
-function askSent(){seq([{wait:700,run:()=>bubble('Mil gaya. Ye clinical sawaal aapke <b>CHO</b> ko bhej diya gaya hai — jawaab 1–2 din mein.','in','Got it — routed to your CHO. Reply in 1–2 days. Common questions are auto-answered.')}],finish);}
-function finish(){stage('done');
-  const stars='⭐'.repeat(score)||'—';
-  seq([
-    {wait:800,run:()=>bubble('🎉 <b>Lesson poori!</b> Aapne '+score+'/'+totalQ+' sahi kiye — '+stars+' kamaaye! "TPT Counselling" ka badge mila 🏅','in','Lesson complete! You got '+score+'/'+totalQ+' correct — earned '+score+' star(s) and the "TPT Counselling" badge.','reward')},
-    {wait:800,run:()=>bubble('Ab aap visit ke liye taiyaar hain 💪','in','You’re ready for the visit.')},
-    {wait:800,run:()=>bubble('Theme 2 mein aur lessons bhi hain. Abhi koi aur dekhein, ya agli lesson baad mein bhejun? 👇','in','There are more lessons in Theme 2 — do another now, or I can send the next one later.')},
-  ],()=>showChoices([
-      {num:'2.',label:'Testing ke liye manaana',sub:'Lesson 2 · abhi dekhein',echo:'Lesson 2 abhi dekhein',go:l2Intro},
-      {num:'3.',label:'HHC card — doses track karna',sub:'Lesson 3 · coming soon',echo:'Lesson 3',go:lesson3Soon},
-      {ic:'🗓',label:'Agle Somvaar, shaam 6 baje',sub:'Schedule the next lesson',echo:'Agle Somvaar shaam bhejo',go:reminderSet},
-      {ic:'↺',label:'Demo dobara chalayein',sub:'Restart',echo:false,go:restart},
-  ],'Aage kya karein'));}
-
-/* ============ LESSON 2 — Convincing the household for testing ============ */
-function l2Intro(){stage('l2_anchor');score=0;wrong1=0;wrong2=0;
-  seq([{wait:650,run:()=>bubble('<b>Lesson: Testing ke liye manaana.</b> Aaj hum seekhenge ki pariwar ko bina darr, bina jhagde, testing ke liye kaise taiyaar karein. Samay ~8 min.','in','Lesson: Convincing the family to test. Today — how to bring the family to testing, calmly. ~8 min.')}],
-   ()=>showChoices([{ic:'▶',label:'Haan, shuru karein',sub:'Yes, start',echo:'Shuru karein',go:l2ScenarioQ}],'Tap to begin'));}
-function l2ScenarioQ(){stage('l2_q1');
-  seq([
-    {wait:600,run:()=>bubble('Ek sthiti 👇 Pariwar kehta hai: "Hum sab theek hain, humein test ki zarurat nahi."','in','A situation: the family says “we’re all fine, we don’t need a test.”')},
-    {wait:750,run:()=>bubble('<b>ASHA ko sabse pehle kya karna chahiye?</b>','in','What should the ASHA do first?')},
-  ],()=>showChoices([
-     {num:'1.',label:'Zor se samjhaayein ki test zaroori hai',sub:'Insist loudly',go:l2ScenarioWrong},
-     {num:'2.',label:'TB ka khatra badha-chadha kar batayein',sub:'Exaggerate the risk',go:l2ScenarioWrong},
-     {num:'3.',label:'Shaanti se samjhaayein — infection bina lakshan ke bhi, test pehla kadam',sub:'Calmly explain; testing first',go:l2ScenarioRight},
-     {num:'4.',label:'Seedha CHO ko bula lein',sub:'Call the CHO directly',go:l2ScenarioWrong},
-   ],'Apna jawaab chunein'));}
-function l2ScenarioWrong(){stage('l2_r1');wrong1++;
-  if(wrong1===1){ seq([
-    {wait:450,run:()=>bubble('❌ <b>Yeh sahi tareeka nahi hai.</b>','in','That’s not the right approach.','wrong')},
-    {wait:750,run:()=>bubble('🚫 Dar ya zabardasti se baat nahi banti. 🤝 <b>Shaanti se</b> samjhaayein — kai log swasth dikhte hain phir bhi infection ho sakta hai, isliye test pehla kadam hai. 🧪','in','Fear or force doesn’t help. Calmly explain — people can look healthy yet be infected, so testing is the first step.')},
-  ],()=>showChoices([{ic:'↩',label:'Phir se koshish karein',sub:'Try again',echo:'Phir se',go:l2ScenarioQ}])); }
-  else if(wrong1===2){ seq([
-    {wait:450,run:()=>bubble('❌ <b>Yeh bhi sahi nahi hai.</b> Ek chitra aur audio se samajhte hain 👇','in','Still not right — let’s use a picture and a short audio.','wrong')},
-    {wait:650,run:()=>imgBubble('./p3.jpg','Shaanti se baithkar samjhaayein — testing pehla kadam.','Sit calmly and explain — testing is the first step.')},
-    {wait:700,run:()=>voiceNote('Dobara suniye · 0:13','./finger3.mp3',13,'A short audio re-explaining the calm-counselling approach.')},
-  ],()=>showChoices([{ic:'↩',label:'Ab jawaab dein',sub:'Answer again',echo:'Phir se',go:l2ScenarioQ}])); }
-  else { seq([
-    {wait:450,run:()=>bubble('❌ <b>Abhi bhi sahi nahi hua.</b> Koi baat nahi — ek chhota refresher 👇','in','Still not correct — no worries, here’s a short refresher.','wrong')},
-    {wait:750,run:videoBubble},
-    {wait:700,run:()=>bubble('Ye aapke <b>CHO</b> ko bhi bata diya — agli meeting mein cover honga.','in','Flagged for your CHO too.','reward')},
-    {wait:700,run:()=>bubble('✅ <b>Sahi jawaab:</b> shaanti se samjhaayein — infection bina lakshan ke bhi ho sakta hai, test pehla kadam.','in','Correct: calmly explain — infection can be symptomless; testing is the first step.')},
-  ],l2Core); }}
-function l2ScenarioRight(){ seq([
-  {wait:500,run:()=>bubble('Sahi! Shaanti se, bina darr ke samjhaana hi sabse asar-daar hai.','in','Right — a calm, fear-free explanation works best.')},
-  {wait:500,run:()=>scoreMsg('Sahi jawaab.','')},
-],l2Core); }
-const l2Points=[
- {hi:'🪑 <b>1.</b> Sabko ek saath baithaayein aur samjhaayein ki aap kyu aaye hain.',en:'1. Sit everyone together and explain why you’ve come.'},
- {hi:'🌬️ <b>2.</b> Testing kyu zaroori: TB hawa se failta hai, ghar ke log prabhavit ho sakte hain — aur infection <b>bina lakshan</b> ke bhi ho sakta hai.',en:'2. Why test: TB spreads through air; household members can be affected — and infection can be symptomless.'},
- {hi:'🔒 <b>3.</b> Dar ya badnami? Testing poori tarah <b>gopniya</b> hai. Chahein to main CHO se abhi baat karaa deti hoon.',en:'3. Fear or stigma? Testing is fully confidential. I can connect you to the CHO right now.'},
- {hi:'🆓 <b>4.</b> Testing <b>muft</b> aur aasan hai. ASHA aur CHO ka poora sahyog aapke saath hai.',en:'4. Testing is free and easy. The ASHA and CHO fully support you.'},
- {hi:'🔁 <b>5.</b> Pehli baar na maanein to dobara visit karein. Phir bhi nahi to CHO ko bataayein.',en:'5. If they don’t agree the first time, revisit. If still not, inform the CHO.'},
-];
-function l2Point(n){const f=l2Points[n-1];
-  seq([{wait:600,run:()=>bubble(f.hi,'in',f.en)}],()=>{
-   if(n<5) showChoices([{ic:'▸',label:'Aage badhen',sub:'Next ('+n+'/5)',echo:'Aage badhen',go:()=>l2Point(n+1)},{ic:'↺',label:'Phir se',sub:'Repeat this point',echo:'Phir se',go:()=>{bubble('Theek hai.','in');setTimeout(()=>l2Point(n),450);}}],'Aage badhne ke liye tap karein');
-   else l2Summary();});}
-function l2Core(){stage('l2_core');
-  seq([{wait:650,run:()=>bubble('Ab kuch <b>mukhya baatein</b> jo aap pariwar se kah sakti hain 👇','in','Now a few key things you can say to the family.')}],()=>l2Point(1));}
-function l2Summary(){stage('l2_summary');wrong2=0;
-  seq([
-    {wait:650,run:()=>bubble('Mukhya baatein poori 🙌 Saaransh 👇','in','Key points done. A short recap.')},
-    {wait:700,run:()=>bubble('<b class="h">Saaransh · Summary</b><ol><li>🪑 Sabko baithaakar samjhaayein</li><li>🌬️ Infection bina lakshan ke bhi — test pehla kadam</li><li>🔒 Testing gopniya hai</li><li>🆓 Muft, aasan, ASHA+CHO sahyog</li><li>🔁 Na maanein to dobara visit, phir CHO ko</li></ol>','in','A short recap of the key counselling points.','summary')},
-    {wait:700,run:()=>bubble('Yahi lesson image, audio aur video mein bhi hai 👇','in','The same lesson is here as an image, audio and video.')},
-    {wait:700,run:()=>imgBubble('./p3.jpg','Shaanti se baithkar testing ke liye samjhaana.','Calmly counselling the family towards testing.')},
-    {wait:650,run:()=>voiceNote('Poora lesson · 0:13','./finger3.mp3',13,'The spoken lesson (placeholder audio).')},
-    {wait:700,run:videoBubble},
-  ],()=>showChoices([{ic:'▸',label:'Aage — recap karein',sub:'Continue to the recap',echo:'Aage badhen',go:l2RecapQ}],'Tap to continue'));}
-function l2RecapQ(){stage('l2_q2');
-  seq([
-    {wait:600,run:()=>bubble('Chaliye, ab thoda recap karte hain 😊','in','Let’s quickly recap.')},
-    {wait:750,run:()=>bubble('<b>ASHA ke pehle visit ka mukhya uddeshya kya hai?</b>','in','What is the main goal of the ASHA’s first visit?')},
-  ],()=>showChoices([
-     {num:'1.',label:'Sabko turant TPT start karwana',sub:'Start TPT immediately',go:l2RecapWrong},
-     {num:'2.',label:'Jabardasti test karwana',sub:'Force testing',go:l2RecapWrong},
-     {num:'3.',label:'Jankari dena aur testing ko pehla kadam banana',sub:'Inform; make testing first',go:l2RecapRight},
-     {num:'4.',label:'Sirf data collect karna',sub:'Only collect data',go:l2RecapWrong},
-   ],'Apna jawaab chunein'));}
-function l2RecapWrong(){stage('l2_r2');wrong2++;
-  if(wrong2===1){ seq([
-    {wait:450,run:()=>bubble('❌ <b>Yeh sahi jawaab nahi hai.</b>','in','That’s not the right answer.','wrong')},
-    {wait:700,run:()=>bubble('Pehla visit jabardasti nahi — <b>jankari dena aur bharosa</b> kayam karna hai, taaki testing pehla kadam bane.','in','The first visit isn’t about forcing — it’s about giving information and building trust so testing becomes the first step.')},
-  ],()=>showChoices([{ic:'↩',label:'Phir se koshish karein',sub:'Try again',echo:'Phir se',go:l2RecapQ}])); }
-  else { seq([
-    {wait:450,run:()=>bubble('❌ <b>Abhi bhi sahi nahi hua.</b> Koi baat nahi — ek refresher 👇','in','Still not correct — here’s a refresher.','wrong')},
-    {wait:700,run:videoBubble},
-    {wait:700,run:()=>bubble('Ye CHO ko bhi bata diya. ✅ <b>Sahi jawaab:</b> jankari dena aur testing ko pehla kadam banana.','in','Flagged for your CHO. Correct: inform and make testing the first step.','reward')},
-  ],l2AfterRecap); }}
-function l2RecapRight(){seq([{wait:500,run:()=>scoreMsg('Sahi jawaab.','')}],l2AfterRecap);}
-function l2AfterRecap(){
-  seq([
-    {wait:650,run:()=>bubble('Yaad rakhein 👇','in','Remember:')},
-    {wait:700,run:()=>voiceNote('Mukhya baat · 0:14','./key.mp3',14,'Har ghar mein TB ka matlab sabko bimari nahi — par khatra zaroor. Testing bina darr ke, pehla kadam hai.')},
-  ],l2AskWindow);}
-function l2AskWindow(){stage('l2_ask');
-  seq([
-    {wait:650,run:()=>bubble('Koi sawaal hai? Voice note ya text bhej sakti hain.','in','Any questions? Send a voice note or text.')},
-    {wait:600,run:()=>sysM('ℹ️ Phase 1 note · Voice note &amp; Q&amp;A isn’t built yet — shown here as a placeholder.')},
-  ],()=>showChoices([
-    {ic:'🎙',label:'Voice note bhejein',sub:'Ask by voice (placeholder)',echo:'🎙 Voice note (0:12)',go:l2Finish},
-    {ic:'✔',label:'Nahi, samajh aaya',sub:'No, all clear',echo:'Samajh aaya, dhanyavaad',go:l2Finish},
-  ],'Sawaal poochhne ke liye'));}
-function l2Finish(){stage('l2_done');const stars='⭐'.repeat(score)||'—';
-  seq([
-    {wait:800,run:()=>bubble('🎉 <b>Lesson poori!</b> '+score+'/'+totalQ+' sahi — '+stars+' kamaaye! "Testing Counselling" ka badge mila 🏅','in','Lesson complete! '+score+'/'+totalQ+' correct — earned '+score+' star(s) and the "Testing Counselling" badge.','reward')},
-    {wait:800,run:()=>bubble('Theme 2 ki lessons 👇 Abhi koi aur dekhein, ya agli lesson baad mein bhejun?','in','Theme-2 lessons — do another now, or I can send the next later.')},
-  ],()=>showChoices([
-    {num:'1.',label:'TPT counselling — 5 baatein',sub:'Lesson 1 · abhi dekhein',echo:'Lesson 1 abhi dekhein',go:kitabIntro},
-    {num:'3.',label:'HHC card — doses track karna',sub:'Lesson 3 · coming soon',echo:'Lesson 3',go:lesson3Soon},
-    {ic:'🗓',label:'Agle Somvaar, shaam 6 baje',sub:'Schedule the next lesson',echo:'Agle Somvaar shaam bhejo',go:reminderSet},
-    {ic:'↺',label:'Demo dobara chalayein',sub:'Restart',echo:false,go:restart},
-  ],'Aage kya karein'));}
-function reminderSet(){stage('schedule');
-  seq([{wait:650,run:()=>bubble('Theek hai. <b>Agle Somvaar shaam 6 baje</b> agli lesson bhejungi, aur kuch din baad ek chhota "revision" sawaal bhi.','in','Done — I’ll send the next lesson next Monday 6pm, and a short revision question a few days later.')}],closeOut);}
-function closeOut(){
-  showChoices([
-    {ic:'≡',label:'Lesson menu',sub:'Back to Theme 2 lessons',echo:'Menu',go:()=>{bubble('Theek hai.','in');setTimeout(menu,450);}},
-    {ic:'↺',label:'Demo dobara chalayein',sub:'Restart the demo',echo:false,go:restart},
-  ],'Aage kya karein');}
-/* ---- click a journey step to play the demo from there ---- */
-const JUMP={
-  trigger:start, menu:menu, anchor:kitabIntro, q1:scenarioQ,
-  r1:function(){wrong1=0;scenarioWrong();},
-  core:coreDeliver, summary:lessonSummary, q2:recapQ,
-  r2:function(){wrong2=0;recapWrong();},
-  key:afterRecap, ask:askWindow, done:finish, schedule:reminderSet,
-  l2_anchor:l2Intro, l2_q1:l2ScenarioQ,
-  l2_r1:function(){wrong1=0;l2ScenarioWrong();},
-  l2_core:l2Core, l2_summary:l2Summary, l2_q2:l2RecapQ,
-  l2_r2:function(){wrong2=0;l2RecapWrong();},
-  l2_key:l2AfterRecap, l2_ask:l2AskWindow, l2_done:l2Finish,
-  l2_schedule:function(){stage('l2_schedule');seq([{wait:650,run:()=>bubble('Theek hai. <b>Agle Somvaar shaam 6 baje</b> agli lesson bhejungi, aur kuch din baad ek chhota revision sawaal bhi.','in','Done — I’ll send the next lesson next Monday 6pm, plus a short revision question a few days later.')}],closeOut);}
-};
-function setMobileTab(t){
-  document.body.classList.remove('tab-demo','tab-journey');
-  document.body.classList.add('tab-'+t);
-  document.querySelectorAll('.mtab').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));
-}
-function jumpTo(id){
-  if(!JUMP[id]) return;
-  if(window.matchMedia && window.matchMedia('(max-width:640px)').matches) setMobileTab('demo');
-  document.querySelectorAll('audio,video').forEach(m=>{try{m.pause()}catch(e){}});
-  chat.innerHTML='';clearChoices();wrong1=0;wrong2=0;
-  score=(id==='done'||id==='l2_done')?totalQ:0;
-  sysM('▶ Demo started from this step (clicked in the journey)');
-  JUMP[id]();
-}
-buildJourney();
-start();
+  document.getElementById('cap').innerHTML='Illustrative model. Decay follows the Ebbinghaus forgetting curve; each green marker is one short WhatsApp lesson resetting retention — and emitting a data point. Cadence (1/week) sits within the 2–4 short-messages/week band used by comparable programs (Noora Health, MomConnect) and supported by the spacing effect.';
+})();
 </script>
 </body>
 </html>
