@@ -143,6 +143,28 @@ ul.clean li strong{display:block;color:var(--ink);font-weight:600;margin-bottom:
 .phase p{font-size:13.5px;color:var(--ink2);line-height:1.6}
 .phase .done{font-family:var(--mono);font-size:9px;color:var(--green);letter-spacing:.4px;text-transform:uppercase;margin-top:6px;display:inline-block}
 
+/* why-whatsapp row */
+.why3{display:grid;grid-template-columns:repeat(3,1fr);gap:0;padding:22px 40px 0}
+.why-cell{padding:0 24px 0 0;margin-right:24px;border-right:1px solid var(--rule)}
+.why-cell:last-child{border-right:none;margin-right:0;padding-right:0}
+.why-cell .wt{font-family:var(--mono);font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:var(--navy);font-weight:600;margin-bottom:6px}
+.why-cell p{font-size:13px;color:var(--ink2);line-height:1.55}
+
+/* feature levers */
+.levers{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:22px 40px 0}
+.lever{background:#fff;border:1px solid var(--rule);border-top:3px solid var(--navy);border-radius:8px;padding:16px 18px}
+.lev-n{font-family:var(--mono);font-size:11px;letter-spacing:.5px;color:var(--navy);font-weight:600;margin-bottom:8px}
+.lever h4{font-size:14px;margin-bottom:6px}
+.lever p{font-size:12.5px;color:var(--ink2);line-height:1.5;margin-bottom:9px}
+.lev-tag{font-family:var(--mono);font-size:8.5px;letter-spacing:.4px;text-transform:uppercase;color:var(--ink3);display:block;padding-top:8px;border-top:1px solid var(--rule)}
+
+/* build pipeline */
+.pipe{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;padding:22px 40px 0}
+.pstep{background:var(--navy-tint);border:1px solid #d4ddf0;border-radius:8px;padding:13px 11px;position:relative}
+.pstep .pnum{font-family:var(--mono);font-size:9px;color:var(--navy);font-weight:600;letter-spacing:.5px;margin-bottom:6px}
+.pstep h4{font-size:12.5px;margin-bottom:3px;line-height:1.2}
+.pstep p{font-size:11px;color:var(--ink2);line-height:1.45}
+
 /* footer */
 footer{padding:30px 40px 50px}
 .foot-attr{font-family:var(--serif);font-size:18px;font-weight:500;margin-bottom:8px}
@@ -158,13 +180,15 @@ footer{padding:30px 40px 50px}
   .hero-hl{font-size:34px}
   .what-bar{grid-template-columns:1fr;border:none}
   .what-cell{border-right:none;border-bottom:1px solid var(--rule)}
-  .cards3,.flow{grid-template-columns:1fr;gap:0}
+  .cards3,.flow,.levers,.pipe,.why3{grid-template-columns:1fr;gap:0}
   .pcard{border-right:none;margin-right:0;padding-right:0;border-bottom:1px solid var(--rule)}
+  .why-cell{border-right:none;margin-right:0;padding-right:0;padding-bottom:14px;border-bottom:1px solid var(--rule)}
+  .levers,.pipe{gap:10px}
   .flow .step{margin-bottom:0}
   .phase{grid-template-columns:1fr;gap:8px}
   .bench{overflow-x:auto}
   .masthead{padding:12px 20px}
-  .hero,.sec-head,.sec-title,.sec-intro,.cards3,.callout,.graph-wrap,.flow,.bench,ul.clean,.plan,footer{padding-left:20px;padding-right:20px}
+  .hero,.sec-head,.sec-title,.sec-intro,.cards3,.callout,.graph-wrap,.flow,.bench,ul.clean,.plan,.why3,.levers,.pipe,footer{padding-left:20px;padding-right:20px}
   .callout,.graph-wrap,.bench{margin-left:20px;margin-right:20px}
 }
 </style>
@@ -181,6 +205,7 @@ footer{padding:30px 40px 50px}
     <a class="nav-pill" href="#problem">Problem</a>
     <a class="nav-pill" href="#matters">Why it matters</a>
     <a class="nav-pill" href="#solution">Solution</a>
+    <a class="nav-pill" href="#platform">Platform</a>
     <a class="nav-pill" href="#cadence">Cadence</a>
     <a class="nav-pill" href="#plan">Plan</a>
   </div>
@@ -300,9 +325,70 @@ footer{padding:30px 40px 50px}
   </div>
 </section>
 
+<!-- PLATFORM / HOW IT'S BUILT -->
+<section id="platform">
+  <div class="sec-head"><span class="sec-eyebrow">How it gets built</span><span class="sec-hint">04</span></div>
+  <h2 class="sec-title">Built on WhatsApp features ASHAs already use.</h2>
+  <div class="sec-intro">No new app to learn, no smartphone hurdle. Basic, known WhatsApp Business features are creatively adapted to deliver, check, and reinforce training — running on the WhatsApp Business platform (e.g. an open-source layer like Glific on the WhatsApp Business API).</div>
+
+  <div class="why3">
+    <div class="why-cell"><div class="wt">Reach &amp; familiarity</div><p>ASHAs already live on WhatsApp daily — zero onboarding friction, no separate login or device.</p></div>
+    <div class="why-cell"><div class="wt">Voice-first &amp; multi-modal</div><p>Voice notes, images and short video carry the lesson for a low-literacy audience — listening is enough.</p></div>
+    <div class="why-cell"><div class="wt">Low-data &amp; resilient</div><p>Bite-sized messages work on rural bandwidth and basic smartphones; content is consumed at the ASHA's pace.</p></div>
+  </div>
+
+  <div class="levers">
+    <div class="lever">
+      <div class="lev-n">01</div>
+      <h4>Push multi-modal content</h4>
+      <p>Lessons delivered as short video, audio and image messages — bite-sized, consumed by preference and data constraint.</p>
+      <span class="lev-tag">One-time content build</span>
+    </div>
+    <div class="lever">
+      <div class="lev-n">02</div>
+      <h4>Tap-to-reply navigation</h4>
+      <p>Quick-reply buttons direct the journey — quiz retention, dive deeper, or break long content into steps.</p>
+      <span class="lev-tag">Multiple entry / exit points</span>
+    </div>
+    <div class="lever">
+      <div class="lev-n">03</div>
+      <h4>Adaptive journeys</h4>
+      <p>Correct answers continue the path; wrong answers divert to a remediation loop. Built on button messages, list menus and basic Q&amp;A.</p>
+      <span class="lev-tag">Personalization scales with content</span>
+    </div>
+    <div class="lever">
+      <div class="lev-n">04</div>
+      <h4>Menu-based navigation</h4>
+      <p>A simple menu to pick the relevant lesson; the ASHA's role, captured at setup, tailors the menus — with a "reset role" safety.</p>
+      <span class="lev-tag">Role-aware, fast access</span>
+    </div>
+    <div class="lever">
+      <div class="lev-n">05</div>
+      <h4>Gamification &amp; recognition</h4>
+      <p>Instant stars, scores and badges reward progress — countering how undervalued FLWs feel and building a motivated, verified cadre.</p>
+      <span class="lev-tag">Data-backed recognition</span>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--serif);font-weight:500;font-size:18px;padding:30px 40px 0;color:#23302a">The build pipeline</h3>
+  <div class="pipe">
+    <div class="pstep"><div class="pnum">STEP 1</div><h4>Platform setup</h4><p>Business Manager verification &amp; number onboarding.</p></div>
+    <div class="pstep"><div class="pnum">STEP 2</div><h4>Consent &amp; registration</h4><p>Opt-in flow; capture ASHA role/profile.</p></div>
+    <div class="pstep"><div class="pnum">STEP 3</div><h4>Lessons &amp; quizzes</h4><p>Multi-modal modules with scenario &amp; recap MCQs.</p></div>
+    <div class="pstep"><div class="pnum">STEP 4</div><h4>Nudges &amp; reminders</h4><p>Spaced prompts, fallback handling, FAQ / AI assist.</p></div>
+    <div class="pstep"><div class="pnum">STEP 5</div><h4>CHO escalation</h4><p>Clinical questions routed to the supervising CHO.</p></div>
+    <div class="pstep"><div class="pnum">STEP 6</div><h4>Dashboards</h4><p>Retention, completion &amp; gap data for program leads.</p></div>
+  </div>
+
+  <div class="callout" style="margin-top:24px;background:var(--navy-tint);border-color:#d4ddf0;border-left-color:var(--navy)">
+    <span class="ctag" style="color:var(--navy)">For vendors</span>
+    <p>Most of the lift is the one-time creation of voice-first content and the adaptive flow logic. The platform mechanics above are well-trodden; what we're looking for is a partner who can build the lessons, branch/remediation journeys, and the data layer that lets us substantiate retention.</p>
+  </div>
+</section>
+
 <!-- CADENCE / BENCHMARKS -->
 <section id="cadence">
-  <div class="sec-head"><span class="sec-eyebrow">How often, and what</span><span class="sec-hint">04</span></div>
+  <div class="sec-head"><span class="sec-eyebrow">How often, and what</span><span class="sec-hint">05</span></div>
   <h2 class="sec-title">Little and often beats long and rare.</h2>
   <div class="sec-intro">We're not guessing at the cadence. Comparable WhatsApp/SMS health programs — and the learning science — converge on a few short, single-concept messages per week, sustained across the relevant window. Our framework's recommended weekly lesson sits right in that band.</div>
   <div class="bench">
@@ -341,7 +427,7 @@ footer{padding:30px 40px 50px}
 
 <!-- SUBSTANTIATION -->
 <section id="substantiate">
-  <div class="sec-head"><span class="sec-eyebrow">How it substantiates the ToT</span><span class="sec-hint">05</span></div>
+  <div class="sec-head"><span class="sec-eyebrow">How it substantiates the ToT</span><span class="sec-hint">06</span></div>
   <h2 class="sec-title">Every lesson produces evidence, not just delivery.</h2>
   <div class="sec-intro">Beyond reinforcing knowledge, the tool gives the program a continuous, ASHA-level read on whether the cascade worked — something attendance sheets never could.</div>
   <ul class="clean">
@@ -355,7 +441,7 @@ footer{padding:30px 40px 50px}
 
 <!-- PLAN -->
 <section id="plan">
-  <div class="sec-head"><span class="sec-eyebrow">How we're building it</span><span class="sec-hint">06</span></div>
+  <div class="sec-head"><span class="sec-eyebrow">How we're building it</span><span class="sec-hint">07</span></div>
   <h2 class="sec-title">The plan.</h2>
   <div class="plan">
     <div class="phase">
@@ -405,6 +491,7 @@ footer{padding:30px 40px 50px}
       <li>Glific / Key Education Foundation (CLAP): short, focused messages outperformed lengthy text or video for low-literacy parents. <a href="https://glific.org/strengthening-early-learning-at-home-the-journey-of-clap-by-key-education-foundation/">glific.org</a></li>
       <li>Cepeda et al. (2006), meta-analysis of the spacing effect: distributed practice roughly doubles long-term retention vs. massed study.</li>
       <li>ASHA TPT Refresher Training Framework &amp; FR Prototype — Findings from the Field (Feb 2026), internal.</li>
+      <li>CHAI — Need for Refresher Training for Front Line Workers (internal deck): WhatsApp Business feature levers &amp; sample flows; Project Tech4Dev / Glific tech-partner proposal (build pipeline).</li>
     </ol>
   </div>
 </footer>
