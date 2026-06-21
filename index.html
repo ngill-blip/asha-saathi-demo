@@ -165,6 +165,32 @@ ul.clean li strong{display:block;color:var(--ink);font-weight:600;margin-bottom:
 .pstep h4{font-size:12.5px;margin-bottom:3px;line-height:1.2}
 .pstep p{font-size:11px;color:var(--ink2);line-height:1.45}
 
+/* admin dashboard */
+.dash{margin:24px 40px 0;background:#fff;border:1px solid var(--rule);border-radius:var(--r);box-shadow:3px 3px 0 var(--paper2);overflow:hidden}
+.dash-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;padding:13px 18px;border-bottom:1px solid var(--rule);background:var(--paper2)}
+.dash-top .dt{font-family:var(--mono);font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--ink2);font-weight:600}
+.dash-top .dtag{font-family:var(--mono);font-size:9px;color:var(--ink3);letter-spacing:.4px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--rule)}
+.kpi{padding:15px 18px;border-right:1px solid var(--rule)}
+.kpi:last-child{border-right:none}
+.kpi .kn{font-family:var(--mono);font-size:26px;font-weight:600;letter-spacing:-1px;color:var(--green);line-height:1}
+.kpi .kn.warn{color:var(--orange)}
+.kpi .kl{font-family:var(--mono);font-size:9px;letter-spacing:.4px;text-transform:uppercase;color:var(--ink3);margin-top:6px}
+.dash-body{display:grid;grid-template-columns:1.4fr 1fr}
+.dash-col{padding:16px 18px}
+.dash-col.brd{border-right:1px solid var(--rule)}
+.dash-col h5{font-family:var(--mono);font-size:9.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--ink3);margin-bottom:12px}
+.bar-row{display:grid;grid-template-columns:128px 1fr 34px;align-items:center;gap:10px;margin-bottom:10px;font-size:12px}
+.bar-row .bl{color:var(--ink2)}
+.bar-track{height:9px;background:var(--paper2);border-radius:5px;overflow:hidden}
+.bar-fill{height:100%;background:var(--green);border-radius:5px}
+.bar-fill.warn{background:var(--orange)}
+.bar-row .bv{font-family:var(--mono);font-size:11px;color:var(--ink2);text-align:right}
+.sup-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--rule);font-size:12.5px}
+.sup-row:last-child{border-bottom:none}
+.sup-row .sw{font-family:var(--mono);font-size:10px;color:var(--orange)}
+.dash-note{font-family:var(--mono);font-size:9.5px;color:var(--ink3);padding:11px 18px;border-top:1px solid var(--rule);line-height:1.5}
+
 /* footer */
 footer{padding:30px 40px 50px}
 .foot-attr{font-family:var(--serif);font-size:18px;font-weight:500;margin-bottom:8px}
@@ -180,7 +206,11 @@ footer{padding:30px 40px 50px}
   .hero-hl{font-size:34px}
   .what-bar{grid-template-columns:1fr;border:none}
   .what-cell{border-right:none;border-bottom:1px solid var(--rule)}
-  .cards3,.flow,.levers,.pipe,.why3{grid-template-columns:1fr;gap:0}
+  .cards3,.flow,.levers,.pipe,.why3,.kpis,.dash-body{grid-template-columns:1fr;gap:0}
+  .kpi{border-right:none;border-bottom:1px solid var(--rule)}
+  .dash-col.brd{border-right:none;border-bottom:1px solid var(--rule)}
+  .dash{margin-left:20px;margin-right:20px}
+  .bar-row{grid-template-columns:110px 1fr 32px}
   .pcard{border-right:none;margin-right:0;padding-right:0;border-bottom:1px solid var(--rule)}
   .why-cell{border-right:none;margin-right:0;padding-right:0;padding-bottom:14px;border-bottom:1px solid var(--rule)}
   .levers,.pipe{gap:10px}
@@ -203,11 +233,10 @@ footer{padding:30px 40px 50px}
   </div>
   <div class="nav-pills">
     <a class="nav-pill" href="#problem">Problem</a>
-    <a class="nav-pill" href="#matters">Why it matters</a>
     <a class="nav-pill" href="#solution">Solution</a>
     <a class="nav-pill" href="#platform">Platform</a>
     <a class="nav-pill" href="#cadence">Cadence</a>
-    <a class="nav-pill" href="#plan">Plan</a>
+    <a class="nav-pill" href="#substantiate">Evidence</a>
   </div>
 </div>
 
@@ -222,7 +251,7 @@ footer{padding:30px 40px 50px}
     <div class="demo-bar">
       <span class="demo-bar-label">▶ See it in action</span>
       <a class="demo-link" href="./demo.html">Interactive demo ↗</a>
-      <a class="demo-link alt" href="#plan">How we build it ↓</a>
+      <a class="demo-link alt" href="#platform">How it's built ↓</a>
     </div>
   </div>
   <div class="hero-right">
@@ -292,24 +321,9 @@ footer{padding:30px 40px 50px}
   </div>
 </section>
 
-<!-- WHY IT MATTERS / GRAPH -->
-<section id="matters">
-  <div class="sec-head"><span class="sec-eyebrow">Why it matters</span><span class="sec-hint">02</span></div>
-  <h2 class="sec-title">The forgetting curve — and what a refresher does to it.</h2>
-  <div class="sec-intro">A single training decays along the classic forgetting curve. Short, spaced lessons interrupt that decay and lift each subsequent low point higher — the consolidation effect behind spaced repetition.</div>
-  <div class="graph-wrap">
-    <div class="graph-legend">
-      <span><i style="background:#e04e1e"></i>One-time training, no refreshers</span>
-      <span><i style="background:#1a6b3a"></i>With a short weekly refresher</span>
-    </div>
-    <svg id="curve" viewBox="0 0 760 320" width="100%" role="img" aria-label="Retention over time: a decaying curve without refreshers versus a rising sawtooth with weekly refreshers"></svg>
-    <p class="graph-cap" id="cap"></p>
-  </div>
-</section>
-
 <!-- SOLUTION -->
 <section id="solution">
-  <div class="sec-head"><span class="sec-eyebrow">The solution</span><span class="sec-hint">03</span></div>
+  <div class="sec-head"><span class="sec-eyebrow">The solution</span><span class="sec-hint">02</span></div>
   <h2 class="sec-title">A voice-first WhatsApp refresher — one short lesson at a time.</h2>
   <div class="sec-intro">Built for a low-literacy audience on variable rural connectivity: 8–10 minute lessons (5–7 min content, 3 min activity), every lesson grounded in a real step of the TPT pathway, following one repeatable structure.</div>
   <div class="flow">
@@ -327,7 +341,7 @@ footer{padding:30px 40px 50px}
 
 <!-- PLATFORM / HOW IT'S BUILT -->
 <section id="platform">
-  <div class="sec-head"><span class="sec-eyebrow">How it gets built</span><span class="sec-hint">04</span></div>
+  <div class="sec-head"><span class="sec-eyebrow">How it gets built</span><span class="sec-hint">03</span></div>
   <h2 class="sec-title">Built on WhatsApp features ASHAs already use.</h2>
   <div class="sec-intro">No new app to learn, no smartphone hurdle. Basic, known WhatsApp Business features are creatively adapted to deliver, check, and reinforce training — running on the WhatsApp Business platform (e.g. an open-source layer like Glific on the WhatsApp Business API).</div>
 
@@ -379,16 +393,11 @@ footer{padding:30px 40px 50px}
     <div class="pstep"><div class="pnum">STEP 5</div><h4>CHO escalation</h4><p>Clinical questions routed to the supervising CHO.</p></div>
     <div class="pstep"><div class="pnum">STEP 6</div><h4>Dashboards</h4><p>Retention, completion &amp; gap data for program leads.</p></div>
   </div>
-
-  <div class="callout" style="margin-top:24px;background:var(--navy-tint);border-color:#d4ddf0;border-left-color:var(--navy)">
-    <span class="ctag" style="color:var(--navy)">For vendors</span>
-    <p>Most of the lift is the one-time creation of voice-first content and the adaptive flow logic. The platform mechanics above are well-trodden; what we're looking for is a partner who can build the lessons, branch/remediation journeys, and the data layer that lets us substantiate retention.</p>
-  </div>
 </section>
 
 <!-- CADENCE / BENCHMARKS -->
 <section id="cadence">
-  <div class="sec-head"><span class="sec-eyebrow">How often, and what</span><span class="sec-hint">05</span></div>
+  <div class="sec-head"><span class="sec-eyebrow">How often, and what</span><span class="sec-hint">04</span></div>
   <h2 class="sec-title">Little and often beats long and rare.</h2>
   <div class="sec-intro">We're not guessing at the cadence. Comparable WhatsApp/SMS health programs — and the learning science — converge on a few short, single-concept messages per week, sustained across the relevant window. Our framework's recommended weekly lesson sits right in that band.</div>
   <div class="bench">
@@ -427,9 +436,38 @@ footer{padding:30px 40px 50px}
 
 <!-- SUBSTANTIATION -->
 <section id="substantiate">
-  <div class="sec-head"><span class="sec-eyebrow">How it substantiates the ToT</span><span class="sec-hint">06</span></div>
+  <div class="sec-head"><span class="sec-eyebrow">How it substantiates the ToT</span><span class="sec-hint">05</span></div>
   <h2 class="sec-title">Every lesson produces evidence, not just delivery.</h2>
-  <div class="sec-intro">Beyond reinforcing knowledge, the tool gives the program a continuous, ASHA-level read on whether the cascade worked — something attendance sheets never could.</div>
+  <div class="sec-intro">Beyond reinforcing knowledge, the tool gives the program a continuous, ASHA-level read on whether the cascade worked — something attendance sheets never could. Program leads see it on a live dashboard:</div>
+
+  <div class="dash">
+    <div class="dash-top"><span class="dt">Program dashboard</span><span class="dtag">ILLUSTRATIVE · WHAT PROGRAM LEADS WOULD SEE</span></div>
+    <div class="kpis">
+      <div class="kpi"><div class="kn">78%</div><div class="kl">Avg retention</div></div>
+      <div class="kpi"><div class="kn">84%</div><div class="kl">Lesson completion</div></div>
+      <div class="kpi"><div class="kn">312</div><div class="kl">Active ASHAs</div></div>
+      <div class="kpi"><div class="kn warn">14</div><div class="kl">Open CHO questions</div></div>
+    </div>
+    <div class="dash-body">
+      <div class="dash-col brd">
+        <h5>Retention by topic (recap MCQ scores)</h5>
+        <div class="bar-row"><span class="bl">TB &amp; treatment</span><span class="bar-track"><span class="bar-fill" style="width:86%"></span></span><span class="bv">86%</span></div>
+        <div class="bar-row"><span class="bl">TPT &amp; medication</span><span class="bar-track"><span class="bar-fill" style="width:79%"></span></span><span class="bv">79%</span></div>
+        <div class="bar-row"><span class="bl">Documentation</span><span class="bar-track"><span class="bar-fill" style="width:72%"></span></span><span class="bv">72%</span></div>
+        <div class="bar-row"><span class="bl">Household alignment</span><span class="bar-track"><span class="bar-fill" style="width:68%"></span></span><span class="bv">68%</span></div>
+        <div class="bar-row"><span class="bl">HHC card</span><span class="bar-track"><span class="bar-fill warn" style="width:58%"></span></span><span class="bv">58%</span></div>
+      </div>
+      <div class="dash-col">
+        <h5>ASHAs needing support</h5>
+        <div class="sup-row"><span>Sunita D.</span><span class="sw">HHC card · 2/5</span></div>
+        <div class="sup-row"><span>Rekha P.</span><span class="sw">Documentation · 3/5</span></div>
+        <div class="sup-row"><span>Meena K.</span><span class="sw">Household · 2/5</span></div>
+        <div class="sup-row"><span>Anita Y.</span><span class="sw">HHC card · 3/5</span></div>
+      </div>
+    </div>
+    <div class="dash-note">Mock data for illustration. The live dashboard updates from lesson responses — MCQ scores, completions, and questions — turning each interaction into a retention &amp; gap signal. (HHC card flagged as the weakest topic to target next.)</div>
+  </div>
+
   <ul class="clean">
     <li><strong>Retention signal</strong>Scenario and recap MCQ results show which messages stuck and which decayed, per topic and per ASHA.</li>
     <li><strong>Gap detection</strong>Patterns in wrong answers and incoming questions surface where the ToT under-delivered — feeding the next round of trainer content.</li>
@@ -437,44 +475,6 @@ footer{padding:30px 40px 50px}
     <li><strong>Coverage &amp; cadence</strong>Completion data confirms reinforcement is actually reaching the people the ToT was meant to equip.</li>
     <li><strong>Closed loop to CHO</strong>Clinical questions route to the supervising CHO, keeping a human in the loop and documenting support.</li>
   </ul>
-</section>
-
-<!-- PLAN -->
-<section id="plan">
-  <div class="sec-head"><span class="sec-eyebrow">How we're building it</span><span class="sec-hint">07</span></div>
-  <h2 class="sec-title">The plan.</h2>
-  <div class="plan">
-    <div class="phase">
-      <div class="pn">PHASE 1<br>Foundation</div>
-      <div>
-        <h4>Framework &amp; content format</h4>
-        <p>Design principles, the repeatable lesson structure, and the curriculum map across five themes (TB &amp; treatment, TPT &amp; medication, documentation, household alignment, digital enablement) — linked to the CbHCM pathway.</p>
-        <span class="done">✓ Largely complete</span>
-      </div>
-    </div>
-    <div class="phase">
-      <div class="pn">PHASE 2<br>Pilot build</div>
-      <div>
-        <h4>Produce lessons &amp; a working demo</h4>
-        <p>Convert priority topics (TPT counselling &amp; 5-finger framework, convincing households for testing, HHC card) into voice-first lessons. Stand up a WhatsApp-based prototype to test the flow end-to-end.</p>
-        <span class="done">✓ Clickable demo live</span>
-      </div>
-    </div>
-    <div class="phase">
-      <div class="pn">PHASE 3<br>Field test</div>
-      <div>
-        <h4>Validate with ASHAs &amp; CHOs</h4>
-        <p>A focused pilot — one high-incidence block, ~4+ ASHAs and 2 CHOs over ~4 weeks, with a baseline survey before training. Evaluate against the OECD lens (relevance, coherence, effectiveness, efficiency, impact, sustainability): does it lift retention, fit workflows, and cut training burden?</p>
-      </div>
-    </div>
-    <div class="phase">
-      <div class="pn">PHASE 4<br>Scale</div>
-      <div>
-        <h4>Roll out &amp; instrument</h4>
-        <p>Expand the lesson library across all themes, integrate reporting so program leads see retention and gaps, and embed the refresher as the standing reinforcement layer behind every ToT.</p>
-      </div>
-    </div>
-  </div>
 </section>
 
 <footer>
@@ -491,81 +491,12 @@ footer{padding:30px 40px 50px}
       <li>Glific / Key Education Foundation (CLAP): short, focused messages outperformed lengthy text or video for low-literacy parents. <a href="https://glific.org/strengthening-early-learning-at-home-the-journey-of-clap-by-key-education-foundation/">glific.org</a></li>
       <li>Cepeda et al. (2006), meta-analysis of the spacing effect: distributed practice roughly doubles long-term retention vs. massed study.</li>
       <li>ASHA TPT Refresher Training Framework &amp; FR Prototype — Findings from the Field (Feb 2026), internal.</li>
-      <li>CHAI — Need for Refresher Training for Front Line Workers (internal deck): WhatsApp Business feature levers &amp; sample flows; Project Tech4Dev / Glific tech-partner proposal (build pipeline).</li>
+      <li>CHAI — Need for Refresher Training for Front Line Workers (internal deck): WhatsApp Business feature levers &amp; sample flows.</li>
     </ol>
   </div>
 </footer>
 
 </div>
 
-<script>
-(function(){
-  var svg=document.getElementById('curve');
-  if(!svg) return;
-  var W=760,H=320,L=58,R=24,T=24,B=58;
-  var x0=L,x1=W-R,y0=T,y1=H-B;
-  var weeks=16;                 // horizontal span
-  function X(t){return x0+(t/weeks)*(x1-x0);}      // t in weeks
-  function Y(r){return y1-(r/100)*(y1-y0);}        // r in %
-  var NS='http://www.w3.org/2000/svg';
-  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
-
-  // axes
-  svg.appendChild(el('line',{x1:x0,y1:y0,x2:x0,y2:y1,stroke:'#c8c2b6','stroke-width':1.4}));
-  svg.appendChild(el('line',{x1:x0,y1:y1,x2:x1,y2:y1,stroke:'#c8c2b6','stroke-width':1.4}));
-  [0,25,50,75,100].forEach(function(p){
-    var y=Y(p);
-    var g=el('line',{x1:x0,y1:y,x2:x1,y2:y,stroke:'#efeae1','stroke-width':1});svg.appendChild(g);
-    var tx=el('text',{x:x0-9,y:y+4,'text-anchor':'end','font-family':'JetBrains Mono, monospace','font-size':11,fill:'#7a766a'});tx.textContent=p+'%';svg.appendChild(tx);
-  });
-  function axlabel(t,x,anchor){var e=el('text',{x:x,y:y1+22,'text-anchor':anchor,'font-family':'JetBrains Mono, monospace','font-size':11,fill:'#7a766a'});e.textContent=t;svg.appendChild(e);}
-  axlabel('ToT (week 0)',x0,'start');
-  axlabel('weeks in the field →',(x0+x1)/2,'middle');
-  axlabel('wk '+weeks,x1,'end');
-
-  // ---- decay without refresher: exponential toward a low floor ----
-  var floor=8, A=92, tau=3.0;     // R = floor + A*e^(-t/tau)
-  function decay(t){return floor + A*Math.exp(-t/tau);}
-  var d1='M'; var N=120;
-  for(var i=0;i<=N;i++){var t=weeks*i/N; d1+=(i?' L':'')+X(t).toFixed(1)+','+Y(decay(t)).toFixed(1);}
-  svg.appendChild(el('path',{d:d1,fill:'none',stroke:'#e04e1e','stroke-width':3,'stroke-linecap':'round'}));
-
-  // ---- with weekly refreshers: sawtooth, each reset stronger & shallower decay ----
-  var start=100, tauR=2.4;        // within-week decay constant (slower as it consolidates)
-  var segs=[], cur=start, markers=[];
-  for(var w=0; w<weeks; w++){
-    // decay across this week from cur
-    var localTau=tauR + w*0.18;   // consolidation: slower forgetting over time
-    var pts='';
-    for(var s=0;s<=12;s++){
-      var tt=w + s/12;
-      var r=cur*Math.exp(-(s/12)/localTau);
-      pts+=(s?' L':(w?' L':'M'))+X(tt).toFixed(1)+','+Y(r).toFixed(1);
-      if(s===12) cur=r; // end-of-week level
-    }
-    segs.push(pts);
-    // refresher boost at end of week (except final): pull back up, diminishing headroom
-    if(w<weeks-1){
-      var boosted=Math.min(96, cur + (96-cur)*0.78);
-      markers.push([w+1,boosted,cur]);
-      cur=boosted;
-    }
-  }
-  var dpath=segs.join(' ');
-  // add vertical reconnects at each boost
-  svg.appendChild(el('path',{d:dpath,fill:'none',stroke:'#1a6b3a','stroke-width':3,'stroke-linejoin':'round','stroke-linecap':'round'}));
-  markers.forEach(function(m){
-    var x=X(m[0]);
-    svg.appendChild(el('line',{x1:x,y1:Y(m[2]),x2:x,y2:Y(m[1]),stroke:'#1a6b3a','stroke-width':3}));
-    svg.appendChild(el('circle',{cx:x,cy:Y(m[1]),r:3.6,fill:'#1a6b3a'}));
-  });
-
-  // inline labels
-  var lblG=el('text',{x:X(8.4),y:Y(decay(2.0))-6,'font-family':'JetBrains Mono, monospace','font-size':11,fill:'#1a6b3a','font-weight':600});lblG.textContent='with weekly refreshers';svg.appendChild(lblG);
-  var lblO=el('text',{x:X(9.2),y:Y(decay(9.2))-8,'font-family':'JetBrains Mono, monospace','font-size':11,fill:'#e04e1e'});lblO.textContent='no refreshers';svg.appendChild(lblO);
-
-  document.getElementById('cap').innerHTML='Illustrative model. Decay follows the Ebbinghaus forgetting curve; each green marker is one short WhatsApp lesson resetting retention — and emitting a data point. Cadence (1/week) sits within the 2–4 short-messages/week band used by comparable programs (Noora Health, MomConnect) and supported by the spacing effect.';
-})();
-</script>
 </body>
 </html>
